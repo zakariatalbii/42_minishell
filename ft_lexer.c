@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:39:45 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/05/24 19:38:55 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,7 @@ static int	ft_syntax_error(t_list **list, char *token)
 	return (1);
 }
 
-static int	ft_ambiguous(char *s1, char *s2)
-{
-	int	v;
-
-	v = -1;
-	while (s2[++v])
-	{
-		if (s2[v] == '\'' || s2[v] == '"')
-			return (0);
-	}
-	if (!*s1)
-		return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(s2, 2),
-			ft_putendl_fd(": ambiguous redirect", 2), 1);
-	return (0);
-}
-
-void	ft_check_tokens(t_list **list)
+static void	ft_check_tokens(t_list **list)
 {
 	t_list	*head;
 	int		hdc;
@@ -73,7 +57,7 @@ void	ft_check_tokens(t_list **list)
 	}
 }
 
-int	ft_expand_tokens(t_list **list, int status)
+static int	ft_expand_tokens(t_list **list, int status)
 {
 	t_list	*head;
 	char	*str;
@@ -90,13 +74,23 @@ int	ft_expand_tokens(t_list **list, int status)
 			if (!str)
 				return (ft_lstclear(list, ft_free_token), perror("malloc"), 1);
 			ft_expand_token(str, ((t_token *)head->content)->token, status, 0);
-			if (ft_ambiguous(str, ((t_token *)head->content)->token))
-				return (ft_lstclear(list, ft_free_token), free(str), 1);
+			if (ft_empty_token(list, &head, str, ptype))
+				continue ;
 			free(((t_token *)head->content)->token);
 			((t_token *)head->content)->token = str;
 		}
 		ptype = ((t_token *)head->content)->type;
 		head = head->next;
 	}
-	return (0);
+	return (*list == NULL);
+}
+
+t_list	*ft_lexer(char *line, int status)
+{
+	t_list	*head;
+
+	head = ft_split_line(line);
+	ft_check_tokens(&head);
+	ft_expand_tokens(&head, status);
+	return (head);
 }

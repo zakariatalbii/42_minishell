@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:27:00 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/05/24 19:59:36 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,10 @@ typedef struct s_token
 
 /* *** lexer *** */
 t_list	*ft_lexer(char *line, int status);
-int		ft_expand_tokens(t_list	**list, int status);
-void	ft_expand_token(char *dst, char *src, int status, int flag);
-size_t	ft_tokenlen(char *str, int status, int flag);
-void	ft_check_tokens(t_list **list);
 t_list	*ft_split_line(char *line);
-
+size_t	ft_tokenlen(char *str, int status, int flag);
+void	ft_expand_token(char *dst, char *src, int status, int flag);
+int		ft_empty_token(t_list **list, t_list **head, char *str, int ptype);
 
 /* *** token *** */
 t_token	*ft_new_token(char *token);
@@ -91,11 +89,10 @@ typedef struct s_tree
 
 /* *** parser *** */
 t_tree	*ft_parser(char *line, int status);
-t_tree	*ft_tree(t_list *lst, int status, int flag);
-t_tree	*ft_pipe_node(t_tree *rtree, t_tree *ltree);
-t_tree	*ft_red_node(int type, t_file file, t_tree *ntree);
-t_tree	*ft_cmd_node(char **argv);
 char	**ft_argv(t_list *lst);
+t_tree	*ft_cmd_node(char **argv);
+t_tree	*ft_red_node(int type, t_file file, t_tree *ntree);
+t_tree	*ft_pipe_node(t_tree *rtree, t_tree *ltree);
 
 /* *** heredoc *** */
 int		ft_heredoc(char **delimiter, int status, int flag);

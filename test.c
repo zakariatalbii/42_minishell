@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:57:55 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/05/24 20:26:11 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	main(void)
 {
 	t_tree	*tree;
 
-	tree = ft_parser("cat > $V", 1337);
+	tree = ft_parser("$C < $F $A cmd", 1337);
 	show_the_tree(tree);
 	ft_free_tree(tree);
 }
