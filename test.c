@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/24 20:26:11 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/05/29 03:04:28 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,26 @@ void	show_the_tree(t_tree *tree)
 int	main(void)
 {
 	t_tree	*tree;
+	char *line;
+	static char *PWD;
+	static char *OLDPWD;
+	char	*prompt;
 
-	tree = ft_parser("$C < $F $A cmd", 1337);
-	show_the_tree(tree);
-	ft_free_tree(tree);
+	PWD = ft_strdup(PWD_);
+	OLDPWD = ft_strdup(OLDPWD_);
+	while (1)
+	{	
+		prompt = ft_strjoin(PWD, "> ");
+		line = readline(prompt);
+		if (!line)
+			break ;
+		add_history(line);
+		tree = ft_parser(line, 1337);
+		show_the_tree(tree);
+		recursion(tree,&PWD,&OLDPWD);
+		ft_free_tree(tree);
+		free(line);
+	}
+	rl_clear_history();
+	exit(0);
 }
