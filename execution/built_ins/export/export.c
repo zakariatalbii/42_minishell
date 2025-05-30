@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/29 03:35:56 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:11:24 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int is_the_var_in_environ(char *variable, t_environ *environ)
         return(-1);
    while(current)
    {
-       
        if(!strcmp(current->var ,variable))
        {
            return(1);
@@ -47,7 +46,7 @@ static void export_no_arg(t_environ **environ)
         current = current->next;
     }
 }
-void export_execution(char **command, t_environ **environ)
+void export_execution(char **command, t_environ **environ, char **PWD)
 {
     int i;
 
@@ -59,7 +58,7 @@ void export_execution(char **command, t_environ **environ)
             export_no_arg(environ);
             return;
         }
-        make_export_struct(command,environ);
+        make_export_struct(command,environ, PWD);
         
     }
 }

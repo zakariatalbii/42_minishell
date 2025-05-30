@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/29 05:06:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/30 01:10:05 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void replace_node(t_environ **new, t_environ **environ)
     }
 }
 
-static void handling_new_changes(t_environ **new, t_environ **environ)
+static void handling_new_changes(t_environ **new, t_environ **environ, char **PWD)
 { 
     if(!*new)
         return;
@@ -50,6 +50,8 @@ static void handling_new_changes(t_environ **new, t_environ **environ)
         return;
     else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
         return;
+    if(!ft_strcmp((*new)->var,"PWD"))
+        *PWD =ft_strdup((*new)->value);
     replace_node(new, environ); 
 }
 
@@ -101,7 +103,7 @@ static int input_struct_handling(char *arg)
 // }
 
 
-void make_export_struct(char **command, t_environ **environ)
+void make_export_struct(char **command, t_environ **environ, char **PWD)
 {
     t_environ *new;
     int count ;
@@ -121,7 +123,7 @@ void make_export_struct(char **command, t_environ **environ)
                 }
                 new = ft_lstnew_environ(command[i]);
                 if(is_the_var_in_environ(new->var, *environ))
-                    handling_new_changes(&new, environ);
+                    handling_new_changes(&new, environ, PWD);
                 else
                     ft_lstadd_back_environ(environ, new);
             }
