@@ -7,13 +7,14 @@ SRC = test.c ft_parser.c ft_lexer.c ft_tree_node.c ft_split_line.c ft_tokenlen.c
 	execution/execution_entry.c execution/built_ins/echo.c execution/built_ins/env.c \
 	execution/built_ins/utils.c execution/built_ins/pwd.c execution/built_ins/cd/cd.c execution/built_ins/unset.c \
 	execution/built_ins/export/export.c execution/built_ins/export/export_parsing.c \
-	execution/built_ins/export/export_change_handling.c execution/built_ins/cd/cd_extra.c\
+	execution/built_ins/export/export_change_handling.c execution/built_ins/cd/cd_extra.c \
+	execution/external_commands/external_helpers.c execution/external_commands/external_commands.c execution/pipe_line.c \
 
 OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -fsanitize=address -Wall -Wextra -Werror
+CC = cc #-fsanitize=address -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)

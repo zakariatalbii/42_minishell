@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/30 01:10:46 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:37:19 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static void execute_the_builtin(char **command, char **PWD, t_environ **s_enviro
         // exit_executing("exit");
     }  
 }
-static void execution_entery(char **command, char **PWD, char **OLDPWD)
+
+void execution_entery(char **command, char **PWD, char **OLDPWD)
 {
     
     int built_in;
@@ -86,21 +87,8 @@ static void execution_entery(char **command, char **PWD, char **OLDPWD)
     if(built_in == 1)
         execute_the_builtin(command, PWD,&environ,OLDPWD);
     else
-        printf("==> print with childy <==\n");
+        external_commands_execution(command,&environ);
+        
 }
 
-void recursion(t_tree *tree, char **PWD, char **OLDPWD)
-{
-    int i;
 
-    i = 0;
-    if(!tree)
-        return;
-    if(tree->type == 0)
-       execution_entery(tree->data.argv,PWD, OLDPWD);
-    else
-    {
-        recursion(tree->data.pipe.rtree, PWD, OLDPWD);
-        recursion(tree->data.pipe.ltree, PWD, OLDPWD);
-    }
-}

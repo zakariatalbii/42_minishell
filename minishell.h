@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/30 01:12:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/30 13:23:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
+#include <sys/wait.h>
+#include <signal.h>
+
 
 # define MAX_HEREDOC 16
 
@@ -140,5 +143,9 @@ void  cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD);
 char *telda_full_path(char *telda_path);
 int is_home_set(t_environ **environ);
 void changing_nodes(t_environ **environ, char *var , char *new_value);
+int  check_existans_and_permisisons(char *command);
+void external_commands_execution(char **command,t_environ **environ);
+char	**potential_path(char *command);
+void execution_entery(char **command, char **PWD, char **OLDPWD);
 
 #endif
