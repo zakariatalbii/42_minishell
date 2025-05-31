@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/30 13:35:56 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/31 10:50:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,26 @@ static void pipe_line(t_tree *tree, char **PWD, char **OLDPWD)
 void recursion(t_tree *tree, char **PWD, char **OLDPWD)
 {
    
+    int pid;
+    static int flag;
     
-    if (!tree) return;
-
-    if (tree->type == 0) { 
-        execution_entery(tree->data.argv, PWD, OLDPWD);
+    if (!tree) 
+        return;
+    if (tree->type == 0) 
+    {
+        if(flag == 0)
+        {
+            pid =fork();
+            if(pid == 0)
+                execution_entery(tree->data.argv, PWD, OLDPWD);
+            waitpid(pid,NULL,0);
+        }
+        else
+            execution_entery(tree->data.argv, PWD, OLDPWD);
     }
     else if (tree->type == 1)
+    {
+        flag = 1;
         pipe_line(tree, PWD, OLDPWD);
-    
+    } 
 }

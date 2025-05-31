@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/30 13:37:19 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/31 05:20:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ void execution_entery(char **command, char **PWD, char **OLDPWD)
     if(built_in == 1)
         execute_the_builtin(command, PWD,&environ,OLDPWD);
     else
+    {
         external_commands_execution(command,&environ);
+        printf("external\n");
+    }
         
 }
 
