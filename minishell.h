@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/30 13:23:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/05/31 11:32:47 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "libft/libft.h"
 #include <sys/wait.h>
 #include <signal.h>
+#include <fcntl.h>
 
 
 # define MAX_HEREDOC 16
