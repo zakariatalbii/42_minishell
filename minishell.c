@@ -32,7 +32,13 @@ int	main(void)
 {
 	t_tree	*tree;
 	char	*line;
+	static char *PWD;
+	static char *OLDPWD;
+	char	*prompt;
 
+	
+	PWD = ft_strdup(PWD_);
+	OLDPWD = ft_strdup(OLDPWD_);
 	ft_signals(1);
 	while (1)
 	{
@@ -41,6 +47,7 @@ int	main(void)
 			break ;
 		tree = ft_parser(line, ft_status(-1));
 		show_the_tree(tree);// for test
+		recursion(tree,&PWD,&OLDPWD);
 		ft_free_tree(tree);
 		free(line);
 	}

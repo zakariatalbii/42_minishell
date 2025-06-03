@@ -16,7 +16,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -Wall -Wextra -Werror -fsanitize=address
+CC = cc #-Wall -Wextra -Werror -fsanitize=address
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)

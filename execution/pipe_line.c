@@ -26,6 +26,7 @@ static void pipe_line(t_tree *tree, char **PWD, char **OLDPWD)
     int fd[2];
     int pid[2];
     
+    
     pipe(fd);
     pid[0] = fork();
     if (pid[0] == 0)
@@ -55,6 +56,9 @@ void recursion(t_tree *tree, char **PWD, char **OLDPWD)
    
     int pid;
     static int flag;
+    int fd;
+    int original_in;
+    int original_out;
 
     if (!tree) 
         return;
@@ -73,6 +77,7 @@ void recursion(t_tree *tree, char **PWD, char **OLDPWD)
         else
         {
             execution_entery(tree->data.argv, PWD, OLDPWD);
+            exit(0);
         }
     }
     else if (tree->type == 1)
@@ -80,7 +85,64 @@ void recursion(t_tree *tree, char **PWD, char **OLDPWD)
         flag = 1;
         pipe_line(tree, PWD, OLDPWD);
         flag = 0;
-    } 
+    }
+    else if (tree->type == 2)
+    {
+        if(access((tree->data.red.file.name), F_OK) == 0)
+        {
+            original_in=dup(STDIN_FILENO);
+            fd = open(tree->data.red.file.name, O_RDONLY);
+            dup2(fd,STDIN_FILENO);
+            recursion(tree->data.red.ntree, PWD, OLDPWD);
+            close(fd);
+            dup2(original_in,STDIN_FILENO);
+            close(original_in);
+        }
+        else
+            printf("error file not found\n");
+    }
+    else if (tree->type == 3)
+    {
+        if(access((tree->data.red.file.name), F_OK) == 0)
+        {
+            fd = open(tree->data.red.file.name,O_WRONLY);
+        }
+        else
+        {
+            fd = open(tree->data.red.file.name, O_CREAT | O_WRONLY,200);
+            if(fd <0)
+                printf("error\n");
+        }
+        original_out=dup(STDOUT_FILENO);
+        dup2(fd,STDOUT_FILENO);
+        close(fd);
+        recursion(tree->data.red.ntree, PWD, OLDPWD);
+        dup2(original_out,STDOUT_FILENO);
+        close(original_out);
+    }
+
+    else if (tree->type == 4)
+    {
+        original_in=dup(STDIN_FILENO);
+        dup2(tree->data.red.file.fd, STDIN_FILENO);
+        recursion(tree->data.red.ntree, PWD, OLDPWD);
+        close(tree->data.red.file.fd);
+        dup2(original_in, STDIN_FILENO);
+        close(original_in);
+    }
+    else if(tree->type == 5)
+    {
+        original_out=dup(STDOUT_FILENO);
+        if(access(tree->data.red.file.name, F_OK)==0)
+            fd = open(tree->data.red.file.name, O_WRONLY|O_APPEND);
+        else
+            fd = open(tree->data.red.file.name, O_CREAT|O_WRONLY|O_APPEND,200);
+        dup2(fd,STDOUT_FILENO);
+        recursion(tree->data.red.ntree, PWD, OLDPWD);
+        close(fd);
+        dup2(original_out,STDOUT_FILENO);
+        close(original_out);
+    }
 }
 
 // #include "../minishell.h"
