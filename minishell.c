@@ -1,29 +1,49 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:53:18 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 16:31:47 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+void	show_the_tree(t_tree *tree);// for test
+
+static char	*ft_readline(void)
 {
 	char	*line;
+	char	*prompt;
 
+	prompt = ft_strjoin(getenv("PWD"), "$ ");
+	if (!prompt)
+		return (NULL);
+	line = readline(prompt);
+	if (line && *line)
+		add_history(line);
+	return (free(prompt), ft_count_lines(1), line);
+}
+
+int	main(void)
+{
+	t_tree	*tree;
+	char	*line;
+
+	ft_signals(1);
 	while (1)
 	{
-		line = readline("$ ");
+		line = ft_readline();
 		if (!line)
 			break ;
-		add_history(line);
+		tree = ft_parser(line, ft_status(-1));
+		show_the_tree(tree);// for test
+		ft_free_tree(tree);
 		free(line);
 	}
 	rl_clear_history();
-	exit(0);
+	exit(ft_status(-1));
 }

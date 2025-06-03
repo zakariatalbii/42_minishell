@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/31 11:32:47 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:25:35 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# define _GNU_SOURCE
+# define _POSIX_C_SOURCE 199309L
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <signal.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
-#include <sys/wait.h>
-#include <signal.h>
-#include <fcntl.h>
-
 
 # define MAX_HEREDOC 16
 
@@ -99,8 +99,8 @@ t_tree	*ft_red_node(int type, t_file file, t_tree *ntree);
 t_tree	*ft_pipe_node(t_tree *rtree, t_tree *ltree);
 
 /* *** heredoc *** */
-int		ft_heredoc(char **delimiter, int status, int flag);
-void	ft_store_fd(int fd);
+int		ft_heredoc(char **delimiter, int status);
+void	ft_store_fds(int fd);
 
 /* *** free the tree *** */
 void	ft_free_tree(t_tree *tree);
@@ -108,45 +108,66 @@ void	ft_free_argv(char **argv);
 
 /* ************************************** */
 
+/* *************** signals ************** */
+
+typedef struct sigaction	t_sigaction;
+
+void	ft_signals(int flag);
+int		ft_heredoc_i(int f, int *fds);
+
+/* ************************************** */
+
+/* **************** main **************** */
+
+/* *** utils *** */
+int		ft_count_lines(int flag);
+int		ft_status(int s);
+
+/* ************************************** */
+
+/* **************** exec **************** */
+
 # define PATH_ "PATH=/home/wnid-hsa/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/wnid-hsa/.local/bin"
 # define PWD_ "/home/wnid-hsa/Desktop/our_minishell"
 # define OLDPWD_ "/home/wnid-hsa/Desktop"
- 
+
 typedef struct s_environ
 {
-	char *var;
-	char *operator;
-	char *value;
-	struct s_environ *next;
-} t_environ;
+	char				*var;
+	char				*operator;
+	char				*value;
+	struct s_environ	*next;
+}	t_environ;
 
-int	ft_strcmp(const char *s1, const char *s2);
-void cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD);
-void echo_execution(char **command);
-void executing_env(t_environ **environ);
-t_environ  *ft_lstnew_environ(char *str);
+int		ft_strcmp(const char *s1, const char *s2);
+void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD);
+void	echo_execution(char **command);
+void	executing_env(t_environ **environ);
+t_environ	*ft_lstnew_environ(char *str);
 void	ft_lstadd_back_environ(t_environ **lst, t_environ *new);
-t_environ *making_the_environ_struct(void);
-void  pwd_execution(char **command, char **PWD);
-void recursion(t_tree *tree, char **pwd, char **OLDPWD);
-void unset_executing(char **command, t_environ **environ);
-void export_execution(char **command, t_environ **environ, char **PWD);
-int is_the_var_in_environ(char *variable, t_environ *environ);
-char  **split_environ(char *str);
-void fill_in_var(char **var, char *str);
-int valid_position_export(char *str);
-int var_name_end(char *str);
-int valid_var_name(char *str, int count);
-int ft_is_a_numb(char c);
-int is_while_space(char c);
-void make_export_struct(char **command, t_environ **environ, char **PWD);
-void  cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD);
-char *telda_full_path(char *telda_path);
-int is_home_set(t_environ **environ);
-void changing_nodes(t_environ **environ, char *var , char *new_value);
-int  check_existans_and_permisisons(char *command);
-void external_commands_execution(char **command,t_environ **environ);
+t_environ	*making_the_environ_struct(void);
+void	pwd_execution(char **command, char **PWD);
+void	recursion(t_tree *tree, char **pwd, char **OLDPWD);
+void	unset_executing(char **command, t_environ **environ);
+void	export_execution(char **command, t_environ **environ, char **PWD);
+int		is_the_var_in_environ(char *variable, t_environ *environ);
+char	**split_environ(char *str);
+void	fill_in_var(char **var, char *str);
+int		valid_position_export(char *str);
+int		var_name_end(char *str);
+int		valid_var_name(char *str, int count);
+int		ft_is_a_numb(char c);
+int		is_while_space(char c);
+void	make_export_struct(char **command, t_environ **environ, char **PWD);
+void	cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD);
+char	*telda_full_path(char *telda_path);
+int		is_home_set(t_environ **environ);
+void	changing_nodes(t_environ **environ, char *var, char *new_value);
+int		check_existans_and_permisisons(char *command);
+void	external_commands_execution(char **command, t_environ **environ);
 char	**potential_path(char *command);
-void execution_entery(char **command, char **PWD, char **OLDPWD);
+void	execution_entery(char **command, char **PWD, char **OLDPWD);
+
+/* ************************************** */
 
 #endif

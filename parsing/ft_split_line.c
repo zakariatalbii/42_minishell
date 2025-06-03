@@ -6,11 +6,11 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:41:03 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:06:36 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_isspace(int c)
 {
@@ -88,9 +88,9 @@ t_list	*ft_split_line(char *line)
 		ft_lstadd_back(&head, node);
 		if (!node || !node->content)
 		{
-			if (!count)
+			if (!count && ft_status(2))
 				ft_putendl_fd("minishell: unclosed quotes", 2);
-			else
+			else if (ft_status(1))
 				perror("malloc");
 			return (ft_lstclear(&head, ft_free_token), NULL);
 		}

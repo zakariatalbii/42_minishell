@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand_tokens.c                                 :+:      :+:    :+:   */
+/*   ft_lexer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/24 19:38:55 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:06:25 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	ft_max_heredoc(t_list **list)
 {
@@ -24,8 +24,7 @@ static int	ft_syntax_error(t_list **list, char *token)
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
-	ft_lstclear(list, ft_free_token);
-	return (1);
+	return (ft_lstclear(list, ft_free_token), ft_status(2));
 }
 
 static void	ft_check_tokens(t_list **list)
@@ -71,7 +70,7 @@ static int	ft_expand_tokens(t_list **list, int status)
 		{
 			str = (char *)malloc(ft_tokenlen(((t_token *)head->content)->token,
 						status, 0) + 1);
-			if (!str)
+			if (!str && ft_status(1))
 				return (ft_lstclear(list, ft_free_token), perror("malloc"), 1);
 			ft_expand_token(str, ((t_token *)head->content)->token, status, 0);
 			if (ft_empty_token(list, &head, str, ptype))

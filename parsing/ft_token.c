@@ -6,11 +6,11 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 14:05:31 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:42:02 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:07:18 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_token_type(char *token)
 {

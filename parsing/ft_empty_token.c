@@ -6,11 +6,11 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/24 19:41:22 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:06:02 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static int	ft_cmdcase(t_list **list, t_list **head, char *str)
 {
@@ -45,6 +45,6 @@ int	ft_empty_token(t_list **list, t_list **head, char *str, int ptype)
 		return (ft_putstr_fd("minishell: ", 2),
 			ft_putstr_fd(((t_token *)(*head)->content)->token, 2),
 			ft_putendl_fd(": ambiguous redirect", 2), *head = NULL,
-			ft_lstclear(list, ft_free_token), free(str), 1);
+			ft_lstclear(list, ft_free_token), free(str), ft_status(1));
 	return (0);
 }

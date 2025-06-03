@@ -6,11 +6,11 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/23 22:43:40 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:07:29 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static size_t	ft_argc(t_list *lst)
 {
@@ -41,7 +41,7 @@ char	**ft_argv(t_list *lst)
 	if (!lst)
 		return (NULL);
 	argv = (char **)malloc(sizeof(char *) * (ft_argc(lst) + 1));
-	if (!argv)
+	if (!argv && ft_status(1))
 		return (perror("malloc"), NULL);
 	head = lst;
 	v = 0;
@@ -67,7 +67,7 @@ t_tree	*ft_cmd_node(char **argv)
 	if (!argv)
 		return (NULL);
 	tree = (t_tree *)malloc(sizeof(t_tree));
-	if (!tree)
+	if (!tree && ft_status(1))
 		return (perror("malloc"), ft_free_argv(argv), NULL);
 	tree->type = CMD;
 	tree->data.argv = argv;
@@ -86,7 +86,7 @@ t_tree	*ft_red_node(int type, t_file file, t_tree *ntree)
 			free(file.name);
 		if (!ntree)
 			return (NULL);
-		return (perror("malloc"), ft_free_tree(ntree), NULL);
+		return (perror("malloc"), ft_free_tree(ntree), ft_status(1), NULL);
 	}
 	tree->type = type;
 	tree->data.red.file = file;
@@ -101,7 +101,7 @@ t_tree	*ft_pipe_node(t_tree *rtree, t_tree *ltree)
 	if (!rtree || !ltree)
 		return (ft_free_tree(rtree), ft_free_tree(ltree), NULL);
 	tree = (t_tree *)malloc(sizeof(t_tree));
-	if (!tree)
+	if (!tree && ft_status(1))
 		return (perror("malloc"), ft_free_tree(rtree), ft_free_tree(ltree),
 			NULL);
 	tree->type = PIPE;

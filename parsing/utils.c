@@ -6,26 +6,40 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 12:49:30 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/03 13:20:19 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-int	ft_count_lines(int flag)
+char	*ft_strndup(const char *s1, size_t n)
 {
-	static int	count;
+	size_t	size;
+	char	*str;
 
-	if (flag)
-		count++;
-	return (count);
+	if (!s1 || !n)
+		return (NULL);
+	size = ft_strlen(s1);
+	if (size > n)
+		size = n;
+	str = (char *)malloc(size + 1);
+	if (str == NULL)
+		return (NULL);
+	ft_strlcpy(str, s1, size + 1);
+	return (str);
 }
 
-int	ft_status(int s)
+char	*ft_getenv(const char *name, size_t len)
 {
-	static int	status;
+	size_t	v;
 
-	if (s >= 0)
-		return (status = s, 1);
-	return (status);
+	v = 0;
+	while (__environ[v])
+	{
+		if (!ft_strncmp(__environ[v], name, len)
+			&& __environ[v][len] == '=')
+			return (ft_strchr(__environ[v], '=') + 1);
+		v++;
+	}
+	return (NULL);
 }
