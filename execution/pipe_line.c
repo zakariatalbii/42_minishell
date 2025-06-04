@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/01 05:20:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:44:24 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void recursion(t_tree *tree, char **PWD, char **OLDPWD)
         }
         else
         {
-            fd = open(tree->data.red.file.name, O_CREAT | O_WRONLY,200);
+            fd = open(tree->data.red.file.name, O_CREAT | O_RDWR);
             if(fd <0)
                 printf("error\n");
         }
@@ -136,7 +136,7 @@ void recursion(t_tree *tree, char **PWD, char **OLDPWD)
         if(access(tree->data.red.file.name, F_OK)==0)
             fd = open(tree->data.red.file.name, O_WRONLY|O_APPEND);
         else
-            fd = open(tree->data.red.file.name, O_CREAT|O_WRONLY|O_APPEND,200);
+            fd = open(tree->data.red.file.name, O_CREAT|O_WRONLY|O_APPEND);
         dup2(fd,STDOUT_FILENO);
         recursion(tree->data.red.ntree, PWD, OLDPWD);
         close(fd);
