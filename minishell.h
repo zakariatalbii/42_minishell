@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 14:25:35 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/06/04 16:52:00 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,6 +167,11 @@ int		check_existans_and_permisisons(char *command);
 void	external_commands_execution(char **command, t_environ **environ);
 char	**potential_path(char *command);
 void	execution_entery(char **command, char **PWD, char **OLDPWD);
+void	error_handling(int return_value,char *failed_function);
+void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD);
+void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD);
+void	heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD);
+void	append_handling(t_tree *tree, char **PWD, char **OLDPWD);
 
 /* ************************************** */
 
