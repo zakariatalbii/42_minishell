@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/04 12:44:24 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/04 13:56:36 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,44 @@ static int no_input_commands(char *command)
     return(0);
         
 }
+static void error_handling(int return_value,char *failed_function)
+{
+    if(return_value==-1)
+    {
+        if(!strcmp(failed_function, "close"))
+            perror("close failed\n");
+        if(!strcmp(failed_function, "dup2"))
+            perror("dup2 failed\n");
+        if(!strcmp(failed_function, "fork"))
+            perror("fork failed\n");
+        exit(1);
+    }
+} 
 static void pipe_line(t_tree *tree, char **PWD, char **OLDPWD)
 {
     int fd[2];
     int pid[2];
     
-    
-    pipe(fd);
-    pid[0] = fork();
+    (1 && pipe(fd), (pid[0] = fork()), error_handling(pid[0], "fork"));
     if (pid[0] == 0)
     {
-        close(fd[0]);
-        dup2(fd[1], STDOUT_FILENO);
+        error_handling(close(fd[0]), "close");
+        error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
         recursion(tree->data.pipe.rtree, PWD,OLDPWD);
-        close(fd[1]);
+        error_handling(close(fd[1]), "close");
         exit(0);
     }
-    pid[1] = fork();
+    (1 && (pid[1] = fork()), error_handling(pid[1], "fork"));
     if (pid[1] == 0) 
     {
-        close(fd[1]);
-        dup2(fd[0], STDIN_FILENO);
+        error_handling(close(fd[1]), "close");
+        error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
         recursion(tree->data.pipe.ltree, PWD,OLDPWD);
-        close(fd[0]);
+        error_handling(close(fd[0]), "close");
         exit(0);
     }
-    close(fd[0]);
-    close(fd[1]);
+    error_handling(close(fd[0]), "close");
+    error_handling(close(fd[1]), "close");
     waitpid(pid[0], NULL, 0);
     waitpid(pid[1], NULL, 0);
 }
