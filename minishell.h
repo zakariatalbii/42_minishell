@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/04 16:52:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:25:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,13 +166,15 @@ void	changing_nodes(t_environ **environ, char *var, char *new_value);
 int		check_existans_and_permisisons(char *command);
 void	external_commands_execution(char **command, t_environ **environ);
 char	**potential_path(char *command);
-void	execution_entery(char **command, char **PWD, char **OLDPWD);
+// void	execution_entery(char **command, char **PWD, char **OLDPWD);
+void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ);
 void	error_handling(int return_value,char *failed_function);
 void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD);
 void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD);
 void	heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD);
 void	append_handling(t_tree *tree, char **PWD, char **OLDPWD);
-
+void 	execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD);
+int  	is_built_in(char **command);
 /* ************************************** */
 
 #endif

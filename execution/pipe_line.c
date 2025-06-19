@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/04 16:55:20 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:28:18 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,28 @@ static void command_execution(t_tree *tree, int flag, char **PWD, char **OLDPWD)
 {
     
     int pid;
-    
+    static t_environ *environ;
+
+    if(!environ)
+        environ = making_the_environ_struct();
     if(flag == 0)
     {
-        pid =fork();
-        error_handling(pid, "close");
-        if(pid == 0)
+        if(is_built_in(tree->data.argv) == 1)
+            execute_the_builtin(tree->data.argv, PWD,&environ,OLDPWD);
+        else
         {
-            execution_entery(tree->data.argv, PWD, OLDPWD);
-            exit(0);
+            pid =fork();
+            error_handling(pid, "close");
+            if(pid == 0)
+            {
+                external_commands_execution(tree->data.argv,&environ);
+                exit(0);
+            }
         }
         waitpid(pid,NULL,0);
     }
     else
-    {
-        execution_entery(tree->data.argv, PWD, OLDPWD);
-        exit(0);
-    }
+        no_pipe_execution(tree->data.argv, PWD, OLDPWD, environ);
 }
 
 void recursion(t_tree *tree, char **PWD, char **OLDPWD)

@@ -2,7 +2,7 @@ LIBFT = libft/libft.a
 LIBFT_H = libft/libft.h
 
 SRC = show_the_tree.c \
-		minishell.c ft_signals.c utils.c \
+		test.c ft_signals.c utils.c \
 		parsing/ft_parser.c parsing/ft_lexer.c parsing/ft_split_line.c parsing/ft_token.c \
 		parsing/ft_tokenlen.c parsing/ft_expand_token.c parsing/ft_empty_token.c \
 		parsing/ft_tree_node.c parsing/ft_heredoc.c parsing/ft_free_tree.c parsing/utils.c \

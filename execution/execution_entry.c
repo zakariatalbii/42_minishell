@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/31 11:48:11 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/19 12:32:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 }
 
 
- static int  is_built_in(char **command)
+int  is_built_in(char **command)
 {
     if(command)
     {
@@ -48,7 +48,7 @@
         
 }
 
-static void execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD)
+void execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD)
 {
     
     if(!ft_strcmp(command[0], "echo"))
@@ -72,11 +72,10 @@ static void execute_the_builtin(char **command, char **PWD, t_environ **s_enviro
     }  
 }
 
-void execution_entery(char **command, char **PWD, char **OLDPWD)
+void no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ)
 {
     
     int built_in;
-    static t_environ *environ;
 
     if(!environ)
         environ = making_the_environ_struct();
@@ -90,7 +89,6 @@ void execution_entery(char **command, char **PWD, char **OLDPWD)
     {
         external_commands_execution(command,&environ);
     }
+    exit(0);
         
 }
-
-
