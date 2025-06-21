@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/30 00:59:17 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 04:50:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ static int is_valid_pwd(char **command)
         return(1);
 }
 
-void  pwd_execution(char **command, char **PWD)
+void  pwd_execution(char **command, char **PWD, int *status)
 {
     char *pwd;
 
     if (command[1] && !is_valid_pwd(command))
     {
-        printf("error msg");
+        printf("bash: pwd: %s: invalid option\n", command[1]);
+        *status = 2;
         return;
     }
-    pwd=getcwd(NULL,0);
-    if(!pwd)
-        printf("%s\n",*PWD);
     else
-        printf("%s\n", pwd);
-    
+    {   
+        *status = 0;
+        printf("%s\n", *PWD);
+    }
 }

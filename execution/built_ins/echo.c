@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_echo.c                                          :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:44 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/28 22:06:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:35:08 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int identify_the_arg(char **str, int *i)
     
 }
 
-void echo_execution(char **command)
+void echo_execution(char **command, int *status)
 {
     int i;
     int new_line;
@@ -59,6 +59,6 @@ void echo_execution(char **command)
     }
     if(new_line == 0)
         printf("\n");
-    
+    *status = 0;
 }
 

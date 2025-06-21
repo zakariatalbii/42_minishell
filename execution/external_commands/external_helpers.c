@@ -6,11 +6,12 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/30 13:37:10 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 07:30:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
 
 
 static int	count_words(const char *s, char c)
@@ -72,19 +73,19 @@ static char	**allocate_double_char(char *str, char c, char *command)
 
 char	**potential_path(char *command)
 {
-	char	*env;
+	char	*PATH;
 	char	**splited_path;
 	char 	**potential_paths;
 	char 	*join;
 	int		i;
 
-	env = getenv("PATH");
-	if(env == NULL)
+	PATH = getenv("PATH");
+	if(PATH == NULL)
 		return(NULL);
-	splited_path = ft_split(env,':');
+	splited_path = ft_split(PATH,':');
 	if(splited_path == NULL)
 		return (NULL);
-	potential_paths = allocate_double_char(env,':',command);
+	potential_paths = allocate_double_char(PATH,':',command);
 	i = 0;
 	while(splited_path[i] != NULL)
 	{
@@ -97,8 +98,7 @@ char	**potential_path(char *command)
 	return(potential_paths);
 }
 
-
-int  check_existans_and_permisisons(char *command)
+int  check_existans_and_permisisons(char *command, int *status)
 {
 	int	i;
 	char 	**potential_paths;
@@ -116,14 +116,13 @@ int  check_existans_and_permisisons(char *command)
 			else
 			{
 				printf("permission denied");
-				//know what to do with exit status (126)here the default one sent by bash ????
-				
+				*status = 126;
 				return(-1);
 			}
 		}
 		i++;
 	}
-	printf("command not found");
-	// know what to do with exit status 127 here the default one send by bash in this cas ???/
+	*status = 127;
+	printf("bash: %s: command not found\n", command);
 	return(-1);
 }

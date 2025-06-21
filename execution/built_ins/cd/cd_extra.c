@@ -6,12 +6,21 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/29 00:01:42 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 06:04:44 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
+void cd_errno_handling(int ernum, char *path)
+{
+	if(errno == ENOTDIR)
+		printf("bash: cd: %s: Not a directory\n", path);
+	else if(errno == EACCES)
+		printf("cd: permission denied: %s", path);
+	else if(errno == ENOENT)
+		printf("bash: cd: %s: No such file or directory\n", path);
+}
 void changing_nodes(t_environ **environ, char *var , char *new_value)
 {
 	t_environ *tmp;
@@ -41,11 +50,19 @@ char *telda_full_path(char *telda_path)
 		return(telda_full_path);
 }
 
-void  cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD)
+void  cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD, int *status)
 {
 	char *old_pwd;
+	int flag;
 	old_pwd = *PWD;
-
+	
+	flag = is_it_set(environ, "OLDPWD");
+	if(flag == 0)
+	{
+		*status = 1;
+		return;
+	}
+	
 	if(!chdir(*OLDPWD))
 	{
 		changing_nodes(environ,"OLDPWD", *PWD);
@@ -57,23 +74,23 @@ void  cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD)
 	else
 		printf("error!");
 }
-int is_home_set(t_environ **environ)
+int is_it_set(t_environ **environ, char *var)
 {
 	t_environ *current;
 
 	current = (*environ);
 	while(current)
 	{
-		if(!strcmp(current->var,"HOME"))
+		if(!strcmp(current->var,var))
 		{
 			if(!(current->value))
 			{
-				printf("home is unset\n");
+				printf("bash: cd: %s not set\n", var);
 				return(0);
 			}
 			if(!strcmp(current->value, ""))
 			{
-				printf("home is set but empty\n");
+				printf("bash: cd: %s is empty\n", var);
 				return(0);
 			}
 			return(1);
@@ -81,6 +98,6 @@ int is_home_set(t_environ **environ)
 		}
 		current=current->next;
 	}
-	printf("home is unset\n");
+	printf("bash: cd: %s not set\n", var);
 	return(0);
 }

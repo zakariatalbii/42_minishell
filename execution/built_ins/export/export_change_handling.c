@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/30 01:10:05 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 02:01:54 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void handling_new_changes(t_environ **new, t_environ **environ, char **PW
     replace_node(new, environ); 
 }
 
-static int input_struct_handling(char *arg)
+static int input_struct_handling(char *arg, int *status)
 {
     int var_name_end_;
     int i;
@@ -68,13 +68,19 @@ static int input_struct_handling(char *arg)
             var_name_end_=(var_name_end(arg));
             if(!valid_var_name(arg, var_name_end_))
             {
-                printf("syntax error!\n");
+                if(arg[0] == '-')
+                {
+                    printf("bash: export: %c%c: invalid option\n", arg[0],arg[1]);
+                    *status = 2;
                     return(1);
+                }
+                printf("bash: export: `%s': not a valid identifier\n", arg);
+                *status = 1;
+                return(1);
             }
             i++;
         }
         return(0);
- 
 }
 
 // void make_export_struct(char **command, t_environ **environ) {
@@ -103,21 +109,23 @@ static int input_struct_handling(char *arg)
 // }
 
 
-void make_export_struct(char **command, t_environ **environ, char **PWD)
+void make_export_struct(char **command, t_environ **environ, char **PWD, int *status)
 {
     t_environ *new;
     int count ;
     int i;
+    int flag;
     
-   (1 && (count = 0), (i = 1 ));
+   (1 && (count = 0), (i = 1 ), (flag = 1));
     if(command)
     {
         while(command[i])
         {
-            if(valid_position_export(command[i]))
+            if(valid_position_export(command[i], status))
             {
-                if(input_struct_handling(command[i]))
+                if(input_struct_handling(command[i], status))
                 {   
+                    flag = 1;
                     i++;
                     continue;
                 }
@@ -128,8 +136,13 @@ void make_export_struct(char **command, t_environ **environ, char **PWD)
                     ft_lstadd_back_environ(environ, new);
             }
             else
-                printf("syntax error!\n");
+            {
+                *status = 1;
+                printf("bash: export: '%s': not a valid identifier\n", command[i]);
+            }
             i++;
         }
+        if(flag == 0)
+            *status = 0;
     }
 }

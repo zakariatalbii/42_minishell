@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/19 12:32:39 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 07:52:26 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,47 +48,42 @@ int  is_built_in(char **command)
         
 }
 
-void execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD)
+void execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status)
 {
-    
     if(!ft_strcmp(command[0], "echo"))
-        echo_execution(command);
+        echo_execution(command, status);
     else if(!ft_strcmp(command[0], "cd"))
-    {
-        cd_execution(command, PWD,s_environ, OLDPWD);
-    }
+        cd_execution(command, PWD,s_environ, OLDPWD, status);
     else if(!ft_strcmp(command[0], "pwd"))
-        pwd_execution(command,PWD);
+        pwd_execution(command,PWD, status);
     else if(!ft_strcmp(command[0], "export"))
-        export_execution(command, s_environ, PWD);
+        export_execution(command, s_environ, PWD, status);
     else if(!ft_strcmp(command[0], "env"))
-        executing_env(s_environ);
+        executing_env(s_environ, status);
     else if(!ft_strcmp(command[0], "unset"))
-        unset_executing(command, s_environ);
+        unset_executing(command, s_environ, status);
     else if(!ft_strcmp(command[0], "exit"))
     {
-        printf("execute exit");
+        printf("\nexit status: %d\n", *status);
         // exit_executing("exit");
     }  
 }
 
-void no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ)
+void no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status)
 {
     
     int built_in;
+    int *flag;
 
     if(!environ)
-        environ = making_the_environ_struct();
+        environ = making_the_environ_struct(flag, *PWD);
     built_in = 0;
     if(!command)
         return;
     built_in = is_built_in(command);
     if(built_in == 1)
-        execute_the_builtin(command, PWD,&environ,OLDPWD);
+        execute_the_builtin(command, PWD,&environ,OLDPWD, status);
     else
-    {
-        external_commands_execution(command,&environ);
-    }
-    exit(0);
+        external_commands_execution(command,&environ, status);
         
 }

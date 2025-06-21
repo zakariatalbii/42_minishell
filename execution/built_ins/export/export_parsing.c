@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:16 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/05/28 22:16:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 01:33:56 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int is_while_space(char c)
     return(0);
 }
 
-int valid_position_export(char *str)
+int valid_position_export(char *str, int *status)
 {
     int i;
 
@@ -38,7 +38,10 @@ int valid_position_export(char *str)
     while(str[i])
     {
         if(((str[i] == '=') && ((i == 0) || is_while_space(str[i-1])) )|| ((str[i] =='+') && ((i ==0) || is_while_space(str[i-1]))))
+        {
+            *status = 1;
             return(0);
+        }
         i++; 
     }
     return(1);
@@ -70,10 +73,7 @@ int valid_var_name(char *str, int count)
         return(-1);
     }
     if(ft_is_a_numb(str[0]))
-    {
-
         return(0);
-    }
     i = 0;
     while(i < count)
     {

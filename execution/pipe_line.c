@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/19 12:28:18 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 07:50:00 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,83 +30,103 @@ void error_handling(int return_value,char *failed_function)
         exit(1);
     }
 } 
-static void pipe_line(t_tree *tree, char **PWD, char **OLDPWD)
+static void pipe_line(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {
     int fd[2];
     int pid[2];
+    int status_1;
+    int status_2;
     
     (1 && pipe(fd), (pid[0] = fork()), error_handling(pid[0], "fork"));
     if (pid[0] == 0)
     {
         error_handling(close(fd[0]), "close");
         error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
-        recursion(tree->data.pipe.rtree, PWD,OLDPWD);
+        recursion(tree->data.pipe.rtree, PWD,OLDPWD, status);
         error_handling(close(fd[1]), "close");
-        exit(0);
+        exit(*status);
     }
     (1 && (pid[1] = fork()), error_handling(pid[1], "fork"));
     if (pid[1] == 0) 
     {
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
-        recursion(tree->data.pipe.ltree, PWD,OLDPWD);
+        recursion(tree->data.pipe.ltree, PWD,OLDPWD, status);
         error_handling(close(fd[0]), "close");
-        exit(0);
+        exit(*status);
     }
     error_handling(close(fd[0]), "close");
     error_handling(close(fd[1]), "close");
-    waitpid(pid[0], NULL, 0);
-    waitpid(pid[1], NULL, 0);
+    waitpid(pid[0], &status_1, 0);
+    waitpid(pid[1], &status_2, 0);
+    
+    // Extract the actual exit code from the status
+    // The status from waitpid includes more than just the exit code
+    if (status_2 != 0) {
+        *status = status_2 >> 8;  // CHANGED: Extract exit code from status_2
+    } else {
+        *status = 0;
+    }
 }
 
-static void command_execution(t_tree *tree, int flag, char **PWD, char **OLDPWD)
+static void command_execution(t_tree *tree, int flag, char **PWD, char **OLDPWD, int *status)
 {
     
     int pid;
     static t_environ *environ;
+    int status_1;
+    int flag_;
+
+    flag = 0;
+    
 
     if(!environ)
-        environ = making_the_environ_struct();
+        environ = making_the_environ_struct(&flag, *PWD);
     if(flag == 0)
     {
         if(is_built_in(tree->data.argv) == 1)
-            execute_the_builtin(tree->data.argv, PWD,&environ,OLDPWD);
+            execute_the_builtin(tree->data.argv, PWD,&environ,OLDPWD, status);
         else
         {
-            pid =fork();
+            pid = fork();
             error_handling(pid, "close");
             if(pid == 0)
             {
-                external_commands_execution(tree->data.argv,&environ);
-                exit(0);
+                external_commands_execution(tree->data.argv,&environ, status);
+                // exit(*status);
             }
+            waitpid(pid,&status_1,0);
+            if (status_1 != 0) {
+            *status = status_1 >> 8;  // CHANGED: Extract exit code from status_2
+            } else {
+                    *status = 0;
+                }
         }
-        waitpid(pid,NULL,0);
     }
     else
-        no_pipe_execution(tree->data.argv, PWD, OLDPWD, environ);
+        no_pipe_execution(tree->data.argv, PWD, OLDPWD, environ, status);
 }
 
-void recursion(t_tree *tree, char **PWD, char **OLDPWD)
+void recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {   
     static int flag;
-
+   
     if (!tree) 
         return;
     if (tree->type == 0) 
-        command_execution(tree, flag, PWD,OLDPWD);
+        command_execution(tree, flag, PWD,OLDPWD, status);
     else if (tree->type == 1)
-    {
+    {   
         flag = 1;
-        pipe_line(tree, PWD, OLDPWD);
+        pipe_line(tree, PWD, OLDPWD, status);
         flag = 0;
     }
     else if (tree->type == 2)
-        infile_handling(tree, PWD, OLDPWD);
+        infile_handling(tree, PWD, OLDPWD, status);
     else if (tree->type == 3)
-        outfile_handling(tree, PWD, OLDPWD);
+        outfile_handling(tree, PWD, OLDPWD, status);
     else if (tree->type == 4)
-        heredoc_handling(tree, PWD, OLDPWD);
+        heredoc_handling(tree, PWD, OLDPWD, status);
     else if(tree->type == 5)
-        append_handling(tree, PWD, OLDPWD);
+        append_handling(tree, PWD, OLDPWD, status);
 }
