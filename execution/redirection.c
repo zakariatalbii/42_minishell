@@ -6,13 +6,13 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 23:04:52 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/22 03:35:18 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
+void infile_handling(t_tree *tree, t_env_var **env_vars)
 {
     int original_in;
     // int original_out;
@@ -25,7 +25,7 @@ void infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
         fd = open(tree->data.red.file.name, O_RDONLY);
         error_handling(fd,"open");
         error_handling(dup2(fd,STDIN_FILENO),"dup2");
-        recursion(tree->data.red.ntree, PWD, OLDPWD, status);
+        recursion(tree->data.red.ntree, env_vars);
         error_handling(close(fd),"close");
         error_handling(dup2(original_in,STDIN_FILENO),"dup2");
         error_handling(close(original_in),"close");
@@ -33,7 +33,7 @@ void infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
     else
         printf("error file not found\n");
 }
-void outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
+void outfile_handling(t_tree *tree, t_env_var **env_vars)
 {
     int fd;
     // int original_in;
@@ -53,12 +53,12 @@ void outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
         error_handling(original_out, "dup");
         error_handling(dup2(fd,STDOUT_FILENO),"dup2");
         error_handling(close(fd),"close");
-        recursion(tree->data.red.ntree, PWD, OLDPWD, status);
+        recursion(tree->data.red.ntree, env_vars);
         error_handling(dup2(original_out,STDOUT_FILENO),"dup2");
         error_handling(close(original_out),"close");
 }
 
-void heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
+void heredoc_handling(t_tree *tree, t_env_var **env_vars)
 {
     int original_in;
     // int original_out;
@@ -66,13 +66,13 @@ void heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
     original_in=dup(STDIN_FILENO);
     error_handling(original_in,"dup");
     error_handling(dup2(tree->data.red.file.fd, STDIN_FILENO),"dup2");
-    recursion(tree->data.red.ntree, PWD, OLDPWD, status);
+    recursion(tree->data.red.ntree, env_vars);
     error_handling(close(tree->data.red.file.fd),"close");
     error_handling(dup2(original_in, STDIN_FILENO),"dup2");
     error_handling(close(original_in),"close");
 }
 
-void append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
+void append_handling(t_tree *tree, t_env_var **env_vars)
 {
     int fd;
     // int original_in;
@@ -91,7 +91,7 @@ void append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
         error_handling(fd,"open");
     }
     error_handling(dup2(fd,STDOUT_FILENO),"dup2");
-    recursion(tree->data.red.ntree, PWD, OLDPWD, status);
+    recursion(tree->data.red.ntree, env_vars);
     error_handling(close(fd),"close");
     error_handling(dup2(original_out,STDOUT_FILENO),"dup2");
     error_handling(close(original_out),"close");

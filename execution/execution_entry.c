@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 01:13:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/22 05:24:46 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,28 +48,28 @@ int  is_built_in(char **command)
         
 }
 
-void execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status)
+void execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env_vars)
 {
     if(!ft_strcmp(command[0], "echo"))
-        echo_execution(command, status);
+        echo_execution(command, (*env_vars)->status);
     else if(!ft_strcmp(command[0], "cd"))
-        cd_execution(command, PWD,s_environ, OLDPWD, status);
+        cd_execution(command,s_environ, env_vars);
     else if(!ft_strcmp(command[0], "pwd"))
-        pwd_execution(command,PWD, status);
-    else if(!ft_strcmp(command[0], "export"))
-        export_execution(command, s_environ, PWD, status);
+        pwd_execution(command,env_vars);
+    // else if(!ft_strcmp(command[0], "export"))
+    //     export_execution(command, s_environ, PWD, status);
     else if(!ft_strcmp(command[0], "env"))
-        executing_env(s_environ, status);
-    else if(!ft_strcmp(command[0], "unset"))
-        unset_executing(command, s_environ, status);
-    else if(!ft_strcmp(command[0], "exit"))
-    {
-        printf("\nexit status: %d\n", *status);
-        // exit_executing("exit");
-    }  
+        executing_env(s_environ, env_vars);
+    // else if(!ft_strcmp(command[0], "unset"))
+    //     unset_executing(command, s_environ, status);
+    // else if(!ft_strcmp(command[0], "exit"))
+    // {
+    //     printf("\nexit status: %d\n", *status);
+    //     // exit_executing("exit");
+    // }  
 }
 
-void no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status)
+void no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars)
 {
     
     int built_in;
@@ -79,8 +79,8 @@ void no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *env
         return;
     built_in = is_built_in(command);
     if(built_in == 1)
-        execute_the_builtin(command, PWD,&environ,OLDPWD, status);
+        execute_the_builtin(command, &environ, env_vars);
     else
-        external_commands_execution(command,&environ, status);
+        external_commands_execution(command,&environ, (*env_vars)->status);
         
 }

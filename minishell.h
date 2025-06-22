@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/22 02:10:55 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/22 05:59:11 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,15 +147,19 @@ typedef struct s_env_var
 }	t_env_var;
 
 int		ft_strcmp(const char *s1, const char *s2);
-void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD, int *status);
+// void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD, int *status);
+void	cd_execution(char **command , t_environ **environ, t_env_var **env_vars);
 void	echo_execution(char **command, int *status);
 
 t_environ	*ft_lstnew_environ(char *str);
 void	ft_lstadd_back_environ(t_environ **lst, t_environ *new);
-t_environ	*making_the_environ_struct(int *flag, char *pwd);
-void	pwd_execution(char **command, char **PWD, int *status);
+// t_environ	*making_the_environ_struct(int *flag, char *pwd);
+t_environ *making_the_environ_struct(int *flag, t_env_var **env_vars);
+// void	pwd_execution(char **command, char **PWD, int *status);
+void  	pwd_execution(char **command, t_env_var **env_vars);
 // void	recursion(t_tree *tree, t_env_var **env_vars);
-void	recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+// void	recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+void 	recursion(t_tree *tree,t_env_var **env_vars);
 void	unset_executing(char **command, t_environ **environ, int *status);
 int		is_the_var_in_environ(char *variable, t_environ *environ);
 char	**split_environ(char *str);
@@ -166,22 +170,31 @@ int		valid_var_name(char *str, int count);
 int		ft_is_a_numb(char c);
 int		is_while_space(char c);
 void	make_export_struct(char **command, t_environ **environ, char **PWD, int *status);
-void  	cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD, int *status);
+// void  	cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD, int *status);
+void 	cd_oldpwd(t_environ **environ, t_env_var **env_vars);
 char	*telda_full_path(char *telda_path);
 int		is_it_set(t_environ **environ, char *path);
 void	changing_nodes(t_environ **environ, char *var, char *new_value);
 int 	check_existans_and_permisisons(char *command, int *status);
 void	external_commands_execution(char **command, t_environ **environ, int *status);
 char	**potential_path(char *command);
-void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
+// void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
+void	no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars);
 void	error_handling(int return_value,char *failed_function);
-void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void 	execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status);
+// void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+void	infile_handling(t_tree *tree, t_env_var **env_vars);
+// void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+void	outfile_handling(t_tree *tree, t_env_var **env_vars);
+// void	heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+
+void	heredoc_handling(t_tree *tree, t_env_var **env_vars);
+// void	append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+void	append_handling(t_tree *tree, t_env_var **env_vars);
+// void 	execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status);
+void	execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env_vars);
 int  	is_built_in(char **command);
-void	executing_env(t_environ **environ,int *status);
+// void	executing_env(t_environ **environ,int *status);
+void 	executing_env(t_environ **environ, t_env_var **env_vars);
 void	export_execution(char **command, t_environ **environ, char **PWD, int *status);
 void	cd_errno_handling(int ernum, char *path);
 char 	*restore_user(char *pwd);
