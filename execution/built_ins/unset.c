@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 02:25:16 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:00:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int valid_unset_var_name(char *str)
 {
-    int i;
+    // int i;
     
     if(!str)
     {

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 01:23:01 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:04:52 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {
     int original_in;
-    int original_out;
+    // int original_out;
     int fd;
     
     if(access((tree->data.red.file.name), F_OK) == 0)
@@ -36,7 +36,7 @@ void infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 void outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {
     int fd;
-    int original_in;
+    // int original_in;
     int original_out;
 
     if(access((tree->data.red.file.name), F_OK) == 0)
@@ -61,7 +61,7 @@ void outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 void heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {
     int original_in;
-    int original_out;
+    // int original_out;
 
     original_in=dup(STDIN_FILENO);
     error_handling(original_in,"dup");
@@ -75,7 +75,7 @@ void heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 void append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {
     int fd;
-    int original_in;
+    // int original_in;
     int original_out;
     
     original_out=dup(STDOUT_FILENO);

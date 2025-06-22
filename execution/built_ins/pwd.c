@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 04:50:39 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 22:59:03 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ static int is_valid_pwd(char **command)
 
 void  pwd_execution(char **command, char **PWD, int *status)
 {
-    char *pwd;
-
     if (command[1] && !is_valid_pwd(command))
     {
         printf("bash: pwd: %s: invalid option\n", command[1]);

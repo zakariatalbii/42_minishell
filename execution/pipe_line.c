@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 07:50:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:10:27 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ static void command_execution(t_tree *tree, int flag, char **PWD, char **OLDPWD,
     int status_1;
     int flag_;
 
-    flag = 0;
+    flag_ = 0;
     
 
     if(!environ)
-        environ = making_the_environ_struct(&flag, *PWD);
+        environ = making_the_environ_struct(&flag_, *PWD);
     if(flag == 0)
     {
         if(is_built_in(tree->data.argv) == 1)
@@ -107,6 +107,13 @@ static void command_execution(t_tree *tree, int flag, char **PWD, char **OLDPWD,
         no_pipe_execution(tree->data.argv, PWD, OLDPWD, environ, status);
 }
 
+// void recursion(t_tree *tree, t_env_var **env_vars)
+// {
+//     if(!env_vars)
+//         return;
+//     (void)tree;
+//     *((*env_vars)->env_flag)=1;
+// }
 void recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status)
 {   
     static int flag;

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 06:04:44 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:01:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void cd_errno_handling(int ernum, char *path)
 {
-	if(errno == ENOTDIR)
+	if(ernum == ENOTDIR)
 		printf("bash: cd: %s: Not a directory\n", path);
-	else if(errno == EACCES)
+	else if(ernum == EACCES)
 		printf("cd: permission denied: %s", path);
-	else if(errno == ENOENT)
+	else if(ernum == ENOENT)
 		printf("bash: cd: %s: No such file or directory\n", path);
 }
 void changing_nodes(t_environ **environ, char *var , char *new_value)

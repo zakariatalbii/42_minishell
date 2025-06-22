@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 05:58:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/21 23:00:25 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static void new_path_cd(t_environ **environ, char *new, char **PWD, char **OLDPW
     char *new_path;
 	int	 flag;
 	
+	flag = 0;
 	if(!chdir(new))
 	{
 		new_path = getcwd(NULL,0);

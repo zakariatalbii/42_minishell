@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/21 08:43:42 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/22 02:10:55 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int		ft_status(int s);
 
 /* **************** exec **************** */
 
-# define PATH_ "/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/wnid-hsa/.local/bin"
+# define PATH_ "/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:"
 
 typedef struct s_environ
 {
@@ -138,6 +138,14 @@ typedef struct s_environ
 	struct s_environ	*next;
 }	t_environ;
 
+typedef struct s_env_var
+{
+	char				*pwd;
+	char 				*oldpwd;
+	int					*status;
+	int					*env_flag;
+}	t_env_var;
+
 int		ft_strcmp(const char *s1, const char *s2);
 void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD, int *status);
 void	echo_execution(char **command, int *status);
@@ -146,7 +154,7 @@ t_environ	*ft_lstnew_environ(char *str);
 void	ft_lstadd_back_environ(t_environ **lst, t_environ *new);
 t_environ	*making_the_environ_struct(int *flag, char *pwd);
 void	pwd_execution(char **command, char **PWD, int *status);
-// void	recursion(t_tree *tree, char **pwd, char **OLDPWD);
+// void	recursion(t_tree *tree, t_env_var **env_vars);
 void	recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status);
 void	unset_executing(char **command, t_environ **environ, int *status);
 int		is_the_var_in_environ(char *variable, t_environ *environ);
@@ -165,7 +173,6 @@ void	changing_nodes(t_environ **environ, char *var, char *new_value);
 int 	check_existans_and_permisisons(char *command, int *status);
 void	external_commands_execution(char **command, t_environ **environ, int *status);
 char	**potential_path(char *command);
-// void	execution_entery(char **command, char **PWD, char **OLDPWD);
 void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
 void	error_handling(int return_value,char *failed_function);
 void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
@@ -178,7 +185,8 @@ void	executing_env(t_environ **environ,int *status);
 void	export_execution(char **command, t_environ **environ, char **PWD, int *status);
 void	cd_errno_handling(int ernum, char *path);
 char 	*restore_user(char *pwd);
-void	restore_path(char *pwd);
+char	*restore_path(char *pwd);
+void	restore_variables(t_environ **s_environ, char *pwd);
 /* ************************************** */
 
 #endif

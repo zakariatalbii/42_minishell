@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 07:52:26 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/22 01:13:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,7 @@ void no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *env
 {
     
     int built_in;
-    int *flag;
-
-    if(!environ)
-        environ = making_the_environ_struct(flag, *PWD);
+    
     built_in = 0;
     if(!command)
         return;
