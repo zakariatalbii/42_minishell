@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 04:15:13 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:11:17 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void changing_nodes(t_environ **environ, char *var , char *new_value)
 	while(tmp)
 	{
 		if(!strcmp(tmp->var, var))
-			tmp->value = ft_strdup(new_value);
+			tmp->value = custom_strdup(new_value,1);
 		tmp = tmp->next;
 	}
 }
@@ -41,9 +41,9 @@ char *telda_full_path(char *telda_path)
 	
 	if(!telda_path)
 	{
-		telda_full_path = ft_strjoin("/home/wnid-hsa", telda_path);
+		telda_full_path = custom_strjoin("/home/wnid-hsa", telda_path, 1);
 	}
-	telda_full_path = ft_strjoin("/home/wnid-hsa", telda_path + 1);
+	telda_full_path = custom_strjoin("/home/wnid-hsa", telda_path + 1, 1);
 	if(!telda_full_path)
 		return(NULL);
 	else
@@ -67,8 +67,8 @@ void  cd_oldpwd(t_environ **environ, t_env_var **env_vars)
 	{
 		changing_nodes(environ,"OLDPWD", (*env_vars)->pwd);
 		changing_nodes(environ,"PWD", (*env_vars)->oldpwd);
-		(*env_vars)->pwd = ft_strdup((*env_vars)->oldpwd);
-		(*env_vars)->oldpwd = ft_strdup(old_pwd);
+		(*env_vars)->pwd = custom_strdup((*env_vars)->oldpwd, 1);
+		(*env_vars)->oldpwd = custom_strdup(old_pwd, 1);
 		printf("%s\n", (*env_vars)->pwd);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 03:51:22 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:28:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void   restore_environ(t_environ **s_environ, t_env_var **env_vars)
     t_environ *new;
     char      *tmp;
 
-    tmp = ft_strjoin("PWD=",(*env_vars)->pwd);
+    tmp = custom_strjoin("PWD=",(*env_vars)->pwd, 1);
     if(tmp)
     {
         new = ft_lstnew_environ(tmp);
@@ -57,7 +57,12 @@ t_environ *making_the_environ_struct(int *flag, t_env_var **env_vars)
         while(environ[i])
         {
             if(!strcmp(environ[i],restore_path(restore_user((*env_vars)->pwd))))
+            {
+                *((*env_vars)->export_PATH)=1;
+                *((*env_vars)->export_OLDPWD)=1;
+                *((*env_vars)->export_)=1;
                 *flag = 1;
+            }
             new = ft_lstnew_environ(environ[i]);
             ft_lstadd_back_environ(&s_environ, new);
             i++;

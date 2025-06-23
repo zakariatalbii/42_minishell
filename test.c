@@ -6,12 +6,29 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/23 02:29:52 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:50:20 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void path_initialiation(t_env_var **env_vars)
+{
+	t_environ *new;
+    char      *user;
+    char      *path;
+	
+	if(restore_user((*env_vars)->pwd))
+    {
+        if(restore_path((*env_vars)->pwd))
+        {
+            user=restore_user((*env_vars)->pwd);
+            path =restore_path(user);
+            new = ft_lstnew_environ(path);
+            (*env_vars)->PATH=new->value;
+		}
+	}
+}
 void export_flags_initialization(t_env_var **env_vars)
 {
 	(*env_vars)->export_PATH = (int *)malloc(sizeof(int));
@@ -23,6 +40,8 @@ void export_flags_initialization(t_env_var **env_vars)
 	(*env_vars)->export_OLDPWD=(int *)malloc(sizeof(int));
 	if((*env_vars)->export_OLDPWD)
 		*((*env_vars)->export_OLDPWD)=0;
+	path_initialiation(env_vars);
+	
 }
 t_env_var	*env_var_initialization(void)
 {

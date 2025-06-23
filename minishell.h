@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/23 08:45:14 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:19:19 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ typedef struct s_local_trash
 typedef struct s_global_trash
 {
 	void			*point;
-	struct s_golbal_trash	*next;
+	struct s_global_trash	*next;
 }					t_global_trash;
 
 
@@ -232,7 +232,10 @@ int 	count_lengh_var_str_export(char *str);
 void 	handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_vars);
 void 	export_printing_conditions(t_environ *current, t_env_var **env_vars);
 void   	printing_export(t_environ *current);
-
+void 	*gc_malloc(size_t size, int pid);
+char	*custom_strjoin(const char *s1, const char *s2, int pid);
+char	**custom_split(const char *s, char c, int pid);
+char	*custom_strdup(const char	*s1, int pid);
 
 /* ************************************** */
 

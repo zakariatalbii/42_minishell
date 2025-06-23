@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:53:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 05:06:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:52:28 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ char *restore_user(char *pwd)
     char *join;
     char *tmp;
 
-	splited_pwd = ft_split(pwd,'/');
+	splited_pwd = custom_split(pwd,'/',1);
 	if(!splited_pwd)
 		return(NULL);
-	tmp = ft_strjoin("/", splited_pwd[0]);
+	tmp = custom_strjoin("/", splited_pwd[0],1);
     if(!tmp)
         return(NULL);
-    join = ft_strjoin(tmp,"/");
+    join = custom_strjoin(tmp,"/", 1);
     if(!join)
         return(NULL);
-    tmp = ft_strjoin(join, splited_pwd[1]);
+    tmp = custom_strjoin(join, splited_pwd[1],1);
     if(!tmp)
         return(NULL);
     else
@@ -39,16 +39,16 @@ char *restore_path(char *user)
     char    *path;
     char    *tmp;
     
-    tmp = ft_strjoin("PATH=",user);
+    tmp = custom_strjoin("PATH=",user,1);
     if(!tmp)
         return(NULL);
-    path = ft_strjoin(tmp, PATH_);
+    path = custom_strjoin(tmp, PATH_,1);
     if(!path)
         return(NULL);
-    tmp = ft_strjoin(path,user);
+    tmp = custom_strjoin(path,user,1);
     if(!tmp)
         return(NULL);
-    path = ft_strjoin(tmp, "/.local/bin");
+    path = custom_strjoin(tmp, "/.local/bin",1);
     return(path);
 }
 void restore_variables(t_environ **s_environ, t_env_var **env_vars)

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 05:16:39 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:54:06 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ static char *path_extraction(t_environ *environ ,t_env_var **env_vars)
 		if(!strcmp(environ->var,"PATH"))
 		{
 			if(!strcmp(environ->value, (*env_vars)->PATH))
+			{
 				return(environ->value);
+			}
 			else
 				return(NULL);
 		}
@@ -67,19 +69,13 @@ static char	**allocate_double_char(char *str, char c, char *command)
 
 	if (!str)
 		return (NULL);
-	ptr = (char **)malloc(sizeof(char *) * (count_words(str, c) + 1));
+	ptr = (char **)gc_malloc(sizeof(char *) * (count_words(str, c) + 1), 0);
 	if (!ptr || command == NULL)
 		return (NULL);
 	(1 && (i = 0), (j = 0));
 	while (j < count_words(str, c))
 	{
-		ptr[j] = (char *)malloc(count_lengh_of_str(str, c, &i) + ft_strlen(command) + 2);
-		if (!ptr[j])
-		{
-			while (--j >= 0)
-				free(ptr[j]);
-			return (free(ptr), NULL);
-		}
+		ptr[j] = (char *)gc_malloc(count_lengh_of_str(str, c, &i) + ft_strlen(command) + 2, 0);
 		j++;
 	}
 	ptr[j] = NULL;
@@ -94,20 +90,23 @@ char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars)
 	char 	*join;
 	int		i;
 	
+	
 	PATH = path_extraction(*environ ,env_vars);
 	if(PATH == NULL)
 		return(NULL);
-	splited_path = ft_split(PATH,':');
+	splited_path = custom_split(PATH,':', 0);
 	if(splited_path == NULL)
+	{	
 		return (NULL);
+	}
 	potential_paths = allocate_double_char(PATH,':',command);
 	i = 0;
 	while(splited_path[i] != NULL)
 	{
-		join = ft_strjoin(splited_path[i],"/");
+		join = custom_strjoin(splited_path[i],"/", 0);
 		if(!join)
 			return(NULL);
-		potential_paths[i] = ft_strjoin(join, command);
+		potential_paths[i] = custom_strjoin(join, command, 0);
 		i++;
 	}
 	return(potential_paths);

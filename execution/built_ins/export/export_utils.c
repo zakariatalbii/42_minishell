@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 03:29:44 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:56:52 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ char **splited_export_command(char *str)
     lengh_var_str = count_lengh_var_str_export(str);
     if(!str)
         return(NULL);
-    splited_char = (char **)malloc(4*sizeof(char *));
+    splited_char = (char **)gc_malloc(4*sizeof(char *),1);
     if(!splited_char)
         return(NULL);
-    splited_char[0] =(char *)malloc((size_t)(lengh_var_str + 1));
+    splited_char[0] =(char *)gc_malloc((size_t)(lengh_var_str + 1),1);
     if(splited_char[0])
         fill_in_var(&splited_char[0], str);
     return(splited_char);
@@ -69,10 +69,10 @@ char  **split_environ(char *str)
     lengh_var_str = count_lengh_var_str_export(str);
     splited_char = splited_export_command(str);
     if(str[lengh_var_str] == '=')
-        splited_char[1] = ft_strdup("=");
+        splited_char[1] = custom_strdup("=",1);
     else if(str[lengh_var_str] == '+')
     {
-        splited_char[1] = ft_strdup("+=");
+        splited_char[1] = custom_strdup("+=",1);
         lengh_var_str = lengh_var_str + 1;
     }
     else
@@ -81,7 +81,7 @@ char  **split_environ(char *str)
         splited_char[2] = NULL;
         return(splited_char);
     }
-    splited_char[2]= ft_strdup(str + lengh_var_str + 1);
+    splited_char[2]= custom_strdup(str + lengh_var_str + 1,1);
     splited_char[3] = NULL ;
     if(!splited_char[0] || !splited_char[1] || !splited_char[2])
         return(NULL);

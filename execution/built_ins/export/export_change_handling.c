@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 03:25:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 09:54:08 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void replace_node(t_environ **new, t_environ **environ)
             tmp = (tmp->next)->next;
             if(!strcmp((*new)->operator, "+="))
             {
-                new_value = ft_strjoin((current->next)->value, (*new)->value);
+                new_value = custom_strjoin((current->next)->value, (*new)->value,1);
                 if(!new_value)
                     return;
                 (*new)->value = new_value;
@@ -51,7 +51,7 @@ void handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_
     else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
         return;
     if(!ft_strcmp((*new)->var,"PWD"))
-        (*env_vars)->pwd =ft_strdup((*new)->value);
+        (*env_vars)->pwd =custom_strdup((*new)->value, 1);
     replace_node(new, environ); 
 }
 

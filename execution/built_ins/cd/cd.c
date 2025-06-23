@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 05:11:34 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:04:10 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static void cd_home(t_environ **environ, t_env_var **env_vars)
     HOME = getenv("HOME");
 	if(!chdir(HOME))
 	{
-		(*env_vars)->oldpwd = ft_strdup((*env_vars)->pwd);
+		(*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
 		changing_nodes(environ, "OLDPWD",(*env_vars)->pwd);
-		(*env_vars)->pwd = ft_strdup(HOME);
+		(*env_vars)->pwd = custom_strdup(HOME,1);
 		changing_nodes(environ,"PWD", HOME);
 		*((*env_vars)->status) = 0;
 	}
@@ -44,10 +44,10 @@ static char *get_deleted_path_gain(char *PWD, char *new)
 	char *deleted_path;
 
 	char *pwd_for_path;
-	pwd_for_path = ft_strjoin(PWD, "/");
+	pwd_for_path = custom_strjoin(PWD, "/",1);
 	if(!pwd_for_path)
 		return (NULL);
-	deleted_path = ft_strjoin(pwd_for_path, new);
+	deleted_path = custom_strjoin(pwd_for_path, new,1);
 	if(!deleted_path)
 		return(NULL);
 	else
@@ -69,7 +69,7 @@ static void new_path_cd(t_environ **environ, char *new, t_env_var **env_vars)
 			*((*env_vars)->status) = 1;
 			flag = 1;
 		}
-		(*env_vars)->oldpwd = ft_strdup((*env_vars)->pwd);
+		(*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
 		changing_nodes(environ, "OLDPWD",(*env_vars)->pwd);
 		(*env_vars)->pwd = new_path;
 		changing_nodes(environ,"PWD", new_path);
