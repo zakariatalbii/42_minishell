@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 07:30:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 05:16:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,21 @@ int	count_lengh_of_str(char *str, char c, int *i)
 	}
 	return(lengh);
 }
+static char *path_extraction(t_environ *environ ,t_env_var **env_vars)
+{
+	while(environ)
+	{
+		if(!strcmp(environ->var,"PATH"))
+		{
+			if(!strcmp(environ->value, (*env_vars)->PATH))
+				return(environ->value);
+			else
+				return(NULL);
+		}
+		environ =environ->next;
+	}
+	return(NULL);
+}
 
 static char	**allocate_double_char(char *str, char c, char *command)
 {
@@ -71,15 +86,15 @@ static char	**allocate_double_char(char *str, char c, char *command)
 	return (ptr);
 }
 
-char	**potential_path(char *command)
+char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars)
 {
 	char	*PATH;
 	char	**splited_path;
 	char 	**potential_paths;
 	char 	*join;
 	int		i;
-
-	PATH = getenv("PATH");
+	
+	PATH = path_extraction(*environ ,env_vars);
 	if(PATH == NULL)
 		return(NULL);
 	splited_path = ft_split(PATH,':');
@@ -98,12 +113,12 @@ char	**potential_path(char *command)
 	return(potential_paths);
 }
 
-int  check_existans_and_permisisons(char *command, int *status)
+int  check_existans_and_permisisons(t_environ **environ,char *command, t_env_var **env_vars)
 {
 	int	i;
 	char 	**potential_paths;
 
-	potential_paths=potential_path(command);
+	potential_paths=potential_path(environ, command, env_vars);
 	if(!potential_paths)
 		return(-1);
 	i = 0;
@@ -116,13 +131,13 @@ int  check_existans_and_permisisons(char *command, int *status)
 			else
 			{
 				printf("permission denied");
-				*status = 126;
+				*((*env_vars)->status) = 126;
 				return(-1);
 			}
 		}
 		i++;
 	}
-	*status = 127;
+	*((*env_vars)->status) = 127;
 	printf("bash: %s: command not found\n", command);
 	return(-1);
 }

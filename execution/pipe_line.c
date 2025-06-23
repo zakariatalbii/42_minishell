@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 06:06:03 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 06:32:12 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,6 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     error_handling(close(fd[1]), "close");
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
-    
-    // Extract the actual exit code from the status
-    // The status from waitpid includes more than just the exit code
     if (status_2 != 0) {
         *(*(env_vars))->status = status_2 >> 8;  // CHANGED: Extract exit code from status_2
     } else {
@@ -90,7 +87,7 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
             pid = fork();
             error_handling(pid, "close");
             if(pid == 0)
-                external_commands_execution(tree->data.argv,&environ, (*env_vars)->status);
+                external_commands_execution(tree->data.argv,&environ, env_vars);
             waitpid(pid,&status_1,0);
             if (status_1 != 0) 
                 *(*(env_vars))->status = status_1 >> 8;  // CHANGED: Extract exit code from status_2

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 02:01:54 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 03:25:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void replace_node(t_environ **new, t_environ **environ)
     }
 }
 
-static void handling_new_changes(t_environ **new, t_environ **environ, char **PWD)
+void handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_vars)
 { 
     if(!*new)
         return;
@@ -51,7 +51,7 @@ static void handling_new_changes(t_environ **new, t_environ **environ, char **PW
     else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
         return;
     if(!ft_strcmp((*new)->var,"PWD"))
-        *PWD =ft_strdup((*new)->value);
+        (*env_vars)->pwd =ft_strdup((*new)->value);
     replace_node(new, environ); 
 }
 
@@ -82,67 +82,45 @@ static int input_struct_handling(char *arg, int *status)
         }
         return(0);
 }
-
-// void make_export_struct(char **command, t_environ **environ) {
-//     t_environ *new;
-//     int i = 1;
-
-//     while (command[i]) 
-//     {
-//         if (valid_position_export(command[i])) {
-//             if (input_struct_handling(command[i])) {
-//                 i++;
-//                 continue;
-//             }
-//             new = ft_lstnew_environ(command[i]);
-//             if (is_the_var_in_environ(new->var, *environ)) {
-//                 handling_new_changes(&new, environ);
-//             } else {
-//                 ft_lstadd_back_environ(environ, new);
-//             }
-//         } else {
-//             printf("syntax error!\n");
-//         }
-//         if (command[i] && command[i][0])
-//             i++;
-//     }
-// }
-
-
-void make_export_struct(char **command, t_environ **environ, char **PWD, int *status)
+static void command_handling( int *flag, char **command, t_environ **environ , t_env_var **env_vars)
 {
     t_environ *new;
+    int i;
+    
+    (1 &&(i = 1 ));
+    while(command && command[i])
+    {
+        if(valid_position_export(command[i], (*env_vars)->status))
+        {
+            if(input_struct_handling(command[i], (*env_vars)->status))
+            {   
+                *flag = 1;
+                i++;
+                continue;
+            }
+                new = ft_lstnew_environ(command[i]);
+                export_flags_apdate(environ ,new,env_vars);
+        }
+            else
+            {
+                *((*env_vars)->status) = 1;
+                printf("bash: export: '%s': not a valid identifier\n", command[i]);
+        }
+            i++;
+    }
+}
+void make_export_struct(char **command, t_environ **environ, t_env_var **env_vars)
+{
+    
     int count ;
     int i;
     int flag;
     
-   (1 && (count = 0), (i = 1 ), (flag = 1));
+   (1 && (count = 0), (i = 1 ), (flag = 0));
     if(command)
     {
-        while(command[i])
-        {
-            if(valid_position_export(command[i], status))
-            {
-                if(input_struct_handling(command[i], status))
-                {   
-                    flag = 1;
-                    i++;
-                    continue;
-                }
-                new = ft_lstnew_environ(command[i]);
-                if(is_the_var_in_environ(new->var, *environ))
-                    handling_new_changes(&new, environ, PWD);
-                else
-                    ft_lstadd_back_environ(environ, new);
-            }
-            else
-            {
-                *status = 1;
-                printf("bash: export: '%s': not a valid identifier\n", command[i]);
-            }
-            i++;
-        }
+        command_handling(&flag, command, environ , env_vars);
         if(flag == 0)
-            *status = 0;
+            *((*env_vars)->status) = 0;
     }
 }

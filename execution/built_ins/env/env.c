@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 06:16:43 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 03:51:22 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,18 @@ static int env_when_restoring(t_environ *current)
     return(0);
 }
 
-void   restore_environ(t_environ **s_environ, char *pwd, int flag)
+void   restore_environ(t_environ **s_environ, t_env_var **env_vars)
 {
     t_environ *new;
     char      *tmp;
 
-    (void)flag;
-    tmp = ft_strjoin("PWD=",pwd);
+    tmp = ft_strjoin("PWD=",(*env_vars)->pwd);
     if(tmp)
     {
         new = ft_lstnew_environ(tmp);
         ft_lstadd_back_environ(s_environ, new);
     }
-    restore_variables(s_environ, pwd);
+    restore_variables(s_environ, env_vars);
 }
 static void   printing_env(t_environ *current)
 {
@@ -65,11 +64,11 @@ t_environ *making_the_environ_struct(int *flag, t_env_var **env_vars)
         }
         if(*flag == 0)
         {
-            *(*env_vars)->env_flag = 1;
+            *((*env_vars)->env_flag) = 1;
             s_environ = NULL;
            new = ft_lstnew_environ("OLDPWD=");
             ft_lstadd_back_environ(&s_environ, new);
-           restore_environ(&s_environ, (*env_vars)->pwd,*(*env_vars)->env_flag);
+           restore_environ(&s_environ, env_vars);
         }
     } 
     return(s_environ);
@@ -92,7 +91,20 @@ void executing_env(t_environ **environ, t_env_var **env_vars)
                     printing_env(current);
             }      
             else
-                printing_env(current);
+            {
+                if(!strcmp(current->var, "PATH"))
+                {
+                    if(*((*env_vars)->export_PATH) == 1)
+                        printing_env(current);
+                }
+                else if(!strcmp(current->var, "OLDPWD"))
+                {
+                    if(*((*env_vars)->export_OLDPWD) == 1)
+                        printing_env(current);
+                }
+                else
+                     printing_env(current);
+            }
         }
         current= current->next;
     }

@@ -6,12 +6,24 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/22 04:34:55 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 02:29:52 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void export_flags_initialization(t_env_var **env_vars)
+{
+	(*env_vars)->export_PATH = (int *)malloc(sizeof(int));
+	if((*env_vars)->export_PATH)
+		*((*env_vars)->export_PATH) = 0;
+	(*env_vars)->export_ = (int *)malloc(sizeof(int));
+	if((*env_vars)->export_ )
+		*((*env_vars)->export_) = 0;
+	(*env_vars)->export_OLDPWD=(int *)malloc(sizeof(int));
+	if((*env_vars)->export_OLDPWD)
+		*((*env_vars)->export_OLDPWD)=0;
+}
 t_env_var	*env_var_initialization(void)
 {
 	t_env_var *env_vars;
@@ -31,6 +43,7 @@ t_env_var	*env_var_initialization(void)
 			env_vars->pwd = ft_strdup(getcwd(NULL,0));
 		if(getenv("OLDPWD"))
 			env_vars->oldpwd = ft_strdup(getenv("OLDPWD"));
+		export_flags_initialization(&env_vars);
 		return(env_vars);
 	}
 }

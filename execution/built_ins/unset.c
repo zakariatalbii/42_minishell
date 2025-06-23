@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/21 23:00:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 06:24:04 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int unsetting_input_parsing(char *variable, t_environ **environ)
     return(0);
 }
 
-void unset_executing(char **command, t_environ **environ, int *status)
+void unset_executing(char **command, t_environ **environ, t_env_var **env_vars)
 {
     
     // printf("%s\n",command[1]);
@@ -79,17 +79,17 @@ void unset_executing(char **command, t_environ **environ, int *status)
         {
             printf("bash: unset: %c%c: invalid option\n", command[1][0],command[1][1]);
             printf("unset: usage: unset [-f] [-v] [-n] [name ...]\n");
-            *status = 2;
+            *((*env_vars)->status) = 2;
             return;
         }
         if(ft_strcmp(command[1],"_") &&  unsetting_input_parsing(command[1], environ))
         {
             unsetting_input(command[1], environ);
-            *status = 0;
+            *((*env_vars)->status) = 0;
         }
         else
         {
-            *status = 0;
+            *((*env_vars)->status) = 0;
             return;
         }
     }

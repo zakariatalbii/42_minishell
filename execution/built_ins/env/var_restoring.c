@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:53:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 00:53:41 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 05:06:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char *restore_path(char *user)
     path = ft_strjoin(tmp, "/.local/bin");
     return(path);
 }
-void restore_variables(t_environ **s_environ, char *pwd)
+void restore_variables(t_environ **s_environ, t_env_var **env_vars)
 {
     t_environ *new;
     char      *user;
@@ -61,13 +61,14 @@ void restore_variables(t_environ **s_environ, char *pwd)
     ft_lstadd_back_environ(s_environ, new);
     new = ft_lstnew_environ("_=/usr/bin/env");
     ft_lstadd_back_environ(s_environ, new);
-    if(restore_user(pwd))
+    if(restore_user((*env_vars)->pwd))
     {
-        if(restore_path(pwd))
+        if(restore_path((*env_vars)->pwd))
         {
-            user=restore_user(pwd);
+            user=restore_user((*env_vars)->pwd);
             path =restore_path(user);
-            new = ft_lstnew_environ(restore_path(pwd));
+            new = ft_lstnew_environ(path);
+            (*env_vars)->PATH=new->value;
             ft_lstadd_back_environ(s_environ, new);
         }
     }

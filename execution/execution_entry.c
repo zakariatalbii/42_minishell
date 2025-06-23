@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 05:24:46 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 06:22:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,17 @@ void execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env
         cd_execution(command,s_environ, env_vars);
     else if(!ft_strcmp(command[0], "pwd"))
         pwd_execution(command,env_vars);
-    // else if(!ft_strcmp(command[0], "export"))
-    //     export_execution(command, s_environ, PWD, status);
+    else if(!ft_strcmp(command[0], "export"))
+        export_execution(command, s_environ, env_vars);
     else if(!ft_strcmp(command[0], "env"))
         executing_env(s_environ, env_vars);
-    // else if(!ft_strcmp(command[0], "unset"))
-    //     unset_executing(command, s_environ, status);
-    // else if(!ft_strcmp(command[0], "exit"))
-    // {
-    //     printf("\nexit status: %d\n", *status);
-    //     // exit_executing("exit");
-    // }  
+    else if(!ft_strcmp(command[0], "unset"))
+        unset_executing(command, s_environ, env_vars);
+    else if(!ft_strcmp(command[0], "exit"))
+    {
+        printf("\nexit status: %d\n", *((*env_vars)->status));
+        // exit_executing("exit");
+    }  
 }
 
 void no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars)
@@ -81,6 +81,6 @@ void no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars)
     if(built_in == 1)
         execute_the_builtin(command, &environ, env_vars);
     else
-        external_commands_execution(command,&environ, (*env_vars)->status);
+        external_commands_execution(command,&environ, env_vars);
         
 }
