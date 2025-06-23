@@ -6,11 +6,11 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:35:09 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 08:40:41 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:24:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../minishell.h"
+#include "../../minishell.h"
 
 
 int	count_words(const char *s, char c)

@@ -6,11 +6,11 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:52:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 09:19:55 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:24:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../../minishell.h"
+#include "../../minishell.h"
 
 char	*custom_strdup(const char	*s1, int pid)
 {

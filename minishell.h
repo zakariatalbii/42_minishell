@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/23 09:19:19 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:23:26 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,8 @@ void 	*gc_malloc(size_t size, int pid);
 char	*custom_strjoin(const char *s1, const char *s2, int pid);
 char	**custom_split(const char *s, char c, int pid);
 char	*custom_strdup(const char	*s1, int pid);
+void 	free_global_garbage(t_global_trash **global_trash);
+void 	free_local_garbage(t_local_trash **local_trash);
 
 /* ************************************** */
 
