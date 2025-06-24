@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/24 12:26:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:16:23 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,7 +201,7 @@ void 	external_commands_execution(char **command,t_environ **environ, t_env_var 
 // char	**potential_path(char *command);
 char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars);
 // void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
-void	no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars);
+void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars);
 void	error_handling(int return_value,char *failed_function);
 // void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
 void	infile_handling(t_tree *tree, t_env_var **env_vars);
@@ -213,7 +213,7 @@ void	heredoc_handling(t_tree *tree, t_env_var **env_vars);
 // void	append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
 void	append_handling(t_tree *tree, t_env_var **env_vars);
 // void 	execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status);
-void	execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env_vars);
+void	execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_vars);
 int  	is_built_in(char **command);
 // void	executing_env(t_environ **environ,int *status);
 void 	executing_env(t_environ **environ, t_env_var **env_vars);
@@ -238,8 +238,8 @@ char	**custom_split(const char *s, char c, int pid);
 char	*custom_strdup(const char	*s1, int pid);
 void 	free_global_garbage(t_global_trash **global_trash);
 void 	free_local_garbage(t_local_trash **local_trash);
-void 	exit_execution(char **command ,t_env_var **env_vars);
-void 	exiting(t_env_var **env_vars, int exit_printing);
+void 	exit_execution(t_tree *tree,t_env_var **env_vars);
+void 	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing);
 
 /* ************************************** */
 

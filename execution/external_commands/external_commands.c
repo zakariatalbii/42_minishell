@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 10:42:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:31:18 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
     if(flag != -1 )
     {
         execve(potential_paths[flag], command, NULL);
-    }
-    else
-    {
-        printf("path_error\n");
+        if(!execve(potential_paths[flag], command, NULL))
+        {
+            gc_malloc(0,0);
+            exit(*((*env_vars)->status));
+        }
     }
 }

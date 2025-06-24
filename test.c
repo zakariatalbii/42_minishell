@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/24 11:17:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:03:08 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void path_initialiation(t_env_var **env_vars)
 }
 void export_flags_initialization(t_env_var **env_vars)
 {
-	(*env_vars)->export_PATH = (int *)malloc(sizeof(int));
+	(*env_vars)->export_PATH = (int *)gc_malloc(sizeof(int),1);
 	if((*env_vars)->export_PATH)
 		*((*env_vars)->export_PATH) = 0;
-	(*env_vars)->export_ = (int *)malloc(sizeof(int));
+	(*env_vars)->export_ = (int *)gc_malloc(sizeof(int),1);
 	if((*env_vars)->export_ )
 		*((*env_vars)->export_) = 0;
-	(*env_vars)->export_OLDPWD=(int *)malloc(sizeof(int));
+	(*env_vars)->export_OLDPWD=(int *)gc_malloc(sizeof(int),1);
 	if((*env_vars)->export_OLDPWD)
 		*((*env_vars)->export_OLDPWD)=0;
 	path_initialiation(env_vars);
@@ -48,28 +48,26 @@ t_env_var	*env_var_initialization(void)
 	t_env_var *env_vars;
 	char *var;
 
-	env_vars = malloc(sizeof(t_env_var));
+	env_vars = gc_malloc(sizeof(t_env_var),1);
 	if(!env_vars)
 		return(NULL);
 	else
 	{
-		env_vars->env_flag = (int *)malloc(sizeof(int));
+		env_vars->env_flag = (int *)gc_malloc(sizeof(int),1);
 		if(env_vars->env_flag)
 			*(env_vars->env_flag) = 0;
-		env_vars->status = (int *)malloc(sizeof(int));
+		env_vars->status = (int *)gc_malloc(sizeof(int),1);
 		if(env_vars->status)
 			*(env_vars->status) = 0;
 		var = getcwd(NULL,0);
 		if(var)
 		{
-			env_vars->pwd = ft_strdup(var);
+			env_vars->pwd = custom_strdup(var,1);
 			free(var);
 		}
-		if(getenv("OLDPWD"))
-		{
-			var = getenv("OLDPWD");
-			env_vars->oldpwd = ft_strdup(var);
-		}
+		var = getenv("OLDPWD");
+		if(var)
+			env_vars->oldpwd = custom_strdup(var,1);
 		export_flags_initialization(&env_vars);
 		return(env_vars);
 	}
@@ -80,37 +78,25 @@ int	main(void)
 	char *line;
 	t_env_var *env_vars;
 	
-	// static char *PWD;
-	// static char *OLDPWD;
-	
-	env_vars = env_var_initialization();
-	// printf("%d\n", env_vars->env_flag);
-	// printf("%d\n", env_vars->status);
-	// printf("%s\n", env_vars->pwd);
-	// printf("%s\n", env_vars->oldpwd);
-	
+	env_vars = env_var_initialization();	
 	char	*prompt;
-	// static int *status;
-
-    // if(!status)
-    // {
-    //     status = malloc(sizeof(int));
-    //     *status = 0;
-    // }
-	// PWD = getcwd(NULL,0);
-	// OLDPWD = getenv("OLDPWD");
-	
 	while (1)
 	{	
 		prompt = custom_strjoin(env_vars->pwd, "> ", 1);
 		line = readline(prompt);
 		if (!line)
+		{
+			printf("Free\n");
+			gc_malloc(0, 0);
+			gc_malloc(0, 1);
 			break ;
+		}
 		add_history(line);
 		tree = ft_parser(line, 1337);
 		recursion(tree, &env_vars);
 		ft_free_tree(tree);
 		free(line);
+		gc_malloc(0, 0);
 	}
 	rl_clear_history();
 	exit(0);

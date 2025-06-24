@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:52:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 11:24:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 15:46:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ char	*custom_strdup(const char	*s1, int pid)
 
 	ptr = (char *)gc_malloc(ft_strlen(s1) + 1, pid);
 	if (ptr == NULL)
-	{
 		return (NULL);
-	}
 	ptr = ft_memcpy(ptr, s1, ft_strlen(s1));
 	ptr[ft_strlen(s1)] = '\0';
 	return (ptr);

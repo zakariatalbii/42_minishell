@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 10:56:10 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:19:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ int  is_built_in(char **command)
         
 }
 
-void execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env_vars)
+void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_vars)
 {
+    char    **command = tree->data.argv;
+    
     if(!ft_strcmp(command[0], "echo"))
         echo_execution(command, (*env_vars)->status);
     else if(!ft_strcmp(command[0], "cd"))
@@ -64,14 +66,13 @@ void execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env
         unset_executing(command, s_environ, env_vars);
     else if(!ft_strcmp(command[0], "exit"))
     {
-        // printf("\nexit status: %d\n", *((*env_vars)->status));
-        exit_execution(command, env_vars);
+        exit_execution(tree, env_vars);
     }  
 }
 
-void no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars)
+void no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars)
 {
-    
+    char **command = tree->data.argv;
     int built_in;
     
     built_in = 0;
@@ -79,8 +80,8 @@ void no_pipe_execution(char **command, t_environ *environ, t_env_var **env_vars)
         return;
     built_in = is_built_in(command);
     if(built_in == 1)
-        execute_the_builtin(command, &environ, env_vars);
+        execute_the_builtin(tree, &environ, env_vars);
     else
-        external_commands_execution(command,&environ, env_vars);
+        external_commands_execution(command, &environ, env_vars);
         
 }
