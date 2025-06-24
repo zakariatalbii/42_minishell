@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 06:32:12 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:48:00 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void error_handling(int return_value,char *failed_function)
             perror("dup failed\n");
         if(!strcmp(failed_function, "open"))
             perror("open failed\n");
+        gc_malloc(0,0);
         exit(1);
     }
 } 

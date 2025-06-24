@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 09:54:08 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:35:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void command_handling( int *flag, char **command, t_environ **environ , t
     t_environ *new;
     int i;
     
-    (1 &&(i = 1 ));
+    i = 1 ;
     while(command && command[i])
     {
         if(valid_position_export(command[i], (*env_vars)->status))
@@ -112,11 +112,9 @@ static void command_handling( int *flag, char **command, t_environ **environ , t
 void make_export_struct(char **command, t_environ **environ, t_env_var **env_vars)
 {
     
-    int count ;
-    int i;
     int flag;
-    
-   (1 && (count = 0), (i = 1 ), (flag = 0));
+     
+   flag = 0;
     if(command)
     {
         command_handling(&flag, command, environ , env_vars);

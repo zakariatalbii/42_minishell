@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 10:54:06 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:36:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static char	**allocate_double_char(char *str, char c, char *command)
 	ptr = (char **)gc_malloc(sizeof(char *) * (count_words(str, c) + 1), 0);
 	if (!ptr || command == NULL)
 		return (NULL);
-	(1 && (i = 0), (j = 0));
+	i = 0;
+	j = 0;
 	while (j < count_words(str, c))
 	{
 		ptr[j] = (char *)gc_malloc(count_lengh_of_str(str, c, &i) + ft_strlen(command) + 2, 0);

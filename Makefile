@@ -13,13 +13,13 @@ SRC = show_the_tree.c \
 		execution/built_ins/export/export_change_handling.c execution/built_ins/cd/cd_extra.c \
 		execution/external_commands/external_helpers.c execution/external_commands/external_commands.c execution/pipe_line.c \
 		execution/redirection.c execution/built_ins/export/export_utils.c execution/allocation_freeing/custom_split.c \
-		execution/allocation_freeing/custom_strjoin.c execution/allocation_freeing/gc_malloc.c \
+		execution/allocation_freeing/custom_strjoin.c execution/allocation_freeing/gc_malloc.c execution/built_ins/exit/exit.c \
 
 OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -Wall -Wextra -Werror #-fsanitize=address
+CC = cc  -fsanitize=address # -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)

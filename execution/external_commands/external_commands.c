@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 11:27:27 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:42:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
     {
         printf("bash: No such file or directory\n");
         *((*env_vars)->status)=127;
+        gc_malloc(0,0);
         exit(*((*env_vars)->status));
     }
     flag = check_existans_and_permisisons(environ, command[0], env_vars);
     if(flag == -1)
+    {
+        gc_malloc(0,0);
         exit(*((*env_vars)->status));
+    }
     if(flag != -1 )
     {
         execve(potential_paths[flag], command, NULL);

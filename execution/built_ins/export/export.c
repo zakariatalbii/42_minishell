@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 03:31:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:26:27 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,8 @@ static void export_no_arg(t_environ **environ, t_env_var **env_vars)
 
 void export_execution(char **command, t_environ **environ, t_env_var **env_vars)
 {
-    int i;
-
     if(command)
     {
-        i = 1;
         if(!command[1])
         {
             export_no_arg(environ, env_vars);

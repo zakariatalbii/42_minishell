@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 10:28:39 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:33:24 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_environ *making_the_environ_struct(int *flag, t_env_var **env_vars)
     t_environ *new;
     int i;
 
-    (1 && (s_environ = NULL) , i = 0);
+    s_environ = NULL;
+    i = 0;
     if(environ)
     {
         while(environ[i])

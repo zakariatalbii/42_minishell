@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/23 11:23:26 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:26:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,8 @@ char	**custom_split(const char *s, char c, int pid);
 char	*custom_strdup(const char	*s1, int pid);
 void 	free_global_garbage(t_global_trash **global_trash);
 void 	free_local_garbage(t_local_trash **local_trash);
+void 	exit_execution(char **command ,t_env_var **env_vars);
+void 	exiting(t_env_var **env_vars, int exit_printing);
 
 /* ************************************** */
 

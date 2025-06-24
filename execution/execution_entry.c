@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 06:22:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 10:56:10 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void execute_the_builtin(char **command , t_environ **s_environ, t_env_var **env
         unset_executing(command, s_environ, env_vars);
     else if(!ft_strcmp(command[0], "exit"))
     {
-        printf("\nexit status: %d\n", *((*env_vars)->status));
-        // exit_executing("exit");
+        // printf("\nexit status: %d\n", *((*env_vars)->status));
+        exit_execution(command, env_vars);
     }  
 }
 
