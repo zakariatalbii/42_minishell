@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 03:35:18 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:58:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,23 @@ void outfile_handling(t_tree *tree, t_env_var **env_vars)
         fd = open(tree->data.red.file.name, O_CREAT | O_RDWR);
         error_handling(fd,"open");
     }
-        original_out=dup(STDOUT_FILENO);
-        error_handling(original_out, "dup");
+    original_out=dup(STDOUT_FILENO);
+    error_handling(original_out, "dup");
+    // error_handling(dup2(fd,STDOUT_FILENO),"dup2");
+    // error_handling(close(fd),"close");
+    recursion(tree->data.red.ntree, env_vars);
+    if(*((*env_vars)->status) == 127)
+    {
+        error_handling(dup2(STDERR_FILENO,STDOUT_FILENO),"dup2");
+        error_handling(close(STDERR_FILENO),"close");
+    }
+    else
+    {
         error_handling(dup2(fd,STDOUT_FILENO),"dup2");
         error_handling(close(fd),"close");
-        recursion(tree->data.red.ntree, env_vars);
-        error_handling(dup2(original_out,STDOUT_FILENO),"dup2");
-        error_handling(close(original_out),"close");
+    }
+    error_handling(dup2(original_out,STDOUT_FILENO),"dup2");
+    error_handling(close(original_out),"close");
 }
 
 void heredoc_handling(t_tree *tree, t_env_var **env_vars)

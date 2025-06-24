@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/24 17:16:23 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:10:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,6 +148,7 @@ typedef struct s_env_var
 	int                 *export_;
 	int					*export_OLDPWD;
 	char 				*PATH;
+	char				*last_command;
 }	t_env_var;
 
 typedef struct s_local_trash
@@ -166,7 +167,7 @@ typedef struct s_global_trash
 int		ft_strcmp(const char *s1, const char *s2);
 // void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD, int *status);
 void	cd_execution(char **command , t_environ **environ, t_env_var **env_vars);
-void	echo_execution(char **command, int *status);
+void	echo_execution(char **command, t_env_var **env_vars);
 
 t_environ	*ft_lstnew_environ(char *str);
 void	ft_lstadd_back_environ(t_environ **lst, t_environ *new);

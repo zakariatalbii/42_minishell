@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 17:19:13 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:05:40 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_va
     char    **command = tree->data.argv;
     
     if(!ft_strcmp(command[0], "echo"))
-        echo_execution(command, (*env_vars)->status);
+        echo_execution(command, env_vars);
     else if(!ft_strcmp(command[0], "cd"))
         cd_execution(command,s_environ, env_vars);
     else if(!ft_strcmp(command[0], "pwd"))

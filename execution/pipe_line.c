@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 17:19:30 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/24 20:59:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,13 +103,6 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
     
 }
 
-// void recursion(t_tree *tree, t_env_var **env_vars)
-// {
-//     if(!env_vars)
-//         return;
-//     (void)tree;
-//     *((*env_vars)->env_flag)=1;
-// }
 void recursion(t_tree *tree,t_env_var **env_vars)
 {   
     static int flag;
@@ -118,8 +111,11 @@ void recursion(t_tree *tree,t_env_var **env_vars)
    
     if (!tree) 
         return;
-    if (tree->type == 0) 
+    if (tree->type == 0)
+    { 
         command_execution(tree, flag, env_vars);
+        (*env_vars)->last_command = custom_strdup(tree->data.argv[0],1);
+    }
     else if (tree->type == 1)
     {   
         flag = 1;
@@ -129,7 +125,9 @@ void recursion(t_tree *tree,t_env_var **env_vars)
     else if (tree->type == 2)
         infile_handling(tree, env_vars);
     else if (tree->type == 3)
+    {
         outfile_handling(tree, env_vars);
+    }
     else if (tree->type == 4)
         heredoc_handling(tree, env_vars);
     else if(tree->type == 5)
