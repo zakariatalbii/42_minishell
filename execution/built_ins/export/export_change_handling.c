@@ -63,6 +63,12 @@ static int input_struct_handling(char *arg, int *status)
         if(!arg)
             return(1);
         i = 0;
+        if(!ft_strlen(arg))
+        {
+            printf("bash: export: `%s': not a valid identifier\n", arg);
+            *status =1;
+            return(1);
+        }
         while(arg[i])
         {
             var_name_end_=(var_name_end(arg));
@@ -82,6 +88,7 @@ static int input_struct_handling(char *arg, int *status)
         }
         return(0);
 }
+
 static void command_handling( int *flag, char **command, t_environ **environ , t_env_var **env_vars)
 {
     t_environ *new;
@@ -109,6 +116,7 @@ static void command_handling( int *flag, char **command, t_environ **environ , t
             i++;
     }
 }
+
 void make_export_struct(char **command, t_environ **environ, t_env_var **env_vars)
 {
     
