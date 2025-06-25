@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/25 21:14:59 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/25 22:34:46 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
         }
         if(flag != -1 )
         {
-            execve(command[0],command, NULL);
+            // execve(command[0],command, NULL);
             if(!execve(command[0], command, NULL))
             {
                 gc_malloc(0,0);
@@ -83,7 +83,7 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
         }
         if(flag != -1 )
         {
-            execve(potential_paths[flag], command, NULL);
+            // execve(potential_paths[flag], command, NULL);
             if(!execve(potential_paths[flag], command, NULL))
             {
                 gc_malloc(0,0);
@@ -92,3 +92,4 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
         }
     }
 }
+

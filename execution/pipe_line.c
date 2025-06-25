@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/25 21:19:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/25 23:34:07 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void error_handling(int return_value,char *failed_function)
             perror("dup failed\n");
         if(!strcmp(failed_function, "open"))
             perror("open failed\n");
-        gc_malloc(0,0);
-        exit(1);
+        // gc_malloc(0,0);
+        // exit(1);
     }
 } 
 static void pipe_line(t_tree *tree, t_env_var **env_vars)
@@ -45,23 +45,27 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
         error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
         error_handling(close(fd[1]), "close");
         recursion(tree->data.pipe.rtree, env_vars);
-        gc_malloc(0,0);
+        //gc_malloc(0,0);
         exit(*(*(env_vars))->status);
     }
     (1 && (pid[1] = fork()), error_handling(pid[1], "fork"));
     if (pid[1] == 0) 
     {
+        printf("im here\n");
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
         error_handling(close(fd[0]), "close");
         recursion(tree->data.pipe.ltree, env_vars);
-        gc_malloc(0,0);
+        //gc_malloc(0,0);
         exit(*(*(env_vars))->status);
     }
     error_handling(close(fd[0]), "close");
     error_handling(close(fd[1]), "close");
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
+    
+    printf("DEBUG: status_1=%d, status_2=%d\n", status_1, status_2);
+    printf("DEBUG: WEXITSTATUS(status_2)=%d\n", WEXITSTATUS(status_2));
     if (status_2 != 0) 
         *(*(env_vars))->status = status_2 >> 8;  // CHANGED: Extract exit code from status_2
     else 
@@ -92,7 +96,10 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
             pid = fork();
             error_handling(pid, "close");
             if(pid == 0)
+            {
+                printf("im here\n");
                 external_commands_execution(tree->data.argv,&environ, env_vars);
+            }
             waitpid(pid,&status_1,0);
             if (status_1 != 0) 
                 *(*(env_vars))->status = status_1 >> 8;  // CHANGED: Extract exit code from status_2
@@ -100,10 +107,11 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
                 *(*(env_vars))->status = 0;
         }
     }    
-    else
-        no_pipe_execution(tree, environ, env_vars, 0);
+    // else
+    //     no_pipe_execution(tree, environ, env_vars, 0);
     
 }
+
 
 void recursion(t_tree *tree,t_env_var **env_vars)
 {   
@@ -119,7 +127,7 @@ void recursion(t_tree *tree,t_env_var **env_vars)
     }
     else if (tree->type == 1)
     {   
-        flag =1;
+        // flag =1;
         pipe_line(tree, env_vars);
     }
     else if (tree->type == 2)
