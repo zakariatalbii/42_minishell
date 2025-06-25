@@ -12,7 +12,17 @@
 
 #include "../../../minishell.h"
 
-static void real_exit_status(t_tree *tree, t_env_var  **env_vars)
+void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
+{   
+    if(exit_printing && pid == 1)
+        printf("exit\n"); 
+    ft_free_tree(tree);
+    gc_malloc(0, 0);
+    gc_malloc(0, 1);
+    exit(*(*env_vars)->status);
+}
+
+static void real_exit_status(t_tree *tree, t_env_var  **env_vars, int pid)
 {
     int status;
     char *argument = tree->data.argv[0];
@@ -22,19 +32,10 @@ static void real_exit_status(t_tree *tree, t_env_var  **env_vars)
     real_status = status % 256;
     *((*env_vars)->status) = real_status;
     printf("%d", *((*env_vars)->status));
-    exiting(tree, env_vars, 1);
+    exiting(tree, env_vars, 1, pid);
 }
 
-void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing)
-{   
-    if(exit_printing)
-        printf("exit\n"); 
-    ft_free_tree(tree);
-    gc_malloc(0, 0);
-    gc_malloc(0, 1);
-    exit(*(*env_vars)->status);
-}
-static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars)
+static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
 { 
     int i;
     char **command = tree->data.argv;
@@ -42,10 +43,12 @@ static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars)
     i = 0;
     if(command[0] && command[1] && command[2])
     {
-        printf("exit\nexit: too many arguments\n");
+        if(pid == 1)
+            printf("exit\n");
+        printf("exit: too many arguments\n");
         *(*env_vars)->status = 1;
         printf("%d", *((*env_vars)->status));
-        exiting(tree, env_vars,0);
+        exiting(tree, env_vars,0,pid);
     }
     else if(command[0] && command[1])
     {
@@ -53,25 +56,27 @@ static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars)
         {
             if(!ft_is_a_numb(command[1][i]))
             {
-                printf("exit\n");
+                if(pid == 1)
+                    printf("exit\n");
                 printf("bash: exit: %s: numeric argument required\n",command[1]);
                 *(*env_vars)->status = 2;
                 printf("%d", *((*env_vars)->status));
-                exiting(tree, env_vars,0);
+                exiting(tree, env_vars,0, pid);
             }
             i++;    
         }
-        real_exit_status(tree, env_vars);          
+        real_exit_status(tree, env_vars, pid);          
     }   
 }
-void exit_execution(t_tree *tree,t_env_var **env_vars)
+void exit_execution(t_tree *tree,t_env_var **env_vars, int pid)
 {
     char **command = tree->data.argv;
     
-    exit_argument_parssing(tree, env_vars);
+    printf("%d\n", pid);
+    exit_argument_parssing(tree, env_vars, pid);
     if(command[0] && command[1] == NULL)
     {
         printf("%d", *((*env_vars)->status));
-        exiting(tree, env_vars,1);
+        exiting(tree, env_vars,1, pid);
     }
 }

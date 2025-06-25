@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 20:59:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:19:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     {
         error_handling(close(fd[0]), "close");
         error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
-        recursion(tree->data.pipe.rtree, env_vars);
         error_handling(close(fd[1]), "close");
+        recursion(tree->data.pipe.rtree, env_vars);
         gc_malloc(0,0);
         exit(*(*(env_vars))->status);
     }
@@ -53,8 +53,8 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     {
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
-        recursion(tree->data.pipe.ltree, env_vars);
         error_handling(close(fd[0]), "close");
+        recursion(tree->data.pipe.ltree, env_vars);
         gc_malloc(0,0);
         exit(*(*(env_vars))->status);
     }
@@ -84,7 +84,9 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
     if(flag == 0)
     {
         if(is_built_in(tree->data.argv) == 1)
-            execute_the_builtin(tree, &environ, env_vars);
+        {
+            execute_the_builtin(tree, &environ, env_vars, 1);
+        }
         else
         {
             pid = fork();
@@ -97,9 +99,9 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
             else 
                 *(*(env_vars))->status = 0;
         }
-    }
+    }    
     else
-        no_pipe_execution(tree, environ, env_vars);
+        no_pipe_execution(tree, environ, env_vars, 0);
     
 }
 
@@ -107,7 +109,6 @@ void recursion(t_tree *tree,t_env_var **env_vars)
 {   
     static int flag;
 
-    flag = 0;
    
     if (!tree) 
         return;
@@ -118,9 +119,8 @@ void recursion(t_tree *tree,t_env_var **env_vars)
     }
     else if (tree->type == 1)
     {   
-        flag = 1;
+        flag =1;
         pipe_line(tree, env_vars);
-        flag = 0;
     }
     else if (tree->type == 2)
         infile_handling(tree, env_vars);

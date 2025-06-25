@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 21:29:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/25 21:21:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,47 +31,68 @@ void infile_handling(t_tree *tree, t_env_var **env_vars)
         error_handling(close(original_in),"close");
     }
     else
-        printf("error file not found\n");
+        printf("bash: %s: No such file or directory\n", tree->data.red.file.name);
 }
 
 void outfile_handling(t_tree *tree, t_env_var **env_vars)
 {
-    int fd_;
-    int original_out;
-    char buffer[1024];
-    ssize_t bytes_read;
-    int fd[2];
+    // int fd_;
+    // int original_out;
+    // char buffer[1024];
+    // ssize_t bytes_read;
+    // int fd[2];
 
-    // printf("%s\n",(tree->data.red.file.name));
-    pipe(fd);
-    if (access(tree->data.red.file.name, F_OK) == 0)
-        fd_ = open(tree->data.red.file.name, O_WRONLY);
-    else
-        fd_ = open(tree->data.red.file.name, O_CREAT | O_RDWR, 0644);
-    error_handling(fd_, "open");
-    original_out = dup(STDOUT_FILENO);
-    error_handling(original_out, "dup");
-    error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
-    close(fd[1]);
-    recursion(tree->data.red.ntree, env_vars);
-    error_handling(dup2(original_out, STDOUT_FILENO), "dup2");
-    if (*((*env_vars)->status) == 127)
+    // // printf("%s\n",(tree->data.red.file.name));
+    // pipe(fd);
+    // if (access(tree->data.red.file.name, F_OK) == 0)
+    //     fd_ = open(tree->data.red.file.name, O_WRONLY);
+    // else
+    //     fd_ = open(tree->data.red.file.name, O_CREAT | O_RDWR, 0644);
+    // error_handling(fd_, "open");
+    // original_out = dup(STDOUT_FILENO);
+    // error_handling(original_out, "dup");
+    // error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
+    // close(fd[1]);
+    // recursion(tree->data.red.ntree, env_vars);
+    // error_handling(dup2(original_out, STDOUT_FILENO), "dup2");
+    // if (*((*env_vars)->status) == 127)
+    // {
+    //     while ((bytes_read = read(fd[0], buffer, sizeof(buffer))) > 0) 
+    //     {
+    //         write(STDERR_FILENO, buffer, bytes_read);
+    //     }
+    // }
+    // else 
+    // {   
+    //     while ((bytes_read = read(fd[0], buffer, sizeof(buffer))) > 0) 
+    //     {
+    //         write(fd_, buffer, bytes_read);
+    //     }
+    // }
+    // close(original_out);
+    // close(fd[0]);
+    // close(fd_);
+    int fd;
+    int original_out;
+
+    if(access((tree->data.red.file.name), F_OK) == 0)
     {
-        while ((bytes_read = read(fd[0], buffer, sizeof(buffer))) > 0) 
-        {
-            write(STDERR_FILENO, buffer, bytes_read);
-        }
+        fd = open(tree->data.red.file.name,O_WRONLY);
+        error_handling(fd,"open");
     }
-    else 
-    {   
-        while ((bytes_read = read(fd[0], buffer, sizeof(buffer))) > 0) 
-        {
-            write(fd_, buffer, bytes_read);
-        }
+    else
+    {
+        fd = open(tree->data.red.file.name, O_CREAT | O_RDWR);
+        error_handling(fd,"open");
     }
-    close(original_out);
-    close(fd[0]);
-    close(fd_);
+    original_out=dup(STDOUT_FILENO);
+    error_handling(original_out, "dup");
+    error_handling(dup2(fd,STDOUT_FILENO),"dup2");
+    error_handling(close(fd),"close");
+    recursion(tree->data.red.ntree, env_vars);
+    error_handling(dup2(original_out,STDOUT_FILENO),"dup2");
+    error_handling(close(original_out),"close");
+
 }
 
 void heredoc_handling(t_tree *tree, t_env_var **env_vars)

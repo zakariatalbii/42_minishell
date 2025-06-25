@@ -48,7 +48,7 @@ int  is_built_in(char **command)
         
 }
 
-void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_vars)
+void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_vars, int pid)
 {
     char    **command = tree->data.argv;
     
@@ -66,11 +66,11 @@ void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_va
         unset_executing(command, s_environ, env_vars);
     else if(!ft_strcmp(command[0], "exit"))
     {
-        exit_execution(tree, env_vars);
+        exit_execution(tree, env_vars, pid);
     }  
 }
 
-void no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars)
+void no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid)
 {
     char **command = tree->data.argv;
     int built_in;
@@ -80,7 +80,9 @@ void no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars)
         return;
     built_in = is_built_in(command);
     if(built_in == 1)
-        execute_the_builtin(tree, &environ, env_vars);
+    {
+        execute_the_builtin(tree, &environ, env_vars, pid);
+    }
     else
         external_commands_execution(command, &environ, env_vars);
         
