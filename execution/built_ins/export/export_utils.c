@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 09:56:52 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/27 10:26:06 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void export_printing_conditions(t_environ *current, t_env_var **env_vars)
     else if(!strcmp(current->var, "_"))
     {
         if(*((*env_vars)->export_) == 1)
+        {
+            printf("********holllooooo**********\n");
             printing_export(current);
+        }
     }       
     else
         printing_export(current);

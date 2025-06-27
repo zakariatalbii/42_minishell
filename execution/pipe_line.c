@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/25 23:34:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/26 01:49:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     (1 && (pid[1] = fork()), error_handling(pid[1], "fork"));
     if (pid[1] == 0) 
     {
-        printf("im here\n");
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
         error_handling(close(fd[0]), "close");
@@ -64,8 +63,6 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
     
-    printf("DEBUG: status_1=%d, status_2=%d\n", status_1, status_2);
-    printf("DEBUG: WEXITSTATUS(status_2)=%d\n", WEXITSTATUS(status_2));
     if (status_2 != 0) 
         *(*(env_vars))->status = status_2 >> 8;  // CHANGED: Extract exit code from status_2
     else 
@@ -85,11 +82,11 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
 
     if(!environ)
         environ = making_the_environ_struct(&flag_, env_vars);
-    if(flag == 0)
-    {
+    // if(flag == 0)
+    // {
         if(is_built_in(tree->data.argv) == 1)
         {
-            execute_the_builtin(tree, &environ, env_vars, 1);
+            execute_the_builtin(tree, &environ, env_vars, flag);
         }
         else
         {
@@ -97,7 +94,6 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
             error_handling(pid, "close");
             if(pid == 0)
             {
-                printf("im here\n");
                 external_commands_execution(tree->data.argv,&environ, env_vars);
             }
             waitpid(pid,&status_1,0);
@@ -106,7 +102,7 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
             else 
                 *(*(env_vars))->status = 0;
         }
-    }    
+    // }    
     // else
     //     no_pipe_execution(tree, environ, env_vars, 0);
     
@@ -115,7 +111,7 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
 
 void recursion(t_tree *tree,t_env_var **env_vars)
 {   
-    static int flag;
+    int flag;
 
    
     if (!tree) 
@@ -127,7 +123,7 @@ void recursion(t_tree *tree,t_env_var **env_vars)
     }
     else if (tree->type == 1)
     {   
-        // flag =1;
+        flag =1;
         pipe_line(tree, env_vars);
     }
     else if (tree->type == 2)
