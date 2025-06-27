@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 15:23:43 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/27 18:25:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../../minishell.h"
 
 
-void replace_node(t_environ **new, t_environ **environ)
+static void replace_node(t_environ **new, t_environ **environ)
 {
     t_environ *tmp;
     t_environ *current;
@@ -93,7 +93,7 @@ static int input_struct_handling(char *arg, int *status)
         i = 0;
         if(!ft_strlen(arg))
         {
-            printf("bash: export: `%s': not a valid identifier\n", arg);
+            perror("bash: export: not a valid identifier\n");
             *status =1;
             return(1);
         }
@@ -104,11 +104,11 @@ static int input_struct_handling(char *arg, int *status)
             {
                 if(arg[0] == '-')
                 {
-                    printf("bash: export: %c%c: invalid option\n", arg[0],arg[1]);
+                    perror("bash: export: invalid option\n");
                     *status = 2;
                     return(1);
                 }
-                printf("bash: export: `%s': not a valid identifier\n", arg);
+                perror("bash: export: not a valid identifier\n");
                 *status = 1;
                 return(1);
             }
@@ -139,7 +139,7 @@ static void command_handling( int *flag, char **command, t_environ **environ , t
         else
         {
                 *((*env_vars)->status) = 1;
-                printf("bash: export: '%s': not a valid identifier\n", command[i]);
+                perror("bash: export: not a valid identifier\n");
         }
             i++;
     }
