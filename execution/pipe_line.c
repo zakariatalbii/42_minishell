@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/26 01:49:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:15:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,26 +82,25 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
 
     if(!environ)
         environ = making_the_environ_struct(&flag_, env_vars);
-    // if(flag == 0)
-    // {
-        if(is_built_in(tree->data.argv) == 1)
+    if(is_built_in(tree->data.argv) == 1)
+    {
+        
+        execute_the_builtin(tree, &environ, env_vars, flag);
+    }
+    else
+    {
+        pid = fork();
+        error_handling(pid, "close");
+        if(pid == 0)
         {
-            execute_the_builtin(tree, &environ, env_vars, flag);
+            external_commands_execution(tree->data.argv,&environ, env_vars);
         }
-        else
-        {
-            pid = fork();
-            error_handling(pid, "close");
-            if(pid == 0)
-            {
-                external_commands_execution(tree->data.argv,&environ, env_vars);
-            }
-            waitpid(pid,&status_1,0);
-            if (status_1 != 0) 
-                *(*(env_vars))->status = status_1 >> 8;  // CHANGED: Extract exit code from status_2
-            else 
-                *(*(env_vars))->status = 0;
-        }
+        waitpid(pid,&status_1,0);
+        if (status_1 != 0) 
+            *(*(env_vars))->status = status_1 >> 8;  // CHANGED: Extract exit code from status_2
+        else 
+            *(*(env_vars))->status = 0;
+    }
     // }    
     // else
     //     no_pipe_execution(tree, environ, env_vars, 0);

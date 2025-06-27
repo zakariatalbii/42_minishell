@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 10:26:06 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:47:30 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ void export_printing_conditions(t_environ *current, t_env_var **env_vars)
     else if(!strcmp(current->var, "_"))
     {
         if(*((*env_vars)->export_) == 1)
-        {
-            printf("********holllooooo**********\n");
             printing_export(current);
-        }
     }       
     else
         printing_export(current);
@@ -39,7 +36,10 @@ void export_flags_apdate(t_environ **environ ,t_environ *new, t_env_var **env_va
     if(!strcmp(new->var, "OLDPWD"))
         *((*env_vars)->export_OLDPWD) = 1;
     if(is_the_var_in_environ(new->var, *environ))
+    {
+        
         handling_new_changes(&new, environ, env_vars);
+    }
     else
         ft_lstadd_back_environ(environ, new);
 }

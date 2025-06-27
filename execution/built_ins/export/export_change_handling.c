@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 10:35:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:23:43 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "../../../minishell.h"
 
 
-static void replace_node(t_environ **new, t_environ **environ)
+void replace_node(t_environ **new, t_environ **environ)
 {
     t_environ *tmp;
     t_environ *current;
@@ -41,6 +41,32 @@ static void replace_node(t_environ **new, t_environ **environ)
         tmp=tmp->next;     
     }
 }
+static int SHLVL_parssing(char *value)
+{
+    int i;
+
+    i = 0;
+    while(value[i])
+    {
+        if(!ft_is_a_numb(value[i]))
+            return(0);
+        i++;
+    }
+    return(1);
+    
+}
+static void shlvl_handling(t_environ **new)
+{
+    if(ft_atoi((*new)->value) <= 999)
+    {
+        (*new)->value =ft_itoa(ft_atoi((*new)->value));
+    }  
+    else if(SHLVL_parssing((*new)->value) == 0)
+        (*new)->value =custom_strdup("1",1);
+    else if(ft_atoi((*new)->value)>999)
+        (*new)->value =custom_strdup("1",1);
+        
+}
 
 void handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_vars)
 { 
@@ -52,6 +78,8 @@ void handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_
         return;
     if(!ft_strcmp((*new)->var,"PWD"))
         (*env_vars)->pwd =custom_strdup((*new)->value, 1);
+    if(!strcmp((*new)->var, "SHLVL"))
+        shlvl_handling(new);
     replace_node(new, environ); 
 }
 
@@ -105,11 +133,11 @@ static void command_handling( int *flag, char **command, t_environ **environ , t
                 i++;
                 continue;
             }
-                new = ft_lstnew_environ(command[i]);
-                export_flags_apdate(environ ,new,env_vars);
+            new = ft_lstnew_environ(command[i]);
+            export_flags_apdate(environ ,new,env_vars);
         }
-            else
-            {
+        else
+        {
                 *((*env_vars)->status) = 1;
                 printf("bash: export: '%s': not a valid identifier\n", command[i]);
         }
