@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 20:18:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:03:54 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void infile_handling(t_tree *tree, t_env_var **env_vars)
         error_handling(close(original_in),"close");
     }
     else
-        perror("bash: %s: No such file or directory\n");
+        perror("bash: No such file or directory\n");
 }
 
-static void fd_input_directing(int fd_to,int fd_from)
+void fd_input_directing(int fd_to,int fd_from)
 {
     char buffer[1024];
     ssize_t bytes_read;
@@ -83,8 +83,9 @@ void heredoc_handling(t_tree *tree, t_env_var **env_vars)
     error_handling(close(tree->data.red.file.fd),"close");
     error_handling(dup2(original_in, STDIN_FILENO),"dup2");
     error_handling(close(original_in),"close");
-}
+    // int original_in;
 
+}
 void append_handling(t_tree *tree, t_env_var **env_vars) 
 {
     int fd_;

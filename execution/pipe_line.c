@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 20:45:21 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/28 15:27:15 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void recursion(t_tree *tree,t_env_var **env_vars)
    
     if (!tree) 
         return;
-    if (tree->type == 0)
+    if (tree->type == 0 && tree->data.argv && tree->data.argv[0])
     { 
         command_execution(tree, flag, env_vars);
         (*env_vars)->last_command = custom_strdup(tree->data.argv[0],1);

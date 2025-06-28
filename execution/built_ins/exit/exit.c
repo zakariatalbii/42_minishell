@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/26 01:39:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/28 12:50:30 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,38 @@ void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
 
 static void real_exit_status(t_tree *tree, t_env_var  **env_vars, int pid)
 {
-    int status;
-    char *argument = tree->data.argv[0];
-
-    int real_status;
-    status  = ft_atoi(argument);
-    real_status = status % 256;
-    *((*env_vars)->status) = real_status;
-    printf("****%d***\n", *((*env_vars)->status));
+    unsigned char  status;
+    char *argument = tree->data.argv[1];
+    
+    status  =(unsigned char)(ft_atoi(argument));
+    printf("%d\n", status);
     exiting(tree, env_vars, 1, pid);
+}
+static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
+{
+    int i;
+    int flag;
+    
+    (1 && (i = 1), (flag = 0));
+    if(tree->data.argv[1][0]!='-' && tree->data.argv[1][0]!= '+' && !ft_is_a_numb(tree->data.argv[1][0]))
+        flag =1;
+    while(tree->data.argv[1][i])
+    {
+        if(!ft_is_a_numb(tree->data.argv[1][i]))
+        {
+            if(pid == 1)
+                printf("exit\n");
+            flag =1;
+        }
+            i++;    
+    }
+    if(flag == 1)
+    {
+        perror("bash: exit: %s: numeric argument required\n");
+        *(*env_vars)->status = 2;
+        printf("%d\n", *((*env_vars)->status));
+        exiting(tree, env_vars,0, pid);
+    }
 }
 
 static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
@@ -52,19 +75,7 @@ static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
     }
     else if(command[0] && command[1])
     {
-        while(command[1][i])
-        {
-            if(!ft_is_a_numb(command[1][i]))
-            {
-                if(pid == 1)
-                    printf("exit\n");
-                printf("bash: exit: %s: numeric argument required\n",command[1]);
-                *(*env_vars)->status = 2;
-                printf("%d\n", *((*env_vars)->status));
-                exiting(tree, env_vars,0, pid);
-            }
-            i++;    
-        }
+        parssing(tree,env_vars, pid);
         real_exit_status(tree, env_vars, pid);          
     }   
 }

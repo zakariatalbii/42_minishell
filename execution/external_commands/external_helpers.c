@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 20:57:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/06/28 11:35:52 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int  check_existans_and_permisisons(t_environ **environ,char *command, t_env_var
 				return(i);
 			else
 			{
-				printf("permission denied");
+				perror("permission denied\n");
 				*((*env_vars)->status) = 126;
 				return(-1);
 			}
@@ -138,6 +138,6 @@ int  check_existans_and_permisisons(t_environ **environ,char *command, t_env_var
 		i++;
 	}
 	*((*env_vars)->status) = 127;
-	printf("bash: %s: command not found\n", command);
+	perror("bash: command not found\n");
 	return(-1);
 }
