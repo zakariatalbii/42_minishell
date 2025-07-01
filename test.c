@@ -6,11 +6,13 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/24 20:11:43 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/01 20:56:41 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int g_ack;
 
 void path_initialiation(t_env_var **env_vars)
 {
@@ -73,21 +75,28 @@ t_env_var	*env_var_initialization(void)
 		return(env_vars);
 	}
 }
+
 int	main(void)
 {
 	t_tree	*tree;
 	char *line;
 	t_env_var *env_vars;
+
+	env_vars = env_var_initialization();
 	
-	env_vars = env_var_initialization();	
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT,SIG_IGN);
+	
+	
+		
 	char	*prompt;
 	while (1)
 	{	
 		prompt = custom_strjoin(env_vars->pwd, "> ", 1);
-		line = readline(prompt);
+		line = readline(prompt);	
 		if (!line)
 		{
-			printf("Free\n");
+			printf("exit\n");
 			gc_malloc(0, 0);
 			gc_malloc(0, 1);
 			break ;

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/28 15:27:15 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:29:00 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     (1 && pipe(fd), (pid[0] = fork()), error_handling(pid[0], "fork"));
     if (pid[0] == 0)
     {
+        signal(SIGINT,SIG_DFL);
+        signal(SIGQUIT,SIG_DFL);
         error_handling(close(fd[0]), "close");
         error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
         error_handling(close(fd[1]), "close");
@@ -51,6 +53,8 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     (1 && (pid[1] = fork()), error_handling(pid[1], "fork"));
     if (pid[1] == 0) 
     {
+        signal(SIGINT,SIG_DFL);
+        signal(SIGQUIT,SIG_DFL);
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
         error_handling(close(fd[0]), "close");
@@ -62,7 +66,8 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     error_handling(close(fd[1]), "close");
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
-    
+    if(WCOREDUMP(status_2))
+            printf("Quit (core dumped)\n");
     if (status_2 != 0) 
         *(*(env_vars))->status = status_2 >> 8;  // CHANGED: Extract exit code from status_2
     else 
@@ -93,18 +98,20 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
         error_handling(pid, "close");
         if(pid == 0)
         {
+            signal(SIGINT,SIG_DFL);
+            signal(SIGQUIT,SIG_DFL);
             external_commands_execution(tree->data.argv,&environ, env_vars);
         }
         waitpid(pid,&status_1,0);
+        if(WCOREDUMP(status_1))
+            printf("Quit (core dumped)\n");
         if (status_1 != 0) 
-            *(*(env_vars))->status = status_1 >> 8;  // CHANGED: Extract exit code from status_2
+        {
+            *(*(env_vars))->status = status_1 >> 8; 
+        }
         else 
             *(*(env_vars))->status = 0;
-    }
-    // }    
-    // else
-    //     no_pipe_execution(tree, environ, env_vars, 0);
-    
+    }    
 }
 
 
