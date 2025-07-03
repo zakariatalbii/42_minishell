@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/01 20:56:41 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/01 21:05:52 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,36 @@ t_env_var	*env_var_initialization(void)
 		return(env_vars);
 	}
 }
+void handler(int signal)
+{
+	if(signal == 2)
+	{
+		g_ack = 1;
+		write(1,"\n",1);
+        rl_on_new_line();
+		rl_replace_line("", 0);
+        rl_redisplay(); 
+	}
+}
 
 int	main(void)
 {
 	t_tree	*tree;
 	char *line;
 	t_env_var *env_vars;
-
-	env_vars = env_var_initialization();
-	
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT,SIG_IGN);
-	
-	
-		
 	char	*prompt;
+	struct sigaction sa;
+
+	
+	env_vars = env_var_initialization();
+	signal(SIGQUIT,SIG_IGN);	
 	while (1)
-	{	
+	{
+		sigemptyset(&sa.sa_mask); 
+    	sa.sa_handler = handler; 
+		sigaction(SIGINT, &sa, NULL);
 		prompt = custom_strjoin(env_vars->pwd, "> ", 1);
-		line = readline(prompt);	
+		line = readline(prompt);
 		if (!line)
 		{
 			printf("exit\n");
@@ -101,6 +112,13 @@ int	main(void)
 			gc_malloc(0, 1);
 			break ;
 		}
+		if(g_ack == 1)
+		{
+			free(line);
+			g_ack = 0;
+			continue;
+		}
+		signal(SIGINT, SIG_IGN);
 		add_history(line);
 		tree = ft_parser(line, 1337);
 		recursion(tree, &env_vars);
