@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:20:54 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 13:06:20 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/04 20:47:28 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	ft_expand_h(char **s, int status, int flag)
 	size_t	len;
 
 	len = ft_tokenlen(*s, status, flag);
-	if (!flag && len == ft_strlen(*s))
+	if (flag == 1 && len == ft_strlen(*s))
 		return (0);
 	str = (char *)malloc(len + 1);
 	if (!str)
@@ -95,7 +95,7 @@ int	ft_heredoc(char **del, int status)
 
 	if (ft_heredoc_fds(fds) == -1)
 		return (-1);
-	tmp[0] = ft_expand_h(del, status, 0);
+	tmp[0] = ft_expand_h(del, status, 1);
 	if (tmp[0] == -1)
 		return (close(fds[0]), close(fds[1]), close(fds[2]), -1);
 	tmp[1] = ft_count_lines(0);
@@ -107,7 +107,7 @@ int	ft_heredoc(char **del, int status)
 		if ((!line && ft_heredoc_warning(*del, tmp[1]))
 			|| (!ft_strncmp(*del, line, strlen(line) + 1) && ft_count_lines(1)))
 			break ;
-		if (ft_count_lines(1) && !tmp[0] && ft_expand_h(&line, status, 1) == -1)
+		if (ft_count_lines(1) && !tmp[0] && ft_expand_h(&line, status, 2) == -1)
 			return (close(fds[0]), close(fds[1]), close(fds[2]), -1);
 		ft_putendl_fd(line, fds[1]);
 		free(line);

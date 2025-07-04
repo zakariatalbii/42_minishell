@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand_token.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/28 12:59:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:43:48 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static size_t	ft_envcpy(char **dst, char *src, int flag)
 		*(*dst)++ = *(src - 1);
 	while (ft_isalnum(src[v]) || src[v] == '_')
 		v++;
-	env = ft_getenv(src, v);
+	env = ft_getlenv(src, v);
 	while (env && *env)
 		*(*dst)++ = *env++;
 	return (v);

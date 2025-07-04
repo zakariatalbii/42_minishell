@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 13:07:24 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/04 19:44:17 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static size_t	ft_envlen(char *str, size_t *count, int flag)
 		return (0);
 	while (ft_isalnum(str[v]) || str[v] == '_')
 		v++;
-	env = ft_getenv(str, v);
+	env = ft_getlenv(str, v);
 	if (env)
 		*count += ft_strlen(env);
 	return (v);

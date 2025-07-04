@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 16:31:47 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/04 21:12:16 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,17 @@ static char	*ft_readline(void)
 {
 	char	*line;
 	char	*prompt;
+	char	*cwd;
 
-	prompt = ft_strjoin(getenv("PWD"), "$ ");
+	cwd = ft_getenv("PWD");
+	if (!cwd)
+	{
+		cwd = getcwd(NULL, 0);
+		prompt = ft_strjoin(cwd, "$ ");
+		free(cwd);
+	}
+	else
+		prompt = ft_strjoin(cwd, "$ ");
 	if (!prompt)
 		return (NULL);
 	line = readline(prompt);
@@ -32,14 +41,10 @@ int	main(void)
 {
 	t_tree	*tree;
 	char	*line;
-	static char *PWD;
-	static char *OLDPWD;
-	char	*prompt;
 
-	
-	PWD = ft_strdup(PWD_);
-	OLDPWD = ft_strdup(OLDPWD_);
 	ft_signals(1);
+	if (!ft_environ(ft_envinit(), 1))
+		exit (1);
 	while (1)
 	{
 		line = ft_readline();
@@ -47,10 +52,10 @@ int	main(void)
 			break ;
 		tree = ft_parser(line, ft_status(-1));
 		show_the_tree(tree);// for test
-		recursion(tree,&PWD,&OLDPWD);
 		ft_free_tree(tree);
 		free(line);
 	}
 	rl_clear_history();
+	ft_environ_clear();
 	exit(ft_status(-1));
 }

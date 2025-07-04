@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/27 20:51:36 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:56:01 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 # include <signal.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
-# include <sys/stat.h>
 
 # define MAX_HEREDOC 16
 
@@ -37,6 +37,34 @@
 # define HEREDOC 4
 # define OUTRED_A 5
 # define CMD STR
+
+/* *************** environ *************** */
+
+extern char	**environ;
+
+/* *** env struct *** */
+typedef struct s_env
+{
+	char			*var;
+	char			*val;
+	struct s_env	*next;
+}	t_env;
+
+t_env	*ft_envnew(char *var, char *val);
+void	ft_envadd(t_env **env, t_env *new);
+int		ft_envsize(t_env *env);
+void	ft_envclear(t_env **env);
+t_env	*ft_envinit(void);
+t_env	*ft_environ(t_env *env, int flag);
+void	ft_environ_clear(void);
+int		ft_setenv(char *var, char *val, int flag);
+void	ft_unsetenv(char *var);
+char	*ft_getenv(char *var);
+char	*ft_getlenv(char *var, size_t len);
+char	**ft_envp(void);
+void	ft_envp_clear(char **envp);
+
+/* *************************************** */
 
 /* *************** lexing *************** */
 
@@ -57,10 +85,6 @@ int		ft_empty_token(t_list **list, t_list **head, char *str, int ptype);
 /* *** token *** */
 t_token	*ft_new_token(char *token);
 void	ft_free_token(void *ptr);
-
-/* *** utils *** */
-char	*ft_strndup(const char *s1, size_t n);
-char	*ft_getenv(const char *name, size_t len);
 
 /* ************************************** */
 
@@ -124,6 +148,9 @@ int		ft_heredoc_i(int f, int *fds);
 /* *** utils *** */
 int		ft_count_lines(int flag);
 int		ft_status(int s);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strndup(const char *s1, size_t n);
+char	*ft_strsjoin(char **strs);
 
 /* ************************************** */
 
@@ -165,7 +192,6 @@ typedef struct s_global_trash
 }					t_global_trash;
 
 
-int		ft_strcmp(const char *s1, const char *s2);
 // void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD, int *status);
 void	cd_execution(char **command , t_environ **environ, t_env_var **env_vars);
 void	echo_execution(char **command, t_env_var **env_vars);
