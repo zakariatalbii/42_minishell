@@ -31,7 +31,7 @@ int  is_built_in(char **command)
         
 }
 
-void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_vars, int pid)
+void execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, int pid)
 {
     char    **command = tree->data.argv;
     
@@ -40,14 +40,14 @@ void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_va
     else if(!ft_strcmp(command[0], "cd"))
         cd_execution(command,s_environ, env_vars);
     else if(!ft_strcmp(command[0], "pwd"))
-        pwd_execution(command,env_vars);
+        pwd_execution(command, *s_environ, env_vars);
     else if(!ft_strcmp(command[0], "export"))
     {
         
         export_execution(command, s_environ, env_vars);
     }
     else if(!ft_strcmp(command[0], "env"))
-        executing_env(s_environ, env_vars);
+        executing_env(s_environ ,env_vars);
     else if(!ft_strcmp(command[0], "unset"))
         unset_executing(command, s_environ, env_vars);
     else if(!ft_strcmp(command[0], "exit"))
@@ -56,20 +56,20 @@ void execute_the_builtin(t_tree *tree, t_environ **s_environ, t_env_var **env_va
     }  
 }
 
-void no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid)
-{
-    char **command = tree->data.argv;
-    int built_in;
+// void no_pipe_execution(t_tree *tree, t_env *environ, t_env_var **env_vars, int pid)
+// {
+//     char **command = tree->data.argv;
+//     int built_in;
     
-    built_in = 0;
-    if(!command)
-        return;
-    built_in = is_built_in(command);
-    if(built_in == 1)
-    {
-        execute_the_builtin(tree, &environ, env_vars, pid);
-    }
-    else
-        external_commands_execution(command, &environ, env_vars);
+//     built_in = 0;
+//     if(!command)
+//         return;
+//     built_in = is_built_in(command);
+//     if(built_in == 1)
+//     {
+//         execute_the_builtin(tree, &environ, env_vars, pid);
+//     }
+//     else
+//         external_commands_execution(command, &environ, env_vars);
         
-}
+// }

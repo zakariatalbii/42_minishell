@@ -12,7 +12,7 @@
 
 #include "../../../minishell.h"
 
-static int export_when_restoring(t_environ *current)
+static int export_when_restoring(t_env *current)
 {
     if(!strcmp(current->var, "OLDPWD"))
         return(1);
@@ -22,21 +22,21 @@ static int export_when_restoring(t_environ *current)
        return(1);
     return(0);
 }
-void   printing_export(t_environ *current)
+void   printing_export(t_env *current)
 {
     printf("declare -x ");
     printf("%s", current->var);
-    if(current->value)
+    if(current->val)
     {
         printf("=");
-        printf("\"%s\"", current->value);
+        printf("\"%s\"", current->val);
     }
     printf("\n");
 }
 
-int is_the_var_in_environ(char *variable, t_environ *environ)
+int is_the_var_in_environ(char *variable, t_env *environ)
 {
-    t_environ *current = environ;
+    t_env *current = environ;
     if(!variable)
         return(-1);
    while(current)
@@ -50,9 +50,9 @@ int is_the_var_in_environ(char *variable, t_environ *environ)
    return(0);
 }
 
-static void export_no_arg(t_environ **environ, t_env_var **env_vars)
+static void export_no_arg(t_env **environ, t_env_var **env_vars)
 {
-    t_environ *current;
+    t_env *current;
 
     current = (*environ);
     while(current)
@@ -82,7 +82,7 @@ static void export_no_arg(t_environ **environ, t_env_var **env_vars)
     }
 }
 
-void export_execution(char **command, t_environ **environ, t_env_var **env_vars)
+void export_execution(char **command, t_env **environ, t_env_var **env_vars)
 {
     if(command)
     {

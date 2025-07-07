@@ -21,16 +21,16 @@ void cd_errno_handling(int ernum, char *path)
 	else if(ernum == ENOENT)
 		printf("bash: cd: %s: No such file or directory\n", path);
 }
-void changing_nodes(t_environ **environ, char *var , char *new_value)
+void changing_nodes(t_env **environ, char *var , char *new_value)
 {
-	t_environ *tmp;
+	t_env *tmp;
 	
 	tmp = (*environ);
 
 	while(tmp)
 	{
 		if(!strcmp(tmp->var, var))
-			tmp->value = custom_strdup(new_value,1);
+			tmp->val = custom_strdup(new_value,1);
 		tmp = tmp->next;
 	}
 }
@@ -50,45 +50,42 @@ char *telda_full_path(char *telda_path)
 		return(telda_full_path);
 }
 
-void  cd_oldpwd(t_environ **environ, t_env_var **env_vars)
+void  cd_oldpwd(t_env **environ, t_env_var **env_vars)
 {
 	char *old_pwd;
 	int flag;
-	old_pwd = (*env_vars)->pwd;
-	
+	old_pwd = get_value("OLDPWD", *environ);
+
 	flag = is_it_set(environ, "OLDPWD");
 	if(flag == 0)
 	{
 		*((*env_vars)->status) = 1;
 		return;
 	}
-	
-	if(!chdir((*env_vars)->oldpwd))
+	if(!chdir(get_value("OLDPWD", *environ)))
 	{
-		changing_nodes(environ,"OLDPWD", (*env_vars)->pwd);
-		changing_nodes(environ,"PWD", (*env_vars)->oldpwd);
-		(*env_vars)->pwd = custom_strdup((*env_vars)->oldpwd, 1);
-		(*env_vars)->oldpwd = custom_strdup(old_pwd, 1);
-		printf("%s\n", (*env_vars)->pwd);
+		changing_nodes(environ,"OLDPWD", (get_value("PWD",*environ)));
+		changing_nodes(environ,"PWD", old_pwd);
+		printf("%s\n", get_value("PWD",*environ));
 	}
 	else
 		printf("error!");
 }
-int is_it_set(t_environ **environ, char *var)
+int is_it_set(t_env **environ, char *var)
 {
-	t_environ *current;
+	t_env *current;
 
 	current = (*environ);
 	while(current)
 	{
 		if(!strcmp(current->var,var))
 		{
-			if(!(current->value))
+			if(!(current->val))
 			{
 				printf("bash: cd: %s not set\n", var);
 				return(0);
 			}
-			if(!strcmp(current->value, ""))
+			if(!strcmp(current->val, ""))
 			{
 				printf("bash: cd: %s is empty\n", var);
 				return(0);

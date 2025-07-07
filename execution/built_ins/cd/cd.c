@@ -13,7 +13,7 @@
 #include "../../../minishell.h"
 
 
-static void cd_home(t_environ **environ, t_env_var **env_vars)
+static void cd_home(t_env **environ, t_env_var **env_vars)
 {
     char *HOME;
 	int flag;
@@ -27,9 +27,9 @@ static void cd_home(t_environ **environ, t_env_var **env_vars)
     HOME = getenv("HOME");
 	if(!chdir(HOME))
 	{
-		(*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
-		changing_nodes(environ, "OLDPWD",(*env_vars)->pwd);
-		(*env_vars)->pwd = custom_strdup(HOME,1);
+		// (*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
+		changing_nodes(environ, "OLDPWD",get_value("PWD", *environ));
+		// (*env_vars)->pwd = custom_strdup(HOME,1);
 		changing_nodes(environ,"PWD", HOME);
 		*((*env_vars)->status) = 0;
 	}
@@ -53,7 +53,7 @@ static char *get_deleted_path_gain(char *PWD, char *new)
 	else
 		return(deleted_path);
 }
-static void new_path_cd(t_environ **environ, char *new, t_env_var **env_vars)
+static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 {
     char *new_path;
 	int	 flag;
@@ -69,9 +69,9 @@ static void new_path_cd(t_environ **environ, char *new, t_env_var **env_vars)
 			*((*env_vars)->status) = 1;
 			flag = 1;
 		}
-		(*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
-		changing_nodes(environ, "OLDPWD",(*env_vars)->pwd);
-		(*env_vars)->pwd = new_path;
+		// (*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
+		changing_nodes(environ, "OLDPWD",get_value("PWD",*environ));
+		// (*env_vars)->pwd = new_path;
 		changing_nodes(environ,"PWD", new_path);
 		if(flag == 0)
 			*((*env_vars)->status) = 0;
@@ -84,7 +84,7 @@ static void new_path_cd(t_environ **environ, char *new, t_env_var **env_vars)
 	}
 }
 
-void cd_execution(char **command , t_environ **environ, t_env_var **env_vars)
+void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 {
 	char *telda_path;
 	

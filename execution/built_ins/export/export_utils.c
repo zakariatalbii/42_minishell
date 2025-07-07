@@ -12,7 +12,7 @@
 
 #include "../../../minishell.h"
 
-void export_printing_conditions(t_environ *current, t_env_var **env_vars)
+void export_printing_conditions(t_env *current, t_env_var **env_vars)
 {
     if(!strcmp(current->var, "PATH"))
     {
@@ -27,8 +27,10 @@ void export_printing_conditions(t_environ *current, t_env_var **env_vars)
     else
         printing_export(current);
 }
-void export_flags_apdate(t_environ **environ ,t_environ *new, t_env_var **env_vars)
+void export_flags_apdate(t_env**environ ,t_environ *new, t_env_var **env_vars)
 {
+    t_env *new_;
+
     if(!strcmp(new->var, "PATH") )
         *((*env_vars)->export_PATH) = 1;
     if(!strcmp(new->var, "_"))
@@ -36,12 +38,12 @@ void export_flags_apdate(t_environ **environ ,t_environ *new, t_env_var **env_va
     if(!strcmp(new->var, "OLDPWD"))
         *((*env_vars)->export_OLDPWD) = 1;
     if(is_the_var_in_environ(new->var, *environ))
-    {
-        
         handling_new_changes(&new, environ, env_vars);
-    }
     else
-        ft_lstadd_back_environ(environ, new);
+    {
+        new_=ft_envnew(new->var, new->value);
+        ft_envadd(environ, new_);
+    }
 }
 char **splited_export_command(char *str)
 {

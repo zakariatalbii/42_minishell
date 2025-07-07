@@ -19,8 +19,18 @@ static int is_valid_pwd(char **command)
     else
         return(1);
 }
+char *get_value(char *var,t_env *environ)
+{
+    while(environ)
+    {
+        if(!strcmp(environ->var ,var))
+           return(environ->val);
+        environ=environ->next;
+    }
+    return(NULL);
+}
 
-void  pwd_execution(char **command, t_env_var **env_vars)
+void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars)
 {
     if (command[1] && !is_valid_pwd(command))
     {
@@ -31,6 +41,7 @@ void  pwd_execution(char **command, t_env_var **env_vars)
     else
     {   
         *((*env_vars)->status) = 0;
-        printf("%s\n", (*env_vars)->pwd);
+        if(get_value("PWD",environ))
+            printf("%s\n", get_value("PWD",environ));
     }
 }

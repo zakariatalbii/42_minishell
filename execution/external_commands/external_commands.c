@@ -12,7 +12,7 @@
 
 #include "../../minishell.h"
 
-static int is_a_directory(char *command, t_env_var **env_vars)
+static int is_a_directory(char *command,t_env *environ, t_env_var **env_vars)
 {
     if(command[ft_strlen(command)-1] == '/')
     {
@@ -20,7 +20,7 @@ static int is_a_directory(char *command, t_env_var **env_vars)
         {
             perror("bash: Is a directory\n");
             *((*env_vars)->status)=1;
-            if(chdir((*env_vars)->pwd))
+            if(chdir(get_value("PWD", environ)))
                 perror("chdir error\n");
             return(1);
         }
@@ -48,23 +48,23 @@ static int  check_full_path(char *full_path, t_env_var **env_vars)
 	perror("bash: command not found\n");
 	return(-1);
 } 
-static int get_shlvl_value(t_environ *environ)
+static int get_shlvl_value(t_env *environ)
 {
     int value;
     
     while(environ)
     {
         if(!ft_strcmp(environ->var,"SHLVL"))
-            value = ft_atoi(environ->value);
+            value = ft_atoi(environ->val);
         environ=environ->next;
     }
     return(1);
 }  
-static int full_path(char *command, t_environ **environ, t_env_var **env_vars)
+static int full_path(char *command, t_env **environ, t_env_var **env_vars)
 {
     char *shlvl;
     int  new_shlvl;
-    t_environ *new;
+    t_env *new;
     char *join;
     
     if(command[0] == '/')
@@ -75,7 +75,7 @@ static int full_path(char *command, t_environ **environ, t_env_var **env_vars)
         {
             perror("bash: Is a directory\n");
             *((*env_vars)->status)=1;
-            if(chdir((*env_vars)->pwd))
+            if(chdir(get_value("PWD", *environ)))
                 perror("chdir error\n");
             return(-2);
         }
@@ -85,23 +85,23 @@ static int full_path(char *command, t_environ **environ, t_env_var **env_vars)
         return(4);
     return(0);
 }
-static char *variable(t_environ *environ)
+static char *variable(t_env *environ)
 {
     char *tmp;
     char *join;
 
-    tmp = custom_strjoin((environ->var),(environ->operator),1);
+    tmp = custom_strjoin((environ->var),"=",1);
     if(!tmp)
         return(NULL);
-    join = custom_strjoin(tmp,environ->value,1);
+    join = custom_strjoin(tmp,environ->val,1);
     return(join);
     
 }
-char **envp(t_environ **environ)
+char **envp(t_env **environ)
 {
     char **env;
     int count;
-    t_environ *tmp;
+    t_env *tmp;
     char *var;
     
     tmp = *environ;
@@ -126,7 +126,7 @@ char **envp(t_environ **environ)
     env[count]= NULL;
     return(env);
 }
-static char *current_directory(char *command, t_env_var **env_vars)
+static char *current_directory(char *command, t_env *environ, t_env_var **env_vars)
 {
     char *current_directory;
     char *tmp;
@@ -135,22 +135,22 @@ static char *current_directory(char *command, t_env_var **env_vars)
     split_it = custom_split(command,'/', 0);
     if(!split_it || !split_it[1])
         return(NULL);
-    tmp= custom_strjoin((*env_vars)->pwd, "/",0);
+    tmp= custom_strjoin(get_value("PWD",environ), "/",0);
     if(!tmp)
         return(NULL);
     current_directory= custom_strjoin(tmp, split_it[1],0);
     return(current_directory);
 }
-void external_commands_execution(char **command,t_environ **environ, t_env_var **env_vars)
+void external_commands_execution(char **command,t_env **environ, t_env_var **env_vars)
 {
     int flag;
     char **potential_paths;
     char *full_path_;
     char **envp_;
-    int  shlv_flag;
-    char *shlvl;
-    int  new_shlvl;
-    t_environ *new;
+    // int  shlv_flag;
+    // char *shlvl;
+    // int  new_shlvl;
+    // t_env *new;
     char *join;
 
     envp_= envp(environ);
@@ -161,7 +161,7 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
         {
             if(full_path(command[0], environ, env_vars) == 2)
             {
-                full_path_= current_directory(command[0], env_vars);
+                full_path_= current_directory(command[0] ,*environ, env_vars);
                 if(!full_path_)
                     return;
                 flag = check_full_path(full_path_, env_vars);
@@ -173,7 +173,7 @@ void external_commands_execution(char **command,t_environ **environ, t_env_var *
             }
             else if(full_path(command[0], environ,env_vars) == 4)
             {
-                if(is_a_directory(command[0], env_vars)==1)
+                if(is_a_directory(command[0], *environ, env_vars)==1)
                     return;
                 flag = check_full_path(full_path_, env_vars);
             }

@@ -43,23 +43,23 @@ int	count_lengh_of_str(char *str, char c, int *i)
 	}
 	return(lengh);
 }
-static char *path_extraction(t_environ *environ ,t_env_var **env_vars)
-{
-	while(environ)
-	{
-		if(!strcmp(environ->var,"PATH"))
-		{
-			if(!strcmp(environ->value, (*env_vars)->PATH))
-			{
-				return(environ->value);
-			}
-			else
-				return(NULL);
-		}
-		environ =environ->next;
-	}
-	return(NULL);
-}
+// static char *path_extraction(t_env *environ ,t_env_var **env_vars)
+// {
+// 	while(environ)
+// 	{
+// 		if(!strcmp(environ->var,"PATH"))
+// 		{
+// 			if(!strcmp(environ->val, (*env_vars)->PATH))
+// 			{
+// 				return(environ->val);
+// 			}
+// 			else
+// 				return(NULL);
+// 		}
+// 		environ =environ->next;
+// 	}
+// 	return(NULL);
+// }
 
 static char	**allocate_double_char(char *str, char c, char *command)
 {
@@ -83,7 +83,7 @@ static char	**allocate_double_char(char *str, char c, char *command)
 	return (ptr);
 }
 
-char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars)
+char	**potential_path(t_env **environ, char *command,t_env_var **env_vars)
 {
 	char	*PATH;
 	char	**splited_path;
@@ -92,7 +92,7 @@ char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars)
 	int		i;
 	
 	
-	PATH = path_extraction(*environ ,env_vars);
+	PATH = get_value("PATH", *environ);
 	if(PATH == NULL)
 		return(NULL);
 	splited_path = custom_split(PATH,':', 0);
@@ -113,7 +113,7 @@ char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars)
 	return(potential_paths);
 }
 
-int  check_existans_and_permisisons(t_environ **environ,char *command, t_env_var **env_vars)
+int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars)
 {
 	int	i;
 	char 	**potential_paths;

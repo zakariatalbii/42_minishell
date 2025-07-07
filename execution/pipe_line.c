@@ -79,14 +79,22 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
 {
     
     int pid;
-    static t_environ *environ;
+    static t_env *environ;
     int status_1;
     int flag_;
 
     flag_ = 0;
 
     if(!environ)
-        environ = making_the_environ_struct(&flag_, env_vars);
+        environ = ft_environ(ft_envinit(), 1);
+    // while(environ)
+    // {
+    //     printf("%s", environ->var);
+    //     printf("=");
+    //     printf("%s", environ->val);
+    //     printf("\n");
+    //     environ= environ->next;
+    // }
     if(is_built_in(tree->data.argv) == 1)
     {
         

@@ -14,61 +14,54 @@
 #include "../../../minishell.h"
 
 
-static void replace_node(t_environ **new, t_environ **environ)
+static void replace_node(t_environ **new, t_env **environ)
 {
-    t_environ *tmp;
-    t_environ *current;
+    t_env *tmp;
     
     char *new_value;
     tmp = (*environ);
     while(tmp)
     {
-        if((tmp->next) && !strcmp((tmp->next)->var, (*new)->var))
+        if(tmp->var && !ft_strcmp(tmp->var, (*new)->var))
         {
-            current = tmp;
-            tmp = (tmp->next)->next;
             if(!strcmp((*new)->operator, "+="))
-            {
-                new_value = custom_strjoin((current->next)->value, (*new)->value,1);
-                if(!new_value)
-                    return;
-                (*new)->value = new_value;
-            }
-            (*new)->next = tmp;
-            current->next = *new;
-            break;
+                new_value = custom_strjoin((tmp)->val, (*new)->value,1);
+            else if(!strcmp((*new)->operator, "="))
+                new_value = custom_strdup((*new)->value, 1);
+            if(new_value)
+                tmp->val=new_value;
+            else
+                return;
         }
         tmp=tmp->next;     
     }
 }
-static int SHLVL_parssing(char *value)
-{
-    int i;
 
-    i = 0;
-    while(value[i])
-    {
-        if(!ft_is_a_numb(value[i]))
-            return(0);
-        i++;
-    }
-    return(1);
+// static int SHLVL_parssing(char *value)
+// {
+//     int i;
+
+//     i = 0;
+//     while(value[i])
+//     {
+//         if(!ft_is_a_numb(value[i]))
+//             return(0);
+//         i++;
+//     }
+//     return(1);
     
-}
-static void shlvl_handling(t_environ **new)
-{
-    if(ft_atoi((*new)->value) <= 999)
-    {
-        (*new)->value =ft_itoa(ft_atoi((*new)->value));
-    }  
-    else if(SHLVL_parssing((*new)->value) == 0)
-        (*new)->value =custom_strdup("1",1);
-    else if(ft_atoi((*new)->value)>999)
-        (*new)->value =custom_strdup("1",1);
-        
-}
+// }
+// static void shlvl_handling(t_env **environ,t_environ **new)
+// {
+//     if(ft_atoi((*new)->value) <= 999)
+//         return;
+//     else if(SHLVL_parssing((*new)->value) == 0)
+//         (*new)->value =custom_strdup("1",1);
+//     else if(ft_atoi((*new)->value)>999)
+//         (*new)->value =custom_strdup("1",1);
+// }
 
-void handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_vars)
+void handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars)
 { 
     if(!*new)
         return;
@@ -76,10 +69,8 @@ void handling_new_changes(t_environ **new, t_environ **environ, t_env_var **env_
         return;
     else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
         return;
-    if(!ft_strcmp((*new)->var,"PWD"))
-        (*env_vars)->pwd =custom_strdup((*new)->value, 1);
-    if(!strcmp((*new)->var, "SHLVL"))
-        shlvl_handling(new);
+    // if(!strcmp((*new)->var, "SHLVL"))
+    //     shlvl_handling(environ, new);
     replace_node(new, environ); 
 }
 
@@ -117,7 +108,7 @@ static int input_struct_handling(char *arg, int *status)
         return(0);
 }
 
-static void command_handling( int *flag, char **command, t_environ **environ , t_env_var **env_vars)
+static void command_handling( int *flag, char **command, t_env **environ , t_env_var **env_vars)
 {
     t_environ *new;
     int i;
@@ -145,7 +136,7 @@ static void command_handling( int *flag, char **command, t_environ **environ , t
     }
 }
 
-void make_export_struct(char **command, t_environ **environ, t_env_var **env_vars)
+void make_export_struct(char **command, t_env **environ, t_env_var **env_vars)
 {
     
     int flag;
