@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 19:56:01 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/07 17:59:41 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@
 # define HEREDOC 4
 # define OUTRED_A 5
 # define CMD STR
+
+/* *************** salloc *************** */
+
+void	*ft_salloc(void *ptr);
+void	ft_sfree(void *ptr);
+
+/* ************************************** */
 
 /* *************** environ *************** */
 

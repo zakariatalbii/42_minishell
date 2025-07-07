@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 21:12:16 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/07 18:02:47 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(void)
 
 	ft_signals(1);
 	if (!ft_environ(ft_envinit(), 1))
-		exit (1);
+		exit(1);
 	while (1)
 	{
 		line = ft_readline();
