@@ -163,7 +163,7 @@ char	*ft_strsjoin(char **strs);
 
 /* **************** exec **************** */
 
-# define PATH_ "/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:"
+# define PATH_ "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 typedef struct s_environ
 {
@@ -234,15 +234,16 @@ char	*telda_full_path(char *telda_path);
 int		is_it_set(t_env **environ, char *path);
 void	changing_nodes(t_env **environ, char *var, char *new_value);
 // int 	check_existans_and_permisisons(char *command, int *status);
-int  	check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars);
+int  	check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars, int *flag_);
 void 	external_commands_execution(char **command,t_env **environ, t_env_var **env_vars);
 // void	external_commands_execution(char **command, t_environ **environ, int *status);
 // char	**potential_path(char *command);
-char	**potential_path(t_env **environ, char *command,t_env_var **env_vars);
+// char	**potential_path(t_env **environ, char *command,t_env_var **env_vars);
+char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *flag);
 // char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars);
 // void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
 // void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars);
-
+int   ft_unset_flag(int flag);
 void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid);
 void	error_handling(int return_value,char *failed_function);
 // void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);

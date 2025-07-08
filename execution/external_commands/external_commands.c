@@ -147,6 +147,7 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
     char **potential_paths;
     char *full_path_;
     char **envp_;
+    static int *flag_;
     // int  shlv_flag;
     // char *shlvl;
     // int  new_shlvl;
@@ -195,14 +196,14 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
         else
         {
                 
-            potential_paths = potential_path(environ,command[0],env_vars);
+            potential_paths = potential_path(environ,command[0],env_vars, flag_);
             if(!potential_paths)
             {
                 *((*env_vars)->status)=127;
                 gc_malloc(0,0);
                 exit(*((*env_vars)->status));
             }
-            flag = check_existans_and_permisisons(environ, command[0], env_vars);
+            flag = check_existans_and_permisisons(environ, command[0], env_vars, flag_);
             if(flag == -1)
             {
                 gc_malloc(0,0);

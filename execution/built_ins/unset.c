@@ -143,8 +143,13 @@ static int valid_unset_var_name(char *str)
 void unsetting_input(char *variable, t_env **environ)
 {
     t_env *tmp;
+    int i;
 
     tmp = (*environ);
+    if(!ft_strcmp(variable ,"PATH"))
+    {
+	       (void)ft_unset_flag(1);
+    }
     if(tmp && !strcmp(tmp->var, variable))
     {
         *environ=(*environ)->next;
@@ -173,12 +178,14 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
         }
         current = current->next; 
     }
+    if(!ft_strcmp(variable , "PATH"))
+        return(2);
     return(0);
 }
 
 void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
 {
-    
+    int i;
     // printf("%s\n",command[1]);
     if(command[1])
     {
@@ -189,9 +196,13 @@ void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
             *((*env_vars)->status) = 2;
             return;
         }
-        if(ft_strcmp(command[1],"_") &&  unsetting_input_parsing(command[1], environ))
+        if(ft_strcmp(command[1],"_") )
         {
-            unsetting_input(command[1], environ);
+            if(unsetting_input_parsing(command[1], environ))
+                unsetting_input(command[1], environ);
+            else if(unsetting_input_parsing(command[1], environ) == 2)
+                (void)ft_unset_flag(1);
+            // ft_unsetenv(command[1]);
             *((*env_vars)->status) = 0;
         }
         else

@@ -83,7 +83,7 @@ static char	**allocate_double_char(char *str, char c, char *command)
 	return (ptr);
 }
 
-char	**potential_path(t_env **environ, char *command,t_env_var **env_vars)
+char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *flag_)
 {
 	char	*PATH;
 	char	**splited_path;
@@ -93,11 +93,15 @@ char	**potential_path(t_env **environ, char *command,t_env_var **env_vars)
 	
 	
 	PATH = get_value("PATH", *environ);
-	if(PATH == NULL)
-		return(NULL);
+	// ft_unset_flag(0);
+	if(!PATH && ft_unset_flag(0) == 0)
+	{
+		PATH=custom_strdup(PATH_, 0);
+	}
 	splited_path = custom_split(PATH,':', 0);
 	if(splited_path == NULL)
-	{	
+	{
+		perror("bash: command not found\n");
 		return (NULL);
 	}
 	potential_paths = allocate_double_char(PATH,':',command);
@@ -113,12 +117,13 @@ char	**potential_path(t_env **environ, char *command,t_env_var **env_vars)
 	return(potential_paths);
 }
 
-int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars)
+int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars, int *flag_)
 {
 	int	i;
 	char 	**potential_paths;
+	
 
-	potential_paths=potential_path(environ, command, env_vars);
+	potential_paths=potential_path(environ, command, env_vars, flag_);
 	if(!potential_paths)
 		return(-1);
 	i = 0;

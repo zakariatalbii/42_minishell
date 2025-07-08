@@ -52,11 +52,25 @@ int	ft_setenv(char *var, char *val, int flag)
 	return (ft_setnew(ft_strdup(var), ft_strdup(val)));
 }
 
+int   ft_unset_flag(int flag)
+{
+	static int flag_;
+
+	if(flag == 0)
+		return(flag_);
+	else
+	{
+		flag_ = 1;
+		return(flag_);
+	}
+}
+
 void	ft_unsetenv(char *var)
 {
 	t_env	*env;
 	t_env	*tmp;
 
+	// printf("%s\n", var);
 	env = ft_environ(NULL, 0);
 	if (env && !ft_strcmp(env->var, var))
 	{
@@ -71,6 +85,8 @@ void	ft_unsetenv(char *var)
 		tmp = env->next;
 		if (tmp && !ft_strcmp(tmp->var, var))
 		{
+			if(!ft_strcmp(var ,"PATH"))
+				(void)ft_unset_flag(1);
 			env->next = tmp->next;
 			free(tmp->var);
 			free(tmp->val);

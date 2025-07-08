@@ -81,9 +81,7 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
     int pid;
     static t_env *environ;
     int status_1;
-    int flag_;
 
-    flag_ = 0;
 
     if(!environ)
         environ = ft_environ(ft_envinit(), 1);
