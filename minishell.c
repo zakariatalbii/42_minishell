@@ -26,7 +26,7 @@ void export_flags_initialization(t_env_var **env_vars)
 	if((*env_vars)->export_OLDPWD)
 		*((*env_vars)->export_OLDPWD)=0;
 	(*env_vars)->last_command =custom_strdup("a",1);
-	// path_initialiation(env_vars);
+
 	
 }
 t_env_var	*env_var_initialization(void)
@@ -45,15 +45,6 @@ t_env_var	*env_var_initialization(void)
 		env_vars->status = (int *)gc_malloc(sizeof(int),1);
 		if(env_vars->status)
 			*(env_vars->status) = 0;
-		// var = getcwd(NULL,0);
-		// if(var)
-		// {
-		// 	env_vars->pwd = custom_strdup(var,1);
-		// 	free(var);
-		// }
-		// var = getenv("OLDPWD");
-		// if(var)
-		// 	env_vars->oldpwd = custom_strdup(var,1);
 		export_flags_initialization(&env_vars);
 		return(env_vars);
 	}

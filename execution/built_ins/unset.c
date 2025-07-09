@@ -180,6 +180,10 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
     }
     if(!ft_strcmp(variable , "PATH"))
         return(2);
+    if(!ft_strcmp(variable, "OLDPWD"))
+    {
+        return(3);
+    }
     return(0);
 }
 
@@ -198,11 +202,12 @@ void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
         }
         if(ft_strcmp(command[1],"_") )
         {
-            if(unsetting_input_parsing(command[1], environ))
+            if(unsetting_input_parsing(command[1], environ)==1)
                 unsetting_input(command[1], environ);
             else if(unsetting_input_parsing(command[1], environ) == 2)
                 (void)ft_unset_flag(1);
-            // ft_unsetenv(command[1]);
+            else if(unsetting_input_parsing(command[1], environ)== 3)
+                (void)ft_unset_flag(2);
             *((*env_vars)->status) = 0;
         }
         else

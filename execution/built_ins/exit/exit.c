@@ -51,7 +51,7 @@ static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
     }
     if(flag == 1)
     {
-        perror("bash: exit: %s: numeric argument required\n");
+        ft_putstr_fd("bash: exit: %s: numeric argument required\n",2);
         *(*env_vars)->status = 2;
         printf("%d\n", *((*env_vars)->status));
         exiting(tree, env_vars,0, pid);
@@ -82,12 +82,16 @@ static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
 void exit_execution(t_tree *tree,t_env_var **env_vars, int pid)
 {
     char **command = tree->data.argv;
+    int i;
+
+    // i = ft_status(-1);
     
     // printf("%d\n", pid);
     exit_argument_parssing(tree, env_vars, pid);
     if(command[0] && command[1] == NULL)
     {
-        printf("***%d\n***", *((*env_vars)->status));
+        printf("***%d\n", *((*env_vars)->status));
+        // printf("%d\n",i);
         exiting(tree, env_vars,1, pid);
     }
 }

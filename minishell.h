@@ -243,6 +243,7 @@ char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *
 // char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars);
 // void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
 // void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars);
+int   ft_flag(int flag);
 int   ft_unset_flag(int flag);
 void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid);
 void	error_handling(int return_value,char *failed_function);

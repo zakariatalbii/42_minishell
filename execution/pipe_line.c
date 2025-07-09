@@ -69,10 +69,10 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
     if(WCOREDUMP(status_2))
             printf("Quit (core dumped)\n");
     if (status_2 != 0) 
-        *(*(env_vars))->status = status_2 >> 8;  // CHANGED: Extract exit code from status_2
+        *(*(env_vars))->status = status_2 >> 8; 
     else 
         *(*(env_vars))->status = 0;
-    
+
 }
 
 static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)

@@ -60,7 +60,7 @@ int   ft_unset_flag(int flag)
 		return(flag_);
 	else
 	{
-		flag_ = 1;
+		flag_ = flag;
 		return(flag_);
 	}
 }

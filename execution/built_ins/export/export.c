@@ -31,7 +31,7 @@ void   printing_export(t_env *current)
         printf("=");
         printf("\"%s\"", current->val);
     }
-    printf("\n");
+        printf("\n");
 }
 
 int is_the_var_in_environ(char *variable, t_env *environ)
@@ -55,29 +55,35 @@ static void export_no_arg(t_env **environ, t_env_var **env_vars)
     t_env *current;
 
     current = (*environ);
+    if(ft_unset_flag(0) == 2 )
+    {
+        printf("declare -x ");
+        printf("OLDPWD\n");
+    }
     while(current)
     {
-        if(*(*env_vars)->env_flag)
-        {
-            if(export_when_restoring(current))
-               printing_export(current); 
-        }
-        else
-        {
-            export_printing_conditions(current, env_vars);
-            // if(!strcmp(current->var, "PATH"))
-            // {
-            //     if(*((*env_vars)->export_PATH) == 1)
-            //         printing_export(current);
-            // }
-            // else if(!strcmp(current->var, "_"))
-            // {
-            //     if(*((*env_vars)->export_) == 1)
-            //         printing_export(current);
-            // }       
-            // else
-            //     printing_export(current);
-        }
+        // if(*(*env_vars)->env_flag)
+        // {
+        //     if(export_when_restoring(current))
+        //        printing_export(current); 
+        // }
+        // else
+        // {
+        //     export_printing_conditions(current, env_vars);
+        //     // if(!strcmp(current->var, "PATH"))
+        //     // {
+        //     //     if(*((*env_vars)->export_PATH) == 1)
+        //     //         printing_export(current);
+        //     // }
+        //     // else if(!strcmp(current->var, "_"))
+        //     // {
+        //     //     if(*((*env_vars)->export_) == 1)
+        //     //         printing_export(current);
+        //     // }       
+        //     // else
+        //     //     printing_export(current);
+        // }
+        printing_export(current);
         current = current->next;
     }
 }

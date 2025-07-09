@@ -30,7 +30,7 @@ void infile_handling(t_tree *tree, t_env_var **env_vars)
         error_handling(close(original_in),"close");
     }
     else
-        perror("bash: No such file or directory\n");
+        ft_putstr_fd("bash: No such file or directory\n", 2);
 }
 
 void fd_input_directing(int fd_to,int fd_from)

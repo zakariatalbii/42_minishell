@@ -101,7 +101,9 @@ char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *
 	splited_path = custom_split(PATH,':', 0);
 	if(splited_path == NULL)
 	{
-		perror("bash: command not found\n");
+		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd(command , 2);
+		ft_putstr_fd(": command not found\n", 2);
 		return (NULL);
 	}
 	potential_paths = allocate_double_char(PATH,':',command);
@@ -135,14 +137,18 @@ int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **e
 				return(i);
 			else
 			{
-				perror("permission denied\n");
+				ft_putstr_fd("permission denied\n",2);
 				*((*env_vars)->status) = 126;
 				return(-1);
 			}
 		}
 		i++;
 	}
+	// ft_status(127);
 	*((*env_vars)->status) = 127;
-	perror("bash: command not found\n");
+	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd(command , 2);
+	ft_putstr_fd(": command not found\n", 2);
+	// ft_putstr_fd("bash: command not found\n",2);
 	return(-1);
 }

@@ -80,15 +80,12 @@ static int identify_the_arg(char **str, int *i)
     j = 0;
     index = 0;
 
-
    while(str[*i])
     {
         if (str[*i][0] == '-')
         {
             if(!ft_strcmp(str[*i], "-"))
-            {
                 return(0);
-            }
             j = 1;
             while(str[*i][j])
             {
@@ -119,11 +116,17 @@ void echo_execution(char **command, t_env_var **env_vars)
     }
     else 
     {
-        new_line = 1;
+        if(!command[1])
+            new_line = 0;
+        else
+             new_line = 1;
     }
     while((command)[i])
     {
-        printf("%s",(command)[i]);
+        if(!ft_strcmp(command[i],"$?"))
+            printf("%s\n", ft_itoa(*((*env_vars)->status)));
+        else
+            printf("%s",(command)[i]);
         if((command)[i+1] != NULL)
             printf(" ");
         i++;

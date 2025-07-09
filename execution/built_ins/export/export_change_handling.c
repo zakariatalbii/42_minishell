@@ -69,8 +69,6 @@ void handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars
         return;
     else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
         return;
-    // if(!strcmp((*new)->var, "SHLVL"))
-    //     shlvl_handling(environ, new);
     replace_node(new, environ); 
 }
 
@@ -84,7 +82,7 @@ static int input_struct_handling(char *arg, int *status)
         i = 0;
         if(!ft_strlen(arg))
         {
-            perror("bash: export: not a valid identifier\n");
+            ft_putstr_fd("bash: export: not a valid identifier\n",2);
             *status =1;
             return(1);
         }
@@ -95,11 +93,11 @@ static int input_struct_handling(char *arg, int *status)
             {
                 if(arg[0] == '-')
                 {
-                    perror("bash: export: invalid option\n");
+                    ft_putstr_fd("bash: export: invalid option\n",2);
                     *status = 2;
                     return(1);
                 }
-                perror("bash: export: not a valid identifier\n");
+                ft_putstr_fd("bash: export: not a valid identifier\n",2);
                 *status = 1;
                 return(1);
             }
@@ -130,7 +128,7 @@ static void command_handling( int *flag, char **command, t_env **environ , t_env
         else
         {
                 *((*env_vars)->status) = 1;
-                perror("bash: export: not a valid identifier\n");
+                ft_putstr_fd("bash: export: not a valid identifier\n",2);
         }
             i++;
     }
