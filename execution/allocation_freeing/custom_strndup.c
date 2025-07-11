@@ -1,31 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_environ.c                                       :+:      :+:    :+:   */
+/*   custom_strndup.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/10 22:32:01 by wnid-hsa         ###   ########.fr       */
+/*   Created: 2025/07/10 21:05:44 by wnid-hsa          #+#    #+#             */
+/*   Updated: 2025/07/10 22:20:11 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-// void	ft_environ_clear(void)
-// {
-// 	t_env	*env;
-
-// 	env = ft_environ(NULL, 0);
-// 	// ft_envclear(&env);
-// 	ft_environ(NULL, 1);
-// }
-
-t_env	*ft_environ(t_env *env, int flag)
+char	*custom_strndup(const char *s1, size_t n, int pid)
 {
-	static t_env	*envs;
+	size_t	size;
+	char	*str;
 
-	if (flag)
-		envs = env;
-	return (envs);
+	if (!s1 || !n)
+		return (NULL);
+	size = ft_strlen(s1);
+	if (size > n)
+		size = n;
+	str = (char *)gc_malloc(size + 1,1);
+	if (str == NULL)
+		return (NULL);
+	ft_strlcpy(str, s1, size + 1);
+	return (str);
 }

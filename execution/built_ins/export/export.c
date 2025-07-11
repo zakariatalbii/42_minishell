@@ -6,22 +6,22 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 13:27:42 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:34:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-static int export_when_restoring(t_env *current)
-{
-    if(!strcmp(current->var, "OLDPWD"))
-        return(1);
-    if(!strcmp(current->var, "PWD"))
-        return(1);
-    if(!strcmp(current->var, "SHLVL"))
-       return(1);
-    return(0);
-}
+// static int export_when_restoring(t_env *current)
+// {
+//     if(!strcmp(current->var, "OLDPWD"))
+//         return(1);
+//     if(!strcmp(current->var, "PWD"))
+//         return(1);
+//     if(!strcmp(current->var, "SHLVL"))
+//        return(1);
+//     return(0);
+// }
 void   printing_export(t_env *current)
 {
     printf("declare -x ");
@@ -50,7 +50,7 @@ int is_the_var_in_environ(char *variable, t_env *environ)
    return(0);
 }
 
-static void export_no_arg(t_env **environ, t_env_var **env_vars)
+static void export_no_arg(t_env **environ)
 {
     t_env *current;
 
@@ -94,7 +94,7 @@ void export_execution(char **command, t_env **environ, t_env_var **env_vars)
     {
         if(!command[1])
         {
-            export_no_arg(environ, env_vars);
+            export_no_arg(environ);
             *((*env_vars)->status) = 0;
             return;
         }

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/28 11:35:52 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/11 02:41:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static char	**allocate_double_char(char *str, char c, char *command)
 	return (ptr);
 }
 
-char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *flag_)
+char	**potential_path(t_env **environ, char *command)
 {
 	char	*PATH;
 	char	**splited_path;
@@ -119,13 +119,13 @@ char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *
 	return(potential_paths);
 }
 
-int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars, int *flag_)
+int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars)
 {
 	int	i;
 	char 	**potential_paths;
 	
 
-	potential_paths=potential_path(environ, command, env_vars, flag_);
+	potential_paths=potential_path(environ, command);
 	if(!potential_paths)
 		return(-1);
 	i = 0;

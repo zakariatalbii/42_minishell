@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 20:02:31 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/10 21:09:40 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_strsjoin(char **strs)
 	len = 0;
 	while (strs[v])
 		len += ft_strlen(strs[v++]);
-	str = (char *)malloc(len + 1);
+	str = (char *)gc_malloc(len + 1,1);
 	if (str == NULL)
 		return (NULL);
 	ft_memset(str, 0, len + 1);

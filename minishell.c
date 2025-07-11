@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/07 18:02:47 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/11 03:37:20 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void export_flags_initialization(t_env_var **env_vars)
 t_env_var	*env_var_initialization(void)
 {
 	t_env_var *env_vars;
-	char *var;
 
 	env_vars = gc_malloc(sizeof(t_env_var),1);
 	if(!env_vars)
@@ -78,24 +77,29 @@ int	main(void)
 	t_tree	*tree;
 	char	*line;
 	t_env_var *env_vars;
+	t_env *environ;
 
 
 	env_vars = env_var_initialization();
 	ft_signals(1);
-	if (!ft_environ(ft_envinit(), 1))
+	environ = ft_environ(ft_envinit(), 1);
+	if (!environ)
+	{
+		gc_malloc(0,1);
 		exit(1);
+	}
 	while (1)
 	{
 		line = ft_readline();
 		if (!line)
 			break ;
 		tree = ft_parser(line, ft_status(-1));
-		recursion(tree, &env_vars);
+		recursion(tree,&environ ,&env_vars);
 		show_the_tree(tree);// for test
 		ft_free_tree(tree);
 		free(line);
 	}
 	rl_clear_history();
-	ft_environ_clear();
+	// ft_environ_clear();
 	exit(ft_status(-1));
 }

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:44 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 20:08:28 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:32:42 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@
 static int identify_the_arg(char **str, int *i)
 {
     int j ;
-    int index;
+    // int index;
 
     j = 0;
-    index = 0;
+    // index = 0;
 
    while(str[*i])
     {

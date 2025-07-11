@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/01 16:29:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:32:24 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void error_handling(int return_value,char *failed_function)
         // exit(1);
     }
 } 
-static void pipe_line(t_tree *tree, t_env_var **env_vars)
+static void pipe_line(t_tree *tree,t_env **environ, t_env_var **env_vars)
 {
     int fd[2];
     int pid[2];
     int status_1;
     int status_2;
     
-    (1 && pipe(fd), (pid[0] = fork()), error_handling(pid[0], "fork"));
+    (1 && (pipe(fd)), (pid[0] = fork()), (error_handling(pid[0], "fork")));
     if (pid[0] == 0)
     {
         signal(SIGINT,SIG_DFL);
@@ -46,11 +46,11 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
         error_handling(close(fd[0]), "close");
         error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
         error_handling(close(fd[1]), "close");
-        recursion(tree->data.pipe.rtree, env_vars);
+        recursion(tree->data.pipe.rtree,environ ,env_vars);
         //gc_malloc(0,0);
         exit(*(*(env_vars))->status);
     }
-    (1 && (pid[1] = fork()), error_handling(pid[1], "fork"));
+    (1 && (pid[1] = fork()), (error_handling(pid[1], "fork")));
     if (pid[1] == 0) 
     {
         signal(SIGINT,SIG_DFL);
@@ -58,7 +58,7 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
         error_handling(close(fd[0]), "close");
-        recursion(tree->data.pipe.ltree, env_vars);
+        recursion(tree->data.pipe.ltree,environ, env_vars);
         //gc_malloc(0,0);
         exit(*(*(env_vars))->status);
     }
@@ -75,28 +75,15 @@ static void pipe_line(t_tree *tree, t_env_var **env_vars)
 
 }
 
-static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
+static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var **env_vars)
 {
-    
     int pid;
-    static t_env *environ;
     int status_1;
 
-
-    if(!environ)
-        environ = ft_environ(ft_envinit(), 1);
-    // while(environ)
-    // {
-    //     printf("%s", environ->var);
-    //     printf("=");
-    //     printf("%s", environ->val);
-    //     printf("\n");
-    //     environ= environ->next;
-    // }
     if(is_built_in(tree->data.argv) == 1)
     {
         
-        execute_the_builtin(tree, &environ, env_vars, flag);
+        execute_the_builtin(tree, environ, env_vars, flag);
     }
     else
     {
@@ -106,7 +93,7 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
         {
             signal(SIGINT,SIG_DFL);
             signal(SIGQUIT,SIG_DFL);
-            external_commands_execution(tree->data.argv,&environ, env_vars);
+            external_commands_execution(tree->data.argv,environ, env_vars);
         }
         waitpid(pid,&status_1,0);
         if(WCOREDUMP(status_1))
@@ -119,33 +106,69 @@ static void command_execution(t_tree *tree, int flag, t_env_var **env_vars)
             *(*(env_vars))->status = 0;
     }    
 }
+static void change_lst_arg_(char *last_arg ,t_env **environ)
+{
+    t_env *current;
+    current = *environ;
+    
+    while(current)
+    {
+        if(!ft_strcmp(current->var, "_"))
+        {
+            if(!ft_strcmp(last_arg,"env"))
+              last_arg = "/usr/bin/env";
+            current->val = custom_strdup(last_arg,1);
+        }
+        current = current ->next; 
+    }
+}
 
+void last_command_arg(t_tree *tree, t_env **environ)
+{
+    char **args;
+    char *last_arg;
+    int i;
+    
+    i = 0;
+    if(tree)
+        args = tree->data.argv;
+    if(!args)
+        return;
+    while(args && args[i])
+    {
+        i++;
+    }
+    last_arg =args[i-1];
+    change_lst_arg_(last_arg ,environ);
+}
 
-void recursion(t_tree *tree,t_env_var **env_vars)
+void recursion(t_tree *tree,t_env **environ,t_env_var **env_vars)
 {   
     int flag;
 
-   
+   flag = 0;
     if (!tree) 
         return;
     if (tree->type == 0 && tree->data.argv && tree->data.argv[0])
     { 
-        command_execution(tree, flag, env_vars);
-        (*env_vars)->last_command = custom_strdup(tree->data.argv[0],1);
+        last_command_arg(tree, environ);
+        command_execution(tree,environ,flag,env_vars);
+        // (*env_vars)->last_command = custom_strdup(tree->data.argv[0],1);
     }
     else if (tree->type == 1)
     {   
         flag =1;
-        pipe_line(tree, env_vars);
+        pipe_line(tree,environ,env_vars);
     }
     else if (tree->type == 2)
-        infile_handling(tree, env_vars);
+        infile_handling(tree,environ,env_vars);
     else if (tree->type == 3)
     {
-        outfile_handling(tree, env_vars);
+        outfile_handling(tree,environ,env_vars);
     }
     else if (tree->type == 4)
-        heredoc_handling(tree, env_vars);
+        heredoc_handling(tree,environ,env_vars);
     else if(tree->type == 5)
-        append_handling(tree, env_vars);
+        append_handling(tree,environ,env_vars);
 }
+

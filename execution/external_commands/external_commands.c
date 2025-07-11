@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/28 16:06:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/11 03:10:50 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,25 +50,19 @@ static int  check_full_path(char *full_path, t_env_var **env_vars)
 	ft_putstr_fd("bash: command not found\n",2);
 	return(-1);
 } 
-static int get_shlvl_value(t_env *environ)
-{
-    int value;
+// static int get_shlvl_value(t_env *environ)
+// {
     
-    while(environ)
-    {
-        if(!ft_strcmp(environ->var,"SHLVL"))
-            value = ft_atoi(environ->val);
-        environ=environ->next;
-    }
-    return(1);
-}  
+//     while(environ)
+//     {
+//         if(!ft_strcmp(environ->var,"SHLVL"))
+//             value = ft_atoi(environ->val);
+//         environ=environ->next;
+//     }
+//     return(1);
+// }  
 static int full_path(char *command, t_env **environ, t_env_var **env_vars)
-{
-    char *shlvl;
-    int  new_shlvl;
-    t_env *new;
-    char *join;
-    
+{   
     if(!ft_strlen(command))
     {
         ft_putstr_fd("Minishell: ", 2);
@@ -107,6 +101,7 @@ static int full_path(char *command, t_env **environ, t_env_var **env_vars)
     else
         return(0);
 }
+
 static char *variable(t_env *environ)
 {
     char *tmp;
@@ -148,7 +143,7 @@ char **envp(t_env **environ)
     env[count]= NULL;
     return(env);
 }
-static char *current_directory(char *command, t_env *environ, t_env_var **env_vars)
+static char *current_directory(char *command, t_env *environ)
 {
     char *current_directory;
     char *tmp;
@@ -163,23 +158,14 @@ static char *current_directory(char *command, t_env *environ, t_env_var **env_va
     current_directory= custom_strjoin(tmp, split_it[1],0);
     return(current_directory);
 }
-// int path_type(char *command, t_env **environ, t_env_var **env_vars)
-// {
 
-// }
 void external_commands_execution(char **command,t_env **environ, t_env_var **env_vars)
 {
     int flag;
     char **potential_paths;
     char *full_path_;
     char **envp_;
-    static int *flag_;
     int path_type;
-    // int  shlv_flag;
-    // char *shlvl;
-    // int  new_shlvl;
-    // t_env *new;
-    char *join;
 
     envp_= envp(environ);
     if(command && command[0])
@@ -189,7 +175,7 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
         {
             if(path_type == 2)
             {
-                full_path_= current_directory(command[0] ,*environ, env_vars);
+                full_path_= current_directory(command[0] ,*environ);
                 if(!full_path_)
                     return;
                 flag = check_full_path(full_path_, env_vars);
@@ -204,7 +190,10 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
                 if(is_a_directory(command[0], *environ, env_vars) == 1)
                     flag = -1;
                 else
+                {
+                    full_path_=command[0];
                     flag = check_full_path(full_path_, env_vars);
+                }
             }
             else if(path_type <0)
                 flag = -1;
@@ -224,16 +213,14 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
         }
         else
         {
-                
-            potential_paths = potential_path(environ,command[0],env_vars, flag_);
+            potential_paths = potential_path(environ,command[0]);
             if(!potential_paths)
             {
                 *((*env_vars)->status)=127;
-                // ft_status(127);
                 gc_malloc(0,0);
                 exit(*((*env_vars)->status));
             }
-            flag = check_existans_and_permisisons(environ, command[0], env_vars, flag_);
+            flag = check_existans_and_permisisons(environ, command[0], env_vars);
             if(flag == -1)
             {
                 gc_malloc(0,0);
@@ -241,7 +228,6 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
             }
             if(flag != -1 )
             {
-                // execve(potential_paths[flag], command, NULL);
                 if(!execve(potential_paths[flag], command, envp_))
                 {
                     gc_malloc(0,0);

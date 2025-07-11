@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/07 17:59:41 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/11 04:08:50 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int		ft_heredoc_i(int f, int *fds);
 int		ft_count_lines(int flag);
 int		ft_status(int s);
 int		ft_strcmp(const char *s1, const char *s2);
-char	*ft_strndup(const char *s1, size_t n);
+char	*ndup(const char *s1, size_t n);
 char	*ft_strsjoin(char **strs);
 
 /* ************************************** */
@@ -213,7 +213,7 @@ t_environ *making_the_environ_struct(int *flag, t_env_var **env_vars);
 void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars);
 // void	recursion(t_tree *tree, t_env_var **env_vars);
 // void	recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void 	recursion(t_tree *tree,t_env_var **env_vars);
+void 	recursion(t_tree *tree,t_env **environ,t_env_var **env_vars);
 // void	unset_executing(char **command, t_environ **environ, int *status);
 // void 	unset_executing(char **command, t_environ **environ, t_env_var **env_vars);
 void 	unset_executing(char **command, t_env **environ, t_env_var **env_vars);
@@ -234,12 +234,12 @@ char	*telda_full_path(char *telda_path);
 int		is_it_set(t_env **environ, char *path);
 void	changing_nodes(t_env **environ, char *var, char *new_value);
 // int 	check_existans_and_permisisons(char *command, int *status);
-int  	check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars, int *flag_);
+int  	check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars);
 void 	external_commands_execution(char **command,t_env **environ, t_env_var **env_vars);
 // void	external_commands_execution(char **command, t_environ **environ, int *status);
 // char	**potential_path(char *command);
 // char	**potential_path(t_env **environ, char *command,t_env_var **env_vars);
-char	**potential_path(t_env **environ, char *command,t_env_var **env_vars, int *flag);
+char	**potential_path(t_env **environ, char *command);
 // char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars);
 // void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
 // void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars);
@@ -248,14 +248,14 @@ int   ft_unset_flag(int flag);
 void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid);
 void	error_handling(int return_value,char *failed_function);
 // void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	infile_handling(t_tree *tree, t_env_var **env_vars);
+void	infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
 // void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	outfile_handling(t_tree *tree, t_env_var **env_vars);
+void	outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars);
 // void	heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
 
-void	heredoc_handling(t_tree *tree, t_env_var **env_vars);
+void	heredoc_handling(t_tree *tree, t_env **environ,t_env_var **env_vars);
 // void	append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	append_handling(t_tree *tree, t_env_var **env_vars);
+void	append_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
 // void 	execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status);
 void	execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, int pid);
 int  	is_built_in(char **command);
@@ -275,7 +275,7 @@ char 	**splited_export_command(char *str);
 void 	export_flags_apdate(t_env **environ ,t_environ *new, t_env_var **env_vars);
 char  	**split_environ(char *str);
 int 	count_lengh_var_str_export(char *str);
-void 	handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars);
+void 	handling_new_changes(t_environ **new, t_env **environ);
 void 	export_printing_conditions(t_env *current, t_env_var **env_vars);
 void   	printing_export(t_env *current);
 void 	*gc_malloc(size_t size, int pid);
@@ -290,6 +290,10 @@ void 	exit_execution(t_tree *tree,t_env_var **env_vars, int pid);
 void 	exit_execution(t_tree *tree,t_env_var **env_vars, int pid);
 void 	fd_input_directing(int fd_to,int fd_from);
 char 	*get_value(char *var,t_env *environ);
+// char	*ft_strndup(const char *s1, size_t n, int pid);
+char	*custom_strndup(const char *s1, size_t n, int pid);
+char	*ft_strndup(const char *s1, size_t n);
+void 	last_command_arg(t_tree *tree, t_env **environ);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */

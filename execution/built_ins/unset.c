@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/25 17:58:10 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/10 22:33:25 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ static int valid_unset_var_name(char *str)
 void unsetting_input(char *variable, t_env **environ)
 {
     t_env *tmp;
-    int i;
+    // int i;
 
     tmp = (*environ);
     if(!ft_strcmp(variable ,"PATH"))
@@ -189,7 +189,7 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
 
 void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
 {
-    int i;
+    // int i;
     // printf("%s\n",command[1]);
     if(command[1])
     {

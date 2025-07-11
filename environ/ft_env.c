@@ -17,9 +17,9 @@ t_env	*ft_envnew(char *var, char *val)
 	t_env	*node;
 
 	if (var)
-		node = (t_env *)malloc(sizeof(t_env));
-	if (!var || !node)
-		return (free(var), free(val), NULL);
+		node = (t_env *)gc_malloc(sizeof(t_env),1);
+	// if (!var || !node)
+	// 	return (free(var), free(val), NULL);
 	node->var = var;
 	node->val = val;
 	node->next = NULL;

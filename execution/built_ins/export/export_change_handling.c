@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 18:25:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/11 04:57:02 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void replace_node(t_environ **new, t_env **environ)
 //         (*new)->value =custom_strdup("1",1);
 // }
 
-void handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars)
+void handling_new_changes(t_environ **new, t_env **environ)
 { 
     if(!*new)
         return;
@@ -82,7 +82,9 @@ static int input_struct_handling(char *arg, int *status)
         i = 0;
         if(!ft_strlen(arg))
         {
-            ft_putstr_fd("bash: export: not a valid identifier\n",2);
+            ft_putstr_fd("Minishell: export `",2);
+            ft_putstr_fd(arg,2);
+            ft_putstr_fd("': not a valid identifier\n",2);
             *status =1;
             return(1);
         }
@@ -93,11 +95,16 @@ static int input_struct_handling(char *arg, int *status)
             {
                 if(arg[0] == '-')
                 {
-                    ft_putstr_fd("bash: export: invalid option\n",2);
+                    ft_putstr_fd("Minishell: export ",2);
+                    write(2,&arg[0],1);
+                    write(2,&arg[1],1);
+                    ft_putstr_fd(": invalid option\n",2);
                     *status = 2;
                     return(1);
                 }
-                ft_putstr_fd("bash: export: not a valid identifier\n",2);
+                ft_putstr_fd("Minishell: export `",2);
+                ft_putstr_fd(arg,2);
+                ft_putstr_fd("': not a valid identifier\n",2);
                 *status = 1;
                 return(1);
             }
@@ -128,7 +135,9 @@ static void command_handling( int *flag, char **command, t_env **environ , t_env
         else
         {
                 *((*env_vars)->status) = 1;
-                ft_putstr_fd("bash: export: not a valid identifier\n",2);
+                ft_putstr_fd("Minishell: export `",2);
+                ft_putstr_fd(command[i],2);
+                ft_putstr_fd("': not a valid identifier\n",2);
         }
             i++;
     }
