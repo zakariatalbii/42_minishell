@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 10:04:10 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:20:06 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,11 @@ static void cd_home(t_env **environ, t_env_var **env_vars)
 	if(!chdir(HOME))
 	{
 		// (*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
-		changing_nodes(environ, "OLDPWD",get_value("PWD", *environ));
+		// changing_nodes(environ, "OLDPWD",get_value("PWD", *environ));
+		save_node_changes(environ, "OLDPWD", get_value("PWD", *environ));
 		// (*env_vars)->pwd = custom_strdup(HOME,1);
-		changing_nodes(environ,"PWD", HOME);
+		// changing_nodes(environ,"PWD", HOME);
+		save_node_changes(environ,"PWD", HOME);
 		*((*env_vars)->status) = 0;
 	}
 	else
@@ -53,10 +55,23 @@ static char *get_deleted_path_gain(char *PWD, char *new)
 	else
 		return(deleted_path);
 }
+void save_node_changes(t_env **environ, char *var, char *new_value)
+{
+	t_env *new_node;
+
+	new_node = ft_envnew(var,new_value);
+	if(!new_node)
+		return;
+	if(!is_the_var_in_environ(var,*environ))
+		ft_envadd(environ, new_node);
+	else
+		changing_nodes(environ, var,new_value);
+}
 static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 {
     char *new_path;
 	int	 flag;
+	t_env *new_node;
 	
 	flag = 0;
 	if(!chdir(new))
@@ -69,10 +84,8 @@ static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 			*((*env_vars)->status) = 1;
 			flag = 1;
 		}
-		// (*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
-		changing_nodes(environ, "OLDPWD",get_value("PWD",*environ));
-		// (*env_vars)->pwd = new_path;
-		changing_nodes(environ,"PWD", new_path);
+		save_node_changes(environ, "OLDPWD", get_value("PWD",*environ));
+		save_node_changes(environ, "PWD", new_path);
 		if(flag == 0)
 			*((*env_vars)->status) = 0;
 	}

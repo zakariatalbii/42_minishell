@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/11 04:08:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:11:27 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ char 	*get_value(char *var,t_env *environ);
 char	*custom_strndup(const char *s1, size_t n, int pid);
 char	*ft_strndup(const char *s1, size_t n);
 void 	last_command_arg(t_tree *tree, t_env **environ);
+void 	save_node_changes(t_env **environ, char *var, char *new_value);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/11 04:32:24 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:27:05 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,19 +108,24 @@ static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var 
 }
 static void change_lst_arg_(char *last_arg ,t_env **environ)
 {
-    t_env *current;
-    current = *environ;
+
+    char *lst_arg;
     
-    while(current)
-    {
-        if(!ft_strcmp(current->var, "_"))
-        {
-            if(!ft_strcmp(last_arg,"env"))
-              last_arg = "/usr/bin/env";
-            current->val = custom_strdup(last_arg,1);
-        }
-        current = current ->next; 
-    }
+    // while(current)
+    // {
+    //     if(!ft_strcmp(current->var, "_"))
+    //     {
+    //         if(!ft_strcmp(last_arg,"env"))
+    //           last_arg = "/usr/bin/env";
+    //         current->val = custom_strdup(last_arg,1);
+    //     }
+    //     current = current ->next; 
+    // }
+    if(!ft_strcmp(last_arg,"env"))
+        lst_arg = "/usr/bin/env";
+    else
+        lst_arg = custom_strdup(last_arg,1);
+    save_node_changes(environ, "_", lst_arg);
 }
 
 void last_command_arg(t_tree *tree, t_env **environ)

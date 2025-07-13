@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 10:11:17 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 19:19:07 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ void  cd_oldpwd(t_env **environ, t_env_var **env_vars)
 	}
 	if(!chdir(get_value("OLDPWD", *environ)))
 	{
-		changing_nodes(environ,"OLDPWD", (get_value("PWD",*environ)));
-		changing_nodes(environ,"PWD", old_pwd);
+		// changing_nodes(environ,"OLDPWD", (get_value("PWD",*environ)));
+		save_node_changes(environ,"OLDPWD", (get_value("PWD",*environ)));
+		save_node_changes(environ,"PWD", old_pwd);
 		printf("%s\n", get_value("PWD",*environ));
 	}
 	else
