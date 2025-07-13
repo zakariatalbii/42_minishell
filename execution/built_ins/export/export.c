@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/10 22:34:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:37:56 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ static void export_no_arg(t_env **environ)
     t_env *current;
 
     current = (*environ);
-    if(ft_unset_flag(0) == 2 )
+    if(!is_the_var_in_environ("OLDPWD",*environ))
     {
-        printf("declare -x ");
-        printf("OLDPWD\n");
+        if(!ft_unset_flag(0) )
+        {
+            printf("declare -x ");
+            printf("OLDPWD\n");
+        }
     }
     while(current)
     {

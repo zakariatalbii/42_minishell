@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/10 22:33:25 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 18:50:03 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
     {
         if(!ft_strcmp(variable,(current)->var))
         {
+            (void)ft_unset_flag(2);
             return(1);
         }
         current = current->next; 
@@ -189,8 +190,6 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
 
 void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
 {
-    // int i;
-    // printf("%s\n",command[1]);
     if(command[1])
     {
         if(ft_strcmp(command[1],"_") && !valid_unset_var_name(command[1]))
@@ -206,9 +205,11 @@ void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
                 unsetting_input(command[1], environ);
             else if(unsetting_input_parsing(command[1], environ) == 2)
                 (void)ft_unset_flag(1);
-            else if(unsetting_input_parsing(command[1], environ)== 3)
+            else if(unsetting_input_parsing(command[1], environ) == 3)
+            {
                 (void)ft_unset_flag(2);
-            *((*env_vars)->status) = 0;
+                *((*env_vars)->status) = 0;
+            }
         }
         else
         {
