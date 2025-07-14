@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/22 05:27:24 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 21:29:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,10 @@ void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars)
         *((*env_vars)->status) = 0;
         if(get_value("PWD",environ))
             printf("%s\n", get_value("PWD",environ));
+        else
+        { 
+            if((*env_vars)->pwd)
+			   printf("%s\n", (*env_vars)->pwd);
+        }
     }
 }

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/13 18:50:03 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 22:14:22 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,8 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
     {
         if(!ft_strcmp(variable,(current)->var))
         {
-            (void)ft_unset_flag(2);
+            if(!ft_strcmp(variable, "OLDPWD"))
+                (void)ft_unset_flag(3);
             return(1);
         }
         current = current->next; 

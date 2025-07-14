@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/13 19:27:05 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/13 23:52:04 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ static void change_lst_arg_(char *last_arg ,t_env **environ)
         lst_arg = "/usr/bin/env";
     else
         lst_arg = custom_strdup(last_arg,1);
-    save_node_changes(environ, "_", lst_arg);
+    // save_node_changes(environ, "_", lst_arg);
 }
 
 void last_command_arg(t_tree *tree, t_env **environ)

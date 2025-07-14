@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/13 19:20:06 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:16:34 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void cd_home(t_env **environ, t_env_var **env_vars)
 {
     char *HOME;
 	int flag;
+	char *pwd;
 
 	flag = is_it_set(environ, "HOME");
 	if(flag == 0)
@@ -24,15 +25,16 @@ static void cd_home(t_env **environ, t_env_var **env_vars)
 		*((*env_vars)->status) = 1;
 		return;
 	}
-    HOME = getenv("HOME");
+    HOME = get_value("HOME",*environ);
+	pwd = get_value("PWD",*environ);
+	if(!pwd)
+		save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
+	else
+		save_node_changes(environ, "OLDPWD", pwd);
 	if(!chdir(HOME))
 	{
-		// (*env_vars)->oldpwd = custom_strdup((*env_vars)->pwd, 1);
-		// changing_nodes(environ, "OLDPWD",get_value("PWD", *environ));
-		save_node_changes(environ, "OLDPWD", get_value("PWD", *environ));
-		// (*env_vars)->pwd = custom_strdup(HOME,1);
-		// changing_nodes(environ,"PWD", HOME);
-		save_node_changes(environ,"PWD", HOME);
+		changing_nodes(environ,"PWD", HOME);
+		(*env_vars)->pwd = custom_strdup(HOME,1);
 		*((*env_vars)->status) = 0;
 	}
 	else
@@ -62,16 +64,28 @@ void save_node_changes(t_env **environ, char *var, char *new_value)
 	new_node = ft_envnew(var,new_value);
 	if(!new_node)
 		return;
-	if(!is_the_var_in_environ(var,*environ))
+	if(!ft_strcmp(var, "OLDPWD"))
+	{
+		if(!new_node->val)
+		{
+			(new_node)->val = custom_strdup("",1);
+		}
+	}
+	if(!is_the_var_in_environ(var,*environ) && !ft_unset_flag(0))
+	{	
 		ft_envadd(environ, new_node);
+	}
 	else
+	{
 		changing_nodes(environ, var,new_value);
+	
+	}
 }
 static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 {
     char *new_path;
 	int	 flag;
-	t_env *new_node;
+	char *pwd;
 	
 	flag = 0;
 	if(!chdir(new))
@@ -84,10 +98,17 @@ static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 			*((*env_vars)->status) = 1;
 			flag = 1;
 		}
-		save_node_changes(environ, "OLDPWD", get_value("PWD",*environ));
-		save_node_changes(environ, "PWD", new_path);
+		pwd =get_value("PWD",*environ);
+		if(!pwd)
+			save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
+		else
+			save_node_changes(environ, "OLDPWD", pwd);
+		changing_nodes(environ, "PWD",custom_strdup(new_path,1));
+		(*env_vars)->pwd = custom_strdup(new_path,1);
 		if(flag == 0)
 			*((*env_vars)->status) = 0;
+		if(new_path)
+			free(new_path);
 	}
 	else
 	{

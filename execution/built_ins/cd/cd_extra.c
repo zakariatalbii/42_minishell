@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/13 19:19:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/14 00:45:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void changing_nodes(t_env **environ, char *var , char *new_value)
 	t_env *tmp;
 	
 	tmp = (*environ);
-
+	
 	while(tmp)
 	{
-		if(!strcmp(tmp->var, var))
-			tmp->val = custom_strdup(new_value,1);
+		if(tmp->var && !ft_strcmp(tmp->var, var))
+		{
+			tmp->val = custom_strdup(new_value,1);	
+		}
 		tmp = tmp->next;
 	}
 }
@@ -64,10 +66,15 @@ void  cd_oldpwd(t_env **environ, t_env_var **env_vars)
 	}
 	if(!chdir(get_value("OLDPWD", *environ)))
 	{
-		// changing_nodes(environ,"OLDPWD", (get_value("PWD",*environ)));
 		save_node_changes(environ,"OLDPWD", (get_value("PWD",*environ)));
-		save_node_changes(environ,"PWD", old_pwd);
-		printf("%s\n", get_value("PWD",*environ));
+		// save_node_changes(environ,"PWD", old_pwd);
+		changing_nodes(environ,"PWD", old_pwd);
+		if((*env_vars)->pwd)
+			(*env_vars)->pwd = custom_strdup(old_pwd,1);
+		if(get_value("PWD",*environ))
+			printf("%s\n", get_value("PWD",*environ));
+		else
+			printf("%s\n", (*env_vars)->pwd);
 	}
 	else
 		printf("error!");

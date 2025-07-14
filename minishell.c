@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/13 17:05:41 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/14 02:14:40 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,16 @@ void export_flags_initialization(t_env_var **env_vars)
 	if((*env_vars)->export_OLDPWD)
 		*((*env_vars)->export_OLDPWD)=0;
 	(*env_vars)->last_command =custom_strdup("a",1);
+	if(!(*env_vars)->export_PATH || !(*env_vars)->export_ || !(*env_vars)->export_OLDPWD || !(*env_vars)->last_command )
+		return;
 
-	
 }
 t_env_var	*env_var_initialization(void)
 {
 	t_env_var *env_vars;
-
+	// char	*cwd;
+	
+	// cwd = getcwd(NULL, 0);
 	env_vars = gc_malloc(sizeof(t_env_var),1);
 	if(!env_vars)
 		return(NULL);
@@ -44,18 +47,21 @@ t_env_var	*env_var_initialization(void)
 		env_vars->status = (int *)gc_malloc(sizeof(int),1);
 		if(env_vars->status)
 			*(env_vars->status) = 0;
+		env_vars->pwd = NULL;
+		if(!env_vars->env_flag || !env_vars->status)
+			return(NULL);
 		export_flags_initialization(&env_vars);
 		return(env_vars);
 	}
 }
 
-static char	*ft_readline(void)
+static char	*ft_readline(t_env_var *env_vars)
 {
 	char	*line;
 	char	*prompt;
 	char	*cwd;
 
-	cwd = ft_getenv("PWD");
+	cwd = (env_vars)->pwd;
 	if (!cwd)
 	{
 		cwd = getcwd(NULL, 0);
@@ -90,7 +96,7 @@ int	main(void)
 	}
 	while (1)
 	{
-		line = ft_readline();
+		line = ft_readline(env_vars);
 		if (!line)
 			break ;
 		tree = ft_parser(line, ft_status(-1));
