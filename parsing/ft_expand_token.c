@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 19:43:48 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/13 21:51:36 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static size_t	ft_dqcase(char **dst, char *src, int status, int flag)
 	size_t	v;
 
 	v = 0;
+	ft_qchar_add(*dst, 0);
 	while (src[++v] != '"')
 	{
 		if (!flag && src[v] == '$')
@@ -72,6 +73,7 @@ static size_t	ft_dqcase(char **dst, char *src, int status, int flag)
 		else
 			*(*dst)++ = src[v];
 	}
+	ft_qchar_add(*dst, 1);
 	return (v);
 }
 
@@ -84,8 +86,10 @@ void	ft_expand_token(char *dst, char *src, int status, int flag)
 	{
 		if ((flag | 0b01) == 0b01 && src[v] == '\'')
 		{
+			ft_qchar_add(dst, 0);
 			while (src[++v] != '\'')
 				*dst++ = src[v];
+			ft_qchar_add(dst, 1);
 		}
 		else if ((flag | 0b01) == 0b01 && src[v] == '"')
 			v += ft_dqcase(&dst, &src[v], status, flag);

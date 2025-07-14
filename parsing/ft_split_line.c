@@ -6,18 +6,11 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 13:06:36 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/13 21:26:49 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static int	ft_isspace(int c)
-{
-	if ((c >= 9 && c <= 13) || c == 32)
-		return (1);
-	return (0);
-}
 
 static size_t	ft_ignore_spaces(char *str)
 {

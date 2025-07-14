@@ -6,13 +6,13 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 14:05:31 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 13:07:18 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/14 18:22:32 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	ft_token_type(char *token)
+static int	ft_token_type(char *token)
 {
 	if (!ft_strncmp(token, "|", 2))
 		return (PIPE);

@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 15:39:35 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/05/30 16:29:55 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/14 18:46:12 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	pcmd(char **strs)
 	{
 		printf("%s", *strs++);
 		if (*strs)
-			printf(" ");
+			printf(",");
 	}
 	printf("]\n");
 }

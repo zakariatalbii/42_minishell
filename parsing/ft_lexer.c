@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 13:06:25 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/14 17:46:36 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,14 @@ static int	ft_expand_tokens(t_list **list, int status)
 		{
 			str = (char *)malloc(ft_tokenlen(((t_token *)head->content)->token,
 						status, 0) + 1);
-			if (!str && ft_status(1))
-				return (ft_lstclear(list, ft_free_token), perror("malloc"), 1);
+			if (!ft_qchar(((t_token *)head->content)->token, 1) || !str)
+				return (ft_lstclear(list, ft_free_token), free(str),
+					ft_qchar(NULL, -1), perror("malloc"), ft_status(1));
 			ft_expand_token(str, ((t_token *)head->content)->token, status, 0);
-			if (ft_empty_token(list, &head, str, ptype))
+			if ((ft_empty_token(list, &head, str, ptype)
+					|| ft_split_token(list, &head, str, &ptype))
+				&& !ft_qchar(NULL, -1))
 				continue ;
-			free(((t_token *)head->content)->token);
-			((t_token *)head->content)->token = str;
 		}
 		ptype = ((t_token *)head->content)->type;
 		head = head->next;

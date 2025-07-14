@@ -2,11 +2,12 @@ LIBFT = libft/libft.a
 LIBFT_H = libft/libft.h
 
 SRC = show_the_tree.c \
-		minishell.c ft_signals.c ft_salloc.c utils.c \
+		minishell.c ft_signals.c utils.c \
 		environ/ft_env.c environ/ft_envinit.c environ/ft_environ.c \
 		environ/ft_envp.c environ/ft_getenv.c environ/ft_setenv.c \
 		parsing/ft_parser.c parsing/ft_lexer.c parsing/ft_split_line.c parsing/ft_token.c \
 		parsing/ft_tokenlen.c parsing/ft_expand_token.c parsing/ft_empty_token.c \
+		parsing/ft_split_token.c parsing/ft_qchar.c parsing/ft_tokenlst.c parsing/ft_isspace.c \
 		parsing/ft_tree_node.c parsing/ft_heredoc.c parsing/ft_free_tree.c \
 		execution/execution_entry.c execution/built_ins/echo.c execution/built_ins/env/var_restoring.c \
 		execution/built_ins/env/env.c execution/built_ins/utils.c execution/built_ins/pwd.c \
@@ -22,7 +23,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -g -Wall -fsanitize=address # -Wextra -Werror
+CC = cc -Wextra -Werror -g -Wall -fsanitize=address # 
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)

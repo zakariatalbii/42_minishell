@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/27 15:35:40 by zatalbi           #+#    #+#             */
-/*   Updated: 2024/10/28 20:49:04 by zatalbi          ###   ########.fr       */
+/*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
+/*   Updated: 2025/07/13 21:50:35 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_isspace(int c)
 {
-	size_t	v;
-
-	v = 0;
-	while (s[v] != '\0')
-		v++;
-	return (v);
+	if ((c >= 9 && c <= 13) || c == 32)
+		return (1);
+	return (0);
 }

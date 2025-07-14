@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/13 19:11:27 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/14 18:58:21 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@
 # define HEREDOC 4
 # define OUTRED_A 5
 # define CMD STR
-
-/* *************** salloc *************** */
-
-void	*ft_salloc(void *ptr);
-void	ft_sfree(void *ptr);
-
-/* ************************************** */
 
 /* *************** environ *************** */
 
@@ -88,6 +81,20 @@ t_list	*ft_split_line(char *line);
 size_t	ft_tokenlen(char *str, int status, int flag);
 void	ft_expand_token(char *dst, char *src, int status, int flag);
 int		ft_empty_token(t_list **list, t_list **head, char *str, int ptype);
+int		ft_isspace(int c);
+
+/* *** "expand with spaces" struct *** */
+typedef struct	s_qchar
+{
+	char	*fc;
+	char	*lc;
+}	t_qchar;
+
+/* *** "expand with spaces" funcs *** */
+int		ft_split_token(t_list **list, t_list **head, char *str, int *ptype);
+t_qchar	*ft_qchar(char *str, int flag);
+void	ft_qchar_add(char *str, int flag);
+t_list	*ft_tokenlst(char *str);
 
 /* *** token *** */
 t_token	*ft_new_token(char *token);
