@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/14 18:58:21 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/15 05:31:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,6 +302,7 @@ char	*custom_strndup(const char *s1, size_t n, int pid);
 char	*ft_strndup(const char *s1, size_t n);
 void 	last_command_arg(t_tree *tree, t_env **environ);
 void 	save_node_changes(t_env **environ, char *var, char *new_value);
+int		count_words(const char *s, char c);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/11 02:41:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/15 05:48:28 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 
 
-static int	count_words(const char *s, char c)
-{
-	int		i;
-	int		count;
+// static int	count_words(const char *s, char c)
+// {
+// 	int		i;
+// 	int		count;
 
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		if ((s[i] != c)
-			&& (s[i + 1] == c || s[i + 1] == '\0'))
-			count++;
-		i++;
-	}
-	return (count);
-}
+// 	i = 0;
+// 	count = 0;
+// 	while (s[i])
+// 	{
+// 		if ((s[i] != c)
+// 			&& (s[i + 1] == c || s[i + 1] == '\0'))
+// 			count++;
+// 		i++;
+// 	}
+// 	return (count);
+// }
 
 int	count_lengh_of_str(char *str, char c, int *i)
 {
@@ -103,7 +103,7 @@ char	**potential_path(t_env **environ, char *command)
 	{
 		ft_putstr_fd("Minishell: ", 2);
 		ft_putstr_fd(command , 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (NULL);
 	}
 	potential_paths = allocate_double_char(PATH,':',command);

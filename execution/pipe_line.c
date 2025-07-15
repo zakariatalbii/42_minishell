@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/13 23:52:04 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/15 00:37:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void pipe_line(t_tree *tree,t_env **environ, t_env_var **env_vars)
     error_handling(close(fd[1]), "close");
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
-    if(WCOREDUMP(status_2))
+    if (WTERMSIG(status_1) == SIGQUIT)
             printf("Quit (core dumped)\n");
     if (status_2 != 0) 
         *(*(env_vars))->status = status_2 >> 8; 
@@ -81,10 +81,7 @@ static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var 
     int status_1;
 
     if(is_built_in(tree->data.argv) == 1)
-    {
-        
         execute_the_builtin(tree, environ, env_vars, flag);
-    }
     else
     {
         pid = fork();
@@ -96,7 +93,7 @@ static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var 
             external_commands_execution(tree->data.argv,environ, env_vars);
         }
         waitpid(pid,&status_1,0);
-        if(WCOREDUMP(status_1))
+        if (WTERMSIG(status_1) == SIGQUIT)
             printf("Quit (core dumped)\n");
         if (status_1 != 0) 
         {
@@ -111,21 +108,11 @@ static void change_lst_arg_(char *last_arg ,t_env **environ)
 
     char *lst_arg;
     
-    // while(current)
-    // {
-    //     if(!ft_strcmp(current->var, "_"))
-    //     {
-    //         if(!ft_strcmp(last_arg,"env"))
-    //           last_arg = "/usr/bin/env";
-    //         current->val = custom_strdup(last_arg,1);
-    //     }
-    //     current = current ->next; 
-    // }
     if(!ft_strcmp(last_arg,"env"))
         lst_arg = "/usr/bin/env";
     else
         lst_arg = custom_strdup(last_arg,1);
-    // save_node_changes(environ, "_", lst_arg);
+    save_node_changes(environ, "_", lst_arg);
 }
 
 void last_command_arg(t_tree *tree, t_env **environ)
@@ -135,8 +122,7 @@ void last_command_arg(t_tree *tree, t_env **environ)
     int i;
     
     i = 0;
-    if(tree)
-        args = tree->data.argv;
+    args = tree->data.argv;
     if(!args)
         return;
     while(args && args[i])
@@ -168,12 +154,9 @@ void recursion(t_tree *tree,t_env **environ,t_env_var **env_vars)
     else if (tree->type == 2)
         infile_handling(tree,environ,env_vars);
     else if (tree->type == 3)
-    {
         outfile_handling(tree,environ,env_vars);
-    }
     else if (tree->type == 4)
         heredoc_handling(tree,environ,env_vars);
     else if(tree->type == 5)
         append_handling(tree,environ,env_vars);
 }
-

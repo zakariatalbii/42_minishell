@@ -1,6 +1,8 @@
 LIBFT = libft/libft.a
 LIBFT_H = libft/libft.h
 
+
+
 SRC = show_the_tree.c \
 		minishell.c ft_signals.c utils.c \
 		environ/ft_env.c environ/ft_envinit.c environ/ft_environ.c \
@@ -23,16 +25,17 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -Wextra -Werror -g -Wall -fsanitize=address # 
+CC = cc -g -Wall -fsanitize=address #-Wextra -Werror  
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)
-	$(CC) -c $< -o $@
+	$(CC) -I/mnt/homes/wnid-hsa/homebrew/opt/readline/include -c $< -o $@
+
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) -I/mnt/homes/wnid-hsa/homebrew/opt/readline/include -L/mnt/homes/wnid-hsa/homebrew/opt/readline/lib -lreadline -o $(NAME)
 
 $(LIBFT):
 	make -C libft all bonus

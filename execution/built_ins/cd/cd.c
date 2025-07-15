@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/14 02:26:31 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/15 07:02:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,63 @@ void save_node_changes(t_env **environ, char *var, char *new_value)
 	
 	}
 }
+char *go_backwards(char *pwd)
+{
+	int i;
+	int lengh;
+	char *path;
+	int count;
+	
+	if(!pwd)
+		return(NULL);
+	(1 && (lengh = count_words(pwd, '/')),(count = 0), (i = -1));
+	if(!ft_strcmp(pwd,"/"))
+		path = custom_strdup(pwd,1);
+	else
+	{
+		while(pwd[++i] && count <lengh)
+		{
+			if(pwd[i]=='/')
+			{
+				count++;
+			}
+		}
+		if(i == 1)
+			path = custom_strndup(pwd ,i ,1);
+		else
+			path = custom_strndup(pwd ,i - 1,1);
+	}
+	return(path);
+}
+char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
+{
+	char *right_pwd;
+	char *pwd;
+	char *tmp;
+	
+	pwd = (*env_vars)->pwd;
+	if(!pwd)
+		return(NULL);
+	if(new)
+	{
+		if(new[0] =='/')
+			right_pwd =custom_strdup(new ,1);
+		else if(!ft_strcmp(new,".."))
+			right_pwd = go_backwards(pwd);
+		else
+		{
+			tmp = custom_strjoin(pwd,"/",1);
+			right_pwd= custom_strjoin(tmp,new,1);
+		}	
+		return(right_pwd);
+	}
+	return(NULL);
+}
 static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 {
     char *new_path;
 	int	 flag;
-	char *pwd;
+	char *right_pwd_;
 	
 	flag = 0;
 	if(!chdir(new))
@@ -98,13 +150,10 @@ static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 			*((*env_vars)->status) = 1;
 			flag = 1;
 		}
-		pwd =get_value("PWD",*environ);
-		if(!pwd)
-			save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
-		else
-			save_node_changes(environ, "OLDPWD", pwd);
-		changing_nodes(environ, "PWD",custom_strdup(new_path,1));
-		(*env_vars)->pwd = custom_strdup(new_path,1);
+		right_pwd_=right_pwd(environ, new, env_vars);
+		save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
+		changing_nodes(environ, "PWD",custom_strdup(right_pwd_,1));
+		(*env_vars)->pwd = right_pwd_;
 		if(flag == 0)
 			*((*env_vars)->status) = 0;
 		if(new_path)

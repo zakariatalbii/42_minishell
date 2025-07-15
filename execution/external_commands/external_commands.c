@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/11 03:10:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/15 05:15:30 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,20 +47,12 @@ static int  check_full_path(char *full_path, t_env_var **env_vars)
 		}
 	}
 	*((*env_vars)->status) = 127;
-	ft_putstr_fd("bash: command not found\n",2);
+	ft_putstr_fd("Minishell: ",2);
+    ft_putstr_fd(full_path,2);
+    ft_putstr_fd(": No such file or directory\n",2);
 	return(-1);
 } 
-// static int get_shlvl_value(t_env *environ)
-// {
-    
-//     while(environ)
-//     {
-//         if(!ft_strcmp(environ->var,"SHLVL"))
-//             value = ft_atoi(environ->val);
-//         environ=environ->next;
-//     }
-//     return(1);
-// }  
+
 static int full_path(char *command, t_env **environ, t_env_var **env_vars)
 {   
     if(!ft_strlen(command))
@@ -167,6 +159,7 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
     char **envp_;
     int path_type;
 
+    flag = 0;
     envp_= envp(environ);
     if(command && command[0])
     {
