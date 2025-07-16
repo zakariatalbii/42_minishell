@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/16 05:33:18 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/16 07:31:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,21 +113,31 @@ static int count_two_points(char *new)
 {
 	int count;
 	char *haystack;
-
-	count = 1;
+	
+	count = 0;
 	haystack = ft_strnstr(new, "..", ft_strlen(new));
 	if(!haystack)
 		return(0);
+	count++;
 	while(haystack)
 	{
 		haystack = ft_strnstr(new + 2, "..", ft_strlen(new));
-		count++;
+		if(haystack)
+			count++;
 		new = haystack;  
 	}
-	if(count > 1)
-		return(count -1);
 	return(count);
 } 
+static char *trim_back_slach(char *new)
+{
+	char *trimmed;
+	char *new_;
+	
+	trimmed = ft_strtrim(new, "/");
+	new_= custom_strjoin("/", trimmed,1);
+	return(new_);
+
+}
 
 char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 {
@@ -141,11 +151,13 @@ char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 		return(NULL);
 	if(new)
 	{
-		if(!ft_strcmp(new,"."))
-			right_pwd =custom_strdup(pwd ,1);
-		else if(new[0] =='/')
-			right_pwd =custom_strdup(new ,1);
-		else if(!ft_strncmp(new,"..",2))
+
+		// if(new[0] =='/')
+		// {
+			
+		// 	right_pwd =trim_back_slach(new);
+		// }
+		if(!ft_strncmp(new,".",1))
 		{
 			count = count_two_points(new);
 			if(count >= 1)
@@ -156,12 +168,20 @@ char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 					pwd = right_pwd;
 					count --;
 				}
-			} 
+			}
+			else
+				right_pwd=pwd;
 		}
 		else
 		{
-			tmp = custom_strjoin(pwd,"/",1);
-			right_pwd= custom_strjoin(tmp,new,1);
+			if(new[0] == '/')
+				right_pwd =trim_back_slach(new);
+			else
+			{
+				tmp = trim_back_slach(new);
+				if(tmp)
+					right_pwd= custom_strjoin(pwd,tmp,1);
+			}
 		}	
 		return(right_pwd);
 	}
