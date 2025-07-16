@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/15 07:02:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/16 05:33:18 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,21 +109,55 @@ char *go_backwards(char *pwd)
 	}
 	return(path);
 }
+static int count_two_points(char *new)
+{
+	int count;
+	char *haystack;
+
+	count = 1;
+	haystack = ft_strnstr(new, "..", ft_strlen(new));
+	if(!haystack)
+		return(0);
+	while(haystack)
+	{
+		haystack = ft_strnstr(new + 2, "..", ft_strlen(new));
+		count++;
+		new = haystack;  
+	}
+	if(count > 1)
+		return(count -1);
+	return(count);
+} 
+
 char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 {
 	char *right_pwd;
 	char *pwd;
 	char *tmp;
+	int count;
 	
-	pwd = (*env_vars)->pwd;
+	(1 && (pwd = (*env_vars)->pwd),(right_pwd = NULL));
 	if(!pwd)
 		return(NULL);
 	if(new)
 	{
-		if(new[0] =='/')
+		if(!ft_strcmp(new,"."))
+			right_pwd =custom_strdup(pwd ,1);
+		else if(new[0] =='/')
 			right_pwd =custom_strdup(new ,1);
-		else if(!ft_strcmp(new,".."))
-			right_pwd = go_backwards(pwd);
+		else if(!ft_strncmp(new,"..",2))
+		{
+			count = count_two_points(new);
+			if(count >= 1)
+			{
+				while(count)
+				{
+					right_pwd = go_backwards(pwd);
+					pwd = right_pwd;
+					count --;
+				}
+			} 
+		}
 		else
 		{
 			tmp = custom_strjoin(pwd,"/",1);
@@ -133,31 +167,59 @@ char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 	}
 	return(NULL);
 }
+
+static char *escaped_path(char *pwd, int flag)
+{
+	char *trimmed;
+	int count;
+	int lengh;
+	
+	count = (flag + 1 )*2;
+	
+	trimmed = ft_strtrim(pwd, "/..");
+	if(!trimmed)
+		return(NULL);
+	lengh = ft_strlen(trimmed) - count;
+	return(custom_strndup(trimmed, lengh,1));
+}
 static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 {
     char *new_path;
-	int	 flag;
+	static int	 flag;
 	char *right_pwd_;
-	
-	flag = 0;
+	char *previous_pwd;
+	char *pwd;
+
+	right_pwd_ = NULL;
 	if(!chdir(new))
 	{
-		new_path = getcwd(NULL,0);
-		if(!new_path)
+		pwd = getcwd(NULL,0);
+		previous_pwd=(*env_vars)->pwd;
+		if(!pwd)
 		{
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 			new_path = get_deleted_path_gain((*env_vars)->pwd, new);
+			right_pwd_ = new_path;
 			*((*env_vars)->status) = 1;
-			flag = 1;
+			flag++;
 		}
-		right_pwd_=right_pwd(environ, new, env_vars);
+		else
+		{
+			if(flag >0)
+			{
+				right_pwd_=escaped_path(previous_pwd, flag);
+				flag = 0;
+				
+			}
+			else
+				right_pwd_=right_pwd(environ, new, env_vars);
+		}
 		save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
 		changing_nodes(environ, "PWD",custom_strdup(right_pwd_,1));
-		(*env_vars)->pwd = right_pwd_;
-		if(flag == 0)
+		(*env_vars)->pwd = right_pwd_;	
+		free(pwd);
+		if(flag == 0)	
 			*((*env_vars)->status) = 0;
-		if(new_path)
-			free(new_path);
 	}
 	else
 	{

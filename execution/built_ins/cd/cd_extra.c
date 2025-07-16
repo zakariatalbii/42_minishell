@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/14 00:45:39 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/16 00:39:41 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ char *telda_full_path(char *telda_path)
 	
 	if(!telda_path)
 	{
-		telda_full_path = custom_strjoin("/home/wnid-hsa", telda_path, 1);
+		telda_full_path = custom_strjoin("/homes/wnid-hsa", telda_path, 1);
 	}
-	telda_full_path = custom_strjoin("/home/wnid-hsa", telda_path + 1, 1);
+	telda_full_path = custom_strjoin("/homes/wnid-hsa", telda_path + 1, 1);
 	if(!telda_full_path)
 		return(NULL);
 	else
