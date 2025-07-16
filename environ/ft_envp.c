@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_envp.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/10 21:08:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:40:07 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**ft_envp(void)
 	char	**tmp;
 
 	size = ft_envsize(ft_environ(NULL, 0));
-	envp = (char **)gc_malloc((size + 1) * sizeof(char *),1);
+	envp = (char **)malloc((size + 1) * sizeof(char *));
 	if (!envp && ft_status(1))
 		return (perror("malloc"), NULL);
 	env = ft_environ(NULL, 0);

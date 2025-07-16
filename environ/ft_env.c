@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/14 20:51:28 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:39:15 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ t_env	*ft_envnew(char *var, char *val)
 {
 	t_env	*node;
 
-	if (var)
-		node = (t_env *)gc_malloc(sizeof(t_env),1);
-	if (!var || !node)
-		return (NULL);
+	if (var && val)
+		node = (t_env *)malloc(sizeof(t_env));
+	if (!var || !val || !node)
+		return (free(var), free(val), NULL);
 	node->var = var;
 	node->val = val;
 	node->next = NULL;

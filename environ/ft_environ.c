@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_environ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/10 22:32:01 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/04 19:39:43 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// void	ft_environ_clear(void)
-// {
-// 	t_env	*env;
+void	ft_environ_clear(void)
+{
+	t_env	*env;
 
-// 	env = ft_environ(NULL, 0);
-// 	// ft_envclear(&env);
-// 	ft_environ(NULL, 1);
-// }
+	env = ft_environ(NULL, 0);
+	ft_envclear(&env);
+	ft_environ(NULL, 1);
+}
 
 t_env	*ft_environ(t_env *env, int flag)
 {

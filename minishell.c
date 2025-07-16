@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/16 01:22:09 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/16 15:59:26 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,27 +75,22 @@ static char	*ft_readline(t_env_var *env_vars)
 
 int	main(void)
 {
-	t_tree	*tree;
-	char	*line;
-	t_env_var *env_vars;
-	t_env *environ;
+	t_tree		*tree;
+	char		*line;
+	t_env_var	*env_vars;
 
 
 	env_vars = env_var_initialization();
 	ft_signals(1);
-	environ = ft_environ(ft_envinit(), 1);
-	if (!environ)
-	{
-		gc_malloc(0,1);
+	if (!ft_environ(ft_envinit(), 1))
 		exit(1);
-	}
 	while (1)
 	{
 		line = ft_readline(env_vars);
 		if (!line)
 			break ;
 		tree = ft_parser(line, ft_status(-1));
-		recursion(tree,&environ ,&env_vars);
+		// recursion(tree,&environ ,&env_vars);
 		// show_the_tree(tree);// for test
 		ft_free_tree(tree);
 		free(line);
