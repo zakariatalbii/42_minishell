@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/11 03:45:30 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:11:43 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ void infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars)
         original_in=dup(STDIN_FILENO);
         error_handling(original_in, "dup");
         fd = open(tree->data.red.file.name, O_RDONLY);
-        error_handling(fd,"open");
+        if(fd<0)
+        {
+            error_handling(fd,"open");
+            return;
+        }
         error_handling(dup2(fd,STDIN_FILENO),"dup2");
         recursion(tree->data.red.ntree, environ,env_vars);
         error_handling(close(fd),"close");
@@ -103,6 +107,8 @@ void append_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
     else
     {
             fd_ = open(tree->data.red.file.name, O_CREAT|O_WRONLY|O_APPEND);
+            if(fd_<0)
+                return;
             error_handling(fd_,"open");
     }
     error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");

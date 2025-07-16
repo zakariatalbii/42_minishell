@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/15 00:37:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/16 09:09:14 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void error_handling(int return_value,char *failed_function)
         if(!strcmp(failed_function, "dup"))
             perror("dup failed\n");
         if(!strcmp(failed_function, "open"))
-            perror("open failed\n");
+            perror("minishell : permission denied\n");
         // gc_malloc(0,0);
         // exit(1);
     }
