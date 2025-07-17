@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 19:39:29 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/17 02:34:05 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,17 @@ static size_t	ft_varlen(char *s)
 
 static int	ft_pwdenv(t_env **env)
 {
-	struct stat	s;
 	t_env		*new;
-	char		*opwd;
 
 	*env = NULL;
-	new = ft_envnew(ft_strdup("PWD"), getcwd(NULL, 0));
+	new = ft_envnew(ft_strdup("OLDPWD"), NULL, 1, 0);
 	if (!new && ft_status(1))
 		return (perror("malloc"), ft_envclear(env), -1);
 	ft_envadd(env, new);
-	opwd = getenv("OLDPWD");
-	if (opwd && !stat(opwd, &s) && S_ISDIR(s.st_mode))
-	{
-		new = ft_envnew(ft_strdup("OLDPWD"), ft_strdup(opwd));
-		if (!new && ft_status(1))
-			return (perror("malloc"), ft_envclear(env), -1);
-		ft_envadd(env, new);
-	}
+	new = ft_envnew(ft_strdup("PWD"), getcwd(NULL, 0), 1, 1);
+	if (!new && ft_status(1))
+		return (perror("malloc"), ft_envclear(env), -1);
+	ft_envadd(env, new);
 	return (0);
 }
 
@@ -63,7 +57,7 @@ static int	ft_shlvlenv(t_env **env)
 		ft_putendl_fd(") too high, resetting to 1", 2);
 		shl = 1;
 	}
-	new = ft_envnew(ft_strdup("SHLVL"), ft_itoa(shl));
+	new = ft_envnew(ft_strdup("SHLVL"), ft_itoa(shl), 1, 1);
 	if (!new && ft_status(1))
 		return (perror("malloc"), ft_envclear(env), -1);
 	ft_envadd(env, new);
@@ -88,7 +82,7 @@ t_env	*ft_envinit(void)
 			&& ft_strncmp(environ[v], "SHLVL=", 6))
 		{
 			new = ft_envnew(ft_strndup(environ[v], len),
-					ft_strdup(&environ[v][len + 1]));
+					ft_strdup(&environ[v][len + 1]), 1, 1);
 			if (!new && ft_status(1))
 				return (perror("malloc"), ft_envclear(&env), NULL);
 			ft_envadd(&env, new);

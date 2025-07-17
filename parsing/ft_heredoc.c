@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 18:20:54 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/16 15:26:41 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/17 03:12:29 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int	ft_heredoc(char **del, int status)
 		line = readline("> ");
 		if (ft_heredoc_i(0, fds))
 			return (-2);
-		if ((!line && ft_heredoc_warning(*del, tmp[1]))
-			|| (!ft_strncmp(*del, line, ft_strlen(line) + 1) && ft_count_lines(1)))
+		if ((!line && ft_heredoc_warning(*del, tmp[1])) || (!ft_strncmp(*del,
+					line, ft_strlen(line) + 1) && ft_count_lines(1)))
 			break ;
 		if (ft_count_lines(1) && !tmp[0] && ft_expand_h(&line, status, 2) == -1)
 			return (close(fds[0]), close(fds[1]), close(fds[2]), -1);

@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 19:40:07 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/17 01:21:15 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ char	**ft_envp(void)
 	char	**envp;
 	char	**tmp;
 
-	size = ft_envsize(ft_environ(NULL, 0));
+	size = ft_envsize(ft_environ(NULL, NULL, 0));
 	envp = (char **)malloc((size + 1) * sizeof(char *));
 	if (!envp && ft_status(1))
 		return (perror("malloc"), NULL);
-	env = ft_environ(NULL, 0);
+	env = ft_environ(NULL, NULL, 0);
 	tmp = envp;
 	while (env)
 	{

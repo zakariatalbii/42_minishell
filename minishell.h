@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/15 05:31:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/17 02:24:42 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_env	*ft_envnew(char *var, char *val);
+t_env	*ft_envnew(char *var, char *val, int varf, int valf);
 void	ft_envadd(t_env **env, t_env *new);
 int		ft_envsize(t_env *env);
 void	ft_envclear(t_env **env);
 t_env	*ft_envinit(void);
-t_env	*ft_environ(t_env *env, int flag);
+t_env	*ft_environ(t_env ***penv, t_env *env, int flag);
 void	ft_environ_clear(void);
 int		ft_setenv(char *var, char *val, int flag);
 void	ft_unsetenv(char *var);

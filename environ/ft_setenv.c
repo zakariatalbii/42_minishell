@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 19:40:38 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/17 02:57:33 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	ft_setnew(char *var, char *val)
 	t_env	*env;
 	t_env	*new;
 
-	env = ft_environ(NULL, 0);
-	new = ft_envnew(var, val);
+	env = ft_environ(NULL, NULL, 0);
+	new = ft_envnew(var, val, 1, 1);
 	if (!new && ft_status(1))
 		return (perror("malloc"), -1);
 	ft_envadd(&env, new);
@@ -30,7 +30,7 @@ int	ft_setenv(char *var, char *val, int flag)
 	t_env	*env;
 	char	*str;
 
-	env = ft_environ(NULL, 0);
+	env = ft_environ(NULL, NULL, 0);
 	while (env)
 	{
 		if (!flag && !ft_strcmp(env->var, var))
@@ -57,10 +57,10 @@ void	ft_unsetenv(char *var)
 	t_env	*env;
 	t_env	*tmp;
 
-	env = ft_environ(NULL, 0);
+	env = ft_environ(NULL, NULL, 0);
 	if (env && !ft_strcmp(env->var, var))
 	{
-		ft_environ(env->next, 1);
+		ft_environ(NULL, env->next, 1);
 		free(env->var);
 		free(env->val);
 		free(env);

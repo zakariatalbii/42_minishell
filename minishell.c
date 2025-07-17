@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/16 15:59:26 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/17 02:56:33 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ int	main(void)
 	t_tree		*tree;
 	char		*line;
 	t_env_var	*env_vars;
-
+	t_env		**env;
 
 	env_vars = env_var_initialization();
 	ft_signals(1);
-	if (!ft_environ(ft_envinit(), 1))
+	if (!ft_environ(&env, ft_envinit(), 1))
 		exit(1);
 	while (1)
 	{
@@ -90,12 +90,12 @@ int	main(void)
 		if (!line)
 			break ;
 		tree = ft_parser(line, ft_status(-1));
-		// recursion(tree,&environ ,&env_vars);
+		recursion(tree, env, &env_vars);
 		// show_the_tree(tree);// for test
 		ft_free_tree(tree);
 		free(line);
 	}
 	clear_history();
-	// ft_environ_clear();
+	ft_environ_clear();
 	exit(ft_status(-1));
 }
