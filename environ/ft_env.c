@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/17 02:21:57 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/17 16:46:09 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*ft_envnew(char *var, char *val, int varf, int valf)
 {
 	t_env	*node;
 
-	if (var && val)
+	if ((var || !varf) && (val || !valf))
 		node = (t_env *)malloc(sizeof(t_env));
 	if ((!var && varf) || (!val && valf) || !node)
 		return (free(var), free(val), NULL);
