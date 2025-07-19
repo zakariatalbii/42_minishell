@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/15 05:48:28 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 02:29:50 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,14 +138,14 @@ int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **e
 			else
 			{
 				ft_putstr_fd("permission denied\n",2);
-				*((*env_vars)->status) = 126;
+				ft_status(126);
 				return(-1);
 			}
 		}
 		i++;
 	}
 	// ft_status(127);
-	*((*env_vars)->status) = 127;
+	ft_status(127);
 	ft_putstr_fd("Minishell: ", 2);
 	ft_putstr_fd(command , 2);
 	ft_putstr_fd(": command not found\n", 2);

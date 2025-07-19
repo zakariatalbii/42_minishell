@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:44 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/10 22:32:42 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 02:10:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,5 @@ void echo_execution(char **command, t_env_var **env_vars)
     }
     if(new_line == 0)
         printf("\n");
-    *((*env_vars)->status) = 0;
+    ft_status(0);
 }

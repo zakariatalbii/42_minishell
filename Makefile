@@ -1,8 +1,8 @@
 LIBFT = libft/libft.a
 LIBFT_H = libft/libft.h
 
-RL_LIB = -L./readline/lib -lreadline
-RL_H = -I./readline/include
+# RL_LIB = -L./readline/lib -lreadline
+# RL_H = -I./readline/include
 
 SRC = show_the_tree.c \
 		minishell.c ft_signals.c utils.c \
@@ -30,12 +30,12 @@ CC = cc #-Wall -Wextra -Werror #-g -fsanitize=address
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)
-	$(CC) $(RL_H) -c $< -o $@
+	$(CC) -I/mnt/homes/wnid-hsa/homebrew/opt/readline/include -c  $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(OBJ) $(LIBFT) $(RL_LIB) -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) -I/mnt/homes/wnid-hsa/homebrew/opt/readline/include -L/mnt/homes/wnid-hsa/homebrew/opt/readline/lib -lreadline -o $(NAME)
 
 $(LIBFT):
 	make -C libft all bonus

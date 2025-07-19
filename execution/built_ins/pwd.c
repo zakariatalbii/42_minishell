@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/15 06:31:22 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 02:23:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars)
         ft_putchar_fd(command[1][0],2);
         ft_putchar_fd(command[1][1],2);
         ft_putstr_fd(": invalid option\n",2);
-        *(*env_vars)->status = 2;
+        ft_status(2);
         return;
     }
     else
@@ -49,7 +49,7 @@ void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars)
         // if(get_value("PWD",environ))
         //     printf("%s\n", get_value("PWD",environ));
 			printf("%s\n", (*env_vars)->pwd);
-             
+            ft_status(0);
     }
 }
 

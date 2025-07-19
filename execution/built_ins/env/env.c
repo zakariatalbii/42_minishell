@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/27 17:16:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 02:11:22 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,9 @@ void executing_env(t_env **environ, t_env_var **env_vars)
 {
     t_env *current;
 
-    if (*environ == NULL)
-        return;
     current = *environ;
+    if (current == NULL)
+        return;
     while(current)
     {
         if(current->val)
@@ -114,5 +114,5 @@ void executing_env(t_env **environ, t_env_var **env_vars)
         }
         current= current->next;
     }
-    *((*env_vars)->status) = 0;
+    ft_status(0);
 }

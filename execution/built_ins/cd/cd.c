@@ -6,41 +6,38 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/16 07:31:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 07:39:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
 
-static void cd_home(t_env **environ, t_env_var **env_vars)
+static void cd_home(t_env **environ, t_env_var **env_vars, int flag_)
 {
-    char *HOME;
+    char *home;
 	int flag;
-	char *pwd;
 
 	flag = is_it_set(environ, "HOME");
 	if(flag == 0)
 	{
-		*((*env_vars)->status) = 1;
+		ft_status(1);
 		return;
 	}
-    HOME = get_value("HOME",*environ);
-	pwd = get_value("PWD",*environ);
-	if(!pwd)
-		save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
-	else
-		save_node_changes(environ, "OLDPWD", pwd);
-	if(!chdir(HOME))
+    home = ft_getenv("HOME");
+	if(!chdir(home))
 	{
-		changing_nodes(environ,"PWD", HOME);
-		(*env_vars)->pwd = custom_strdup(HOME,1);
-		*((*env_vars)->status) = 0;
+		 // flag to know number of cd enterence if its the less than 1 i shouldnt use the env_vars pwd;
+		ft_setenv("OLDPWD", (*env_vars)->pwd,0);
+		if(ft_getenv("PWD"))
+			ft_setenv("PWD", home,0);
+		(*env_vars)->pwd = custom_strdup(home,1);
+		ft_status(0);
 	}
 	else
 	{
-		*((*env_vars)->status) = 1;
-		printf("error!");
+		ft_status(1);
+		perror("chdir error!");
 	}
 }
 static char *get_deleted_path_gain(char *PWD, char *new)
@@ -57,30 +54,7 @@ static char *get_deleted_path_gain(char *PWD, char *new)
 	else
 		return(deleted_path);
 }
-void save_node_changes(t_env **environ, char *var, char *new_value)
-{
-	t_env *new_node;
 
-	new_node = ft_envnew(var,new_value);
-	if(!new_node)
-		return;
-	if(!ft_strcmp(var, "OLDPWD"))
-	{
-		if(!new_node->val)
-		{
-			(new_node)->val = custom_strdup("",1);
-		}
-	}
-	if(!is_the_var_in_environ(var,*environ) && !ft_unset_flag(0))
-	{	
-		ft_envadd(environ, new_node);
-	}
-	else
-	{
-		changing_nodes(environ, var,new_value);
-	
-	}
-}
 char *go_backwards(char *pwd)
 {
 	int i;
@@ -151,12 +125,6 @@ char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 		return(NULL);
 	if(new)
 	{
-
-		// if(new[0] =='/')
-		// {
-			
-		// 	right_pwd =trim_back_slach(new);
-		// }
 		if(!ft_strncmp(new,".",1))
 		{
 			count = count_two_points(new);
@@ -220,7 +188,7 @@ static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 			printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
 			new_path = get_deleted_path_gain((*env_vars)->pwd, new);
 			right_pwd_ = new_path;
-			*((*env_vars)->status) = 1;
+			ft_status(1);
 			flag++;
 		}
 		else
@@ -229,22 +197,22 @@ static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 			{
 				right_pwd_=escaped_path(previous_pwd, flag);
 				flag = 0;
-				
 			}
 			else
 				right_pwd_=right_pwd(environ, new, env_vars);
 		}
-		save_node_changes(environ, "OLDPWD", (*env_vars)->pwd);
-		changing_nodes(environ, "PWD",custom_strdup(right_pwd_,1));
+		ft_setenv("OLDPWD", (*env_vars)->pwd, 0);
+		if(ft_getenv("PWD"))
+			ft_setenv("PWD", custom_strdup(right_pwd_,1), 0);
 		(*env_vars)->pwd = right_pwd_;	
 		free(pwd);
 		if(flag == 0)	
-			*((*env_vars)->status) = 0;
+			ft_status(0);
 	}
 	else
 	{
 		cd_errno_handling(errno, new);
-		*((*env_vars)->status) = 1;
+		ft_status(1);
 		return;
 	}
 }
@@ -252,17 +220,28 @@ static void new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 {
 	char *telda_path;
+	static int flag;
 	
     if(command && command[1] && command[2])
     {
-        printf("bash: cd: too many arguments\n");
-		*((*env_vars)->status) = 1;
+        ft_putstr_fd("Minishell: cd: too many arguments\n",2);
+		ft_status(1);
         return;
     }
 	else if((command)[1] && !strcmp((command)[1],"-"))
+	{
+		
+		flag++;
         cd_oldpwd(environ ,env_vars);
+	}
 	else if ((command)[1] == NULL || ((command)[1] && !ft_strcmp(command[1], "/home/wnid-hsa")))
-    	cd_home(environ, env_vars);
+	{
+		if(!ft_getenv("PWD"))
+			flag++;
+		if(ft_getenv("PWD"))
+			flag = 0;
+    	cd_home(environ, env_vars, flag);
+	}
 	else if (command[1][0] == '~' )
 	{
 		telda_path = telda_full_path(command[1]);
@@ -271,5 +250,8 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 		new_path_cd(environ,telda_path,env_vars);
 	}
 	else
+	{
+		flag++;
         new_path_cd(environ,(command)[1],env_vars);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/16 09:11:43 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 03:52:44 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars)
         error_handling(close(original_in),"close");
     }
     else
-        ft_putstr_fd("bash: No such file or directory\n", 2);
+        ft_putstr_fd("Minishell: No such file or directory\n", 2);
 }
 
 void fd_input_directing(int fd_to,int fd_from)
@@ -67,7 +67,7 @@ void outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
     close(fd[1]);
     recursion(tree->data.red.ntree, environ,env_vars);
     error_handling(dup2(original_out, STDOUT_FILENO), "dup2");
-    if (*((*env_vars)->status) == 127)
+    if (ft_status(-1) == 127)
         fd_input_directing(STDERR_FILENO, fd[0]);
     else 
         fd_input_directing(fd_,fd[0]);
@@ -80,6 +80,7 @@ void heredoc_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
 {
     int original_in;
 
+    ft_signals(2);
     original_in=dup(STDIN_FILENO);
     error_handling(original_in,"dup");
     error_handling(dup2(tree->data.red.file.fd, STDIN_FILENO),"dup2");
@@ -115,7 +116,7 @@ void append_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
     close(fd[1]);
     recursion(tree->data.red.ntree,environ,env_vars);
     error_handling(dup2(original_out, STDOUT_FILENO), "dup2");
-    if (*((*env_vars)->status) == 127) 
+    if (ft_status(-1) == 127) 
         fd_input_directing(STDERR_FILENO,fd[0]);
     else
         fd_input_directing(fd_,fd[0]);

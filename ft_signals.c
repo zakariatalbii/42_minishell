@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 12:33:42 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/19 05:04:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ static void	ft_handler_i(int sig)
 {
 	(void)sig;
 	ft_status(130);
-	ft_putchar_fd('\n', 1);
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay();
-	ft_count_lines(1);
+	if(g_in_readline)
+	{
+		// ft_putchar_fd('\n', 1);
+		write(1,"\n",1);
+		rl_on_new_line();
+		rl_replace_line("", 1);
+		rl_redisplay();
+		ft_count_lines(1);
+	}
+	else
+		write(1,"\n",1);
 }
 
 int	ft_heredoc_i(int f, int *fds)

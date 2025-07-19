@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/16 09:09:14 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 04:22:11 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,39 +41,46 @@ static void pipe_line(t_tree *tree,t_env **environ, t_env_var **env_vars)
     (1 && (pipe(fd)), (pid[0] = fork()), (error_handling(pid[0], "fork")));
     if (pid[0] == 0)
     {
-        signal(SIGINT,SIG_DFL);
-        signal(SIGQUIT,SIG_DFL);
+        ft_signals(0);
         error_handling(close(fd[0]), "close");
         error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
         error_handling(close(fd[1]), "close");
         recursion(tree->data.pipe.rtree,environ ,env_vars);
         //gc_malloc(0,0);
-        exit(*(*(env_vars))->status);
+        exit(ft_status(-1));
     }
     (1 && (pid[1] = fork()), (error_handling(pid[1], "fork")));
     if (pid[1] == 0) 
     {
-        signal(SIGINT,SIG_DFL);
-        signal(SIGQUIT,SIG_DFL);
+        ft_signals(0);
         error_handling(close(fd[1]), "close");
         error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
         error_handling(close(fd[0]), "close");
         recursion(tree->data.pipe.ltree,environ, env_vars);
         //gc_malloc(0,0);
-        exit(*(*(env_vars))->status);
+        exit(ft_status(-1));
     }
     error_handling(close(fd[0]), "close");
     error_handling(close(fd[1]), "close");
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
-    if (WTERMSIG(status_1) == SIGQUIT)
+    if (WIFSIGNALED(status_2))
+    {
+        int sig = WTERMSIG(status_2);
+        if (sig == SIGINT)
+            ft_status(130);
+        else if (sig == SIGQUIT)
+        {
+            ft_status(131);
             printf("Quit (core dumped)\n");
-    if (status_2 != 0) 
-        *(*(env_vars))->status = status_2 >> 8; 
-    else 
-        *(*(env_vars))->status = 0;
-
-}
+        }
+    }
+    else if (WIFEXITED(status_2))
+        ft_status(WEXITSTATUS(status_2));
+    else
+        ft_status(1);
+}    
+    
 
 static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var **env_vars)
 {
@@ -88,19 +95,34 @@ static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var 
         error_handling(pid, "close");
         if(pid == 0)
         {
-            signal(SIGINT,SIG_DFL);
-            signal(SIGQUIT,SIG_DFL);
+            ft_signals(0);
             external_commands_execution(tree->data.argv,environ, env_vars);
         }
         waitpid(pid,&status_1,0);
-        if (WTERMSIG(status_1) == SIGQUIT)
-            printf("Quit (core dumped)\n");
-        if (status_1 != 0) 
+        // if (WTERMSIG(status_1) == SIGQUIT)
+        //     printf("Quit (core dumped)\n");
+        // if (status_1 != 0) 
+        // {
+        //     ft_status(status_1 >> 8); 
+        // }
+        // else 
+        //     ft_status(0);
+        if (WIFSIGNALED(status_1))
         {
-            *(*(env_vars))->status = status_1 >> 8; 
+            int sig = WTERMSIG(status_1);
+            if (sig == SIGINT)
+                ft_status(130);
+            else if (sig == SIGQUIT)
+            {
+                ft_status(131);
+                printf("Quit (core dumped)\n");
+            }
         }
-        else 
-            *(*(env_vars))->status = 0;
+        else if (WIFEXITED(status_1))
+            ft_status(WEXITSTATUS(status_1));
+        else
+            ft_status(1);
+
     }    
 }
 static void change_lst_arg_(char *last_arg ,t_env **environ)
@@ -112,7 +134,7 @@ static void change_lst_arg_(char *last_arg ,t_env **environ)
         lst_arg = "/usr/bin/env";
     else
         lst_arg = custom_strdup(last_arg,1);
-    save_node_changes(environ, "_", lst_arg);
+    ft_setenv("_", lst_arg,0);
 }
 
 void last_command_arg(t_tree *tree, t_env **environ)

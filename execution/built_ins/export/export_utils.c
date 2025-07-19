@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/10 22:36:02 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/18 01:30:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,7 @@ void export_flags_apdate(t_env**environ ,t_environ *new, t_env_var **env_vars)
         *((*env_vars)->export_) = 1;
     if(!strcmp(new->var, "OLDPWD"))
         *((*env_vars)->export_OLDPWD) = 1;
-    if(is_the_var_in_environ(new->var, *environ))
-        handling_new_changes(&new, environ);
-    else
-    {
-        new_=ft_envnew(new->var, new->value);
-        ft_envadd(environ, new_);
-    }
+    handling_new_changes(&new, environ);
 }
 char **splited_export_command(char *str)
 {

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/17 02:56:33 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/19 05:24:22 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			g_in_readline;
 
 void	show_the_tree(t_tree *tree);// for test
 
@@ -86,16 +88,22 @@ int	main(void)
 		exit(1);
 	while (1)
 	{
+		g_in_readline = 1;
 		line = ft_readline(env_vars);
+		g_in_readline = 0;
 		if (!line)
+		{
+			printf("exit\n");
+			gc_malloc(0, 0);
+			gc_malloc(0, 1);
 			break ;
+		}
 		tree = ft_parser(line, ft_status(-1));
 		recursion(tree, env, &env_vars);
-		// show_the_tree(tree);// for test
+	}
 		ft_free_tree(tree);
 		free(line);
-	}
-	clear_history();
-	ft_environ_clear();
-	exit(ft_status(-1));
+		clear_history();
+		ft_environ_clear();
+		exit(ft_status(-1));
 }

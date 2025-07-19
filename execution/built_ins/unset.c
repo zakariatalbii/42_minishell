@@ -6,11 +6,24 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/15 00:32:08 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/19 05:36:41 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+int   ft_unset_flag(int flag)
+{
+	static int flag_;
+
+	if(flag == 0)
+		return(flag_);
+	else
+	{
+		flag_ = flag;
+		return(flag_);
+	}
+}
 
 static int valid_unset_var_name(char *str)
 {
@@ -70,18 +83,18 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
     {
         if(!ft_strcmp(variable,(current)->var))
         {
-            if(!ft_strcmp(variable, "OLDPWD"))
-                (void)ft_unset_flag(3);
+            // if(!ft_strcmp(variable, "OLDPWD"))
+            //     (void)ft_unset_flag(3);
             return(1);
         }
         current = current->next; 
     }
     if(!ft_strcmp(variable , "PATH"))
         return(2);
-    if(!ft_strcmp(variable, "OLDPWD"))
-    {
-        return(3);
-    }
+    // if(!ft_strcmp(variable, "OLDPWD"))
+    // {
+    //     return(3);
+    // }
     return(0);
 }
 int invalid_var_handling(char *command, t_env_var **env_vars)
@@ -93,7 +106,7 @@ int invalid_var_handling(char *command, t_env_var **env_vars)
             ft_putstr_fd("bash: unset: `",2);
             ft_putstr_fd(command,2);
             ft_putstr_fd("': not a valid identifier \n",2);
-            *((*env_vars)->status) = 1;
+            ft_status(1);
             return(0);
         }
         else if (valid_unset_var_name(command) == -1)
@@ -102,7 +115,7 @@ int invalid_var_handling(char *command, t_env_var **env_vars)
             ft_putchar_fd(command[0],2);
             ft_putchar_fd(command[1],2);
             ft_putstr_fd(": invalid option\n",2);
-            *((*env_vars)->status) = 2;
+            ft_status(2);
             return(0);
         }
     }
@@ -114,7 +127,8 @@ void valid_var_handling(char *command,t_env **environ, t_env_var **env_vars)
     {
         if(unsetting_input_parsing(command, environ)==1)
         {
-            unsetting_input(command, environ);
+            ft_unsetenv(command);
+            ft_status(0);
             return;
         }
         else if(unsetting_input_parsing(command, environ) == 2)
@@ -122,14 +136,14 @@ void valid_var_handling(char *command,t_env **environ, t_env_var **env_vars)
             (void)ft_unset_flag(1);
             return;
         }
-        else if(unsetting_input_parsing(command, environ) == 3)
-        {
-            (void)ft_unset_flag(2);
-            *((*env_vars)->status) = 0;
-        }
+        // else if(unsetting_input_parsing(command, environ) == 3)
+        // {
+        //     (void)ft_unset_flag(2);
+        //     ft_status(0);
+        // }
     }
     else
-        *((*env_vars)->status) = 0;
+        ft_status(0);
 }
 
 void unset_executing(char **command, t_env **environ, t_env_var **env_vars)
