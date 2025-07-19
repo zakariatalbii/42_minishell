@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/19 05:24:22 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:37:08 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,10 @@ int	main(void)
 		}
 		tree = ft_parser(line, ft_status(-1));
 		recursion(tree, env, &env_vars);
-	}
 		ft_free_tree(tree);
 		free(line);
-		clear_history();
-		ft_environ_clear();
-		exit(ft_status(-1));
+	}
+	clear_history();
+	ft_environ_clear();
+	exit(ft_status(-1));
 }

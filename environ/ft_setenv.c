@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_setenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 17:05:07 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/19 06:54:22 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/20 00:17:35 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	ft_setnew(char *var, char *val)
+static int	ft_setnew(char *var, char *val, int varf, int valf)
 {
 	t_env	*env;
 	t_env	*new;
 
 	env = ft_environ(NULL, NULL, 0);
-	new = ft_envnew(var, val, 1, 1);
+	new = ft_envnew(var, val, varf, valf);
 	if (!new && ft_status(1))
 		return (perror("malloc"), -1);
 	ft_envadd(&env, new);
@@ -33,7 +33,9 @@ int	ft_setenv(char *var, char *val, int flag)
 	env = ft_environ(NULL, NULL, 0);
 	while (env)
 	{
-		if (!flag && !ft_strcmp(env->var, var))
+		if (!val && !ft_strcmp(env->var, var))
+			return (0);
+		else if (!flag && !ft_strcmp(env->var, var))
 		{
 			str = ft_strdup(val);
 			if (!str && ft_status(1))
@@ -49,7 +51,7 @@ int	ft_setenv(char *var, char *val, int flag)
 		}
 		env = env->next;
 	}
-	return (ft_setnew(ft_strdup(var), ft_strdup(val)));
+	return (ft_setnew(ft_strdup(var), ft_strjoin(val, NULL), 1, !!val));
 }
 
 void	ft_unsetenv(char *var)
