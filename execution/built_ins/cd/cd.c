@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 07:39:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/20 23:18:34 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,15 @@ static void cd_home(t_env **environ, t_env_var **env_vars, int flag_)
     home = ft_getenv("HOME");
 	if(!chdir(home))
 	{
-		 // flag to know number of cd enterence if its the less than 1 i shouldnt use the env_vars pwd;
-		ft_setenv("OLDPWD", (*env_vars)->pwd,0);
+		if(flag_ == 1)
+			ft_setenv("OLDPWD", NULL,0);
+		else 
+		{
+			if(ft_getenv("PWD"))
+				ft_setenv("OLDPWD",ft_getenv("PWD"),0);
+			else
+				ft_setenv("OLDPWD", (*env_vars)->pwd,0);	
+		} 
 		if(ft_getenv("PWD"))
 			ft_setenv("PWD", home,0);
 		(*env_vars)->pwd = custom_strdup(home,1);
@@ -238,7 +245,7 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 	{
 		if(!ft_getenv("PWD"))
 			flag++;
-		if(ft_getenv("PWD"))
+		if(ft_getenv("PWD") && flag)
 			flag = 0;
     	cd_home(environ, env_vars, flag);
 	}

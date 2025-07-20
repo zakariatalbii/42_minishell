@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/19 04:47:56 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/20 23:10:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,7 +283,8 @@ char 	**splited_export_command(char *str);
 void 	export_flags_apdate(t_env **environ ,t_environ *new, t_env_var **env_vars);
 char  	**split_environ(char *str);
 int 	count_lengh_var_str_export(char *str);
-void 	handling_new_changes(t_environ **new, t_env **environ);
+// void 	handling_new_changes(t_environ **new, t_env **environ);
+void 	handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars);
 void 	export_printing_conditions(t_env *current, t_env_var **env_vars);
 void   	printing_export(t_env *current);
 void 	*gc_malloc(size_t size, int pid);
@@ -304,6 +305,7 @@ char	*ft_strndup(const char *s1, size_t n);
 void 	last_command_arg(t_tree *tree, t_env **environ);
 void 	save_node_changes(t_env **environ, char *var, char *new_value);
 int		count_words(const char *s, char c);
+void replace_node(t_environ **new, t_env **environ, t_env_var **env_vars);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */

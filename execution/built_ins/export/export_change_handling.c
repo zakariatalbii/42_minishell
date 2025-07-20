@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 02:21:46 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/20 23:28:25 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,33 @@
 #include "../../../minishell.h"
 
 
-static void replace_node(t_environ **new, t_env **environ)
+void replace_node(t_environ **new, t_env **environ, t_env_var **env_vars)
 {
 
     if(!new)
         return;
     else
     {
-        if(!strcmp((*new)->operator, "+="))
+        if(!(*new)->operator)
+        {
+            if(!((*new)->value))
+            {
+                if(ft_getenv((*new)->var))
+                    return;
+                else
+                    ft_setenv((*new)->var, (*new)->value,0);
+            }
+        }
+        else if(!ft_strcmp((*new)->operator, "+="))
             ft_setenv((*new)->var, (*new)->value,1);
-        else if(!strcmp((*new)->operator, "="))
+        else if(!ft_strcmp((*new)->operator, "="))
             ft_setenv((*new)->var, (*new)->value,0);
+        if(!ft_strcmp((*new)->var,"PWD") && !(*new)->value)
+            ft_setenv((*new)->var, (*env_vars)->pwd,0);
     }
 }
 
-void handling_new_changes(t_environ **new, t_env **environ)
+void handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars)
 { 
     if(!*new)
         return;
@@ -36,7 +48,7 @@ void handling_new_changes(t_environ **new, t_env **environ)
         return;
     else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
         return;
-    replace_node(new, environ); 
+    replace_node(new, environ,env_vars); 
 }
 
 static int input_struct_handling(char *arg, int *status)
