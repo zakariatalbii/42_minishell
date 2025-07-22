@@ -6,13 +6,13 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/22 00:54:49 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/22 01:42:22 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_prompt_i(int	flag)
+int	ft_prompt_i(int flag)
 {
 	static int	pflag;
 
@@ -26,7 +26,7 @@ static void	ft_handler_i(int sig)
 {
 	(void)sig;
 	ft_status(130);
-	if(!ft_prompt_i(-1))
+	if (!ft_prompt_i(-1))
 	{
 		ft_putchar_fd('\n', 1);
 		rl_on_new_line();
