@@ -6,19 +6,83 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 02:09:27 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:10:34 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
+// static long long ft_lg__atoi(const char *str)
+// {
+// 	long long	num ;
+// 	int			sign ;
+// 	int			digit;
+
+// 	sign = 1;
+// 	while (*str == ' ' || *str == '\t' || *str == '\n'
+// 		|| *str == '\v' || *str == '\r' || *str == '\f')
+// 		str++;
+// 	if (*str == '+' || *str == '-')
+// 		if (*str++ == '-')
+// 			sign = -1;
+// 	while (*str >= '0' && *str <= '9')
+// 	{
+// 		digit = *str - '0';
+// 		if (sign == 1 && num > 9223372036854775807)
+// 			return (-111);
+// 		if ( sign == -1 &&  num > 9223372036854775807)
+//         {
+//             if(num * sign == LLONG_MIN)
+//                 return(LLONG_MIN);
+// 			return (-111);
+//         }
+// 		num = num * 10 + digit;
+// 		str++;
+// 	}
+// 	num = (num *sign);
+// 	return (num);
+// }
+#include <limits.h>
+
+static long long ft_lg__atoi(const char *str)
+{
+    long long num = 0;
+    int sign = 1;
+    int digit;
+
+    while (*str == ' ' || *str == '\t' || *str == '\n'
+        || *str == '\v' || *str == '\r' || *str == '\f')
+        str++;
+
+    if (*str == '+' || *str == '-')
+        if (*str++ == '-')
+            sign = -1;
+
+    while (*str >= '0' && *str <= '9')
+    {
+        digit = *str - '0';
+
+        if (sign == 1 && num > (LLONG_MAX - digit) / 10)
+            return (-111);
+        if (sign == -1 && num > ((unsigned long long)LLONG_MAX + 1ULL - digit) / 10)
+            return (-111);
+        num = num * 10 + digit;
+        str++;
+    }
+    if (sign == -1 && num == (unsigned long long)LLONG_MAX + 1ULL)
+        return LLONG_MIN;
+
+    return (num * sign);
+}
+
+
 void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
 {   
     int status;
     
-    status = *(*env_vars)->status;
+    status = ft_status(-1);
     if(exit_printing && pid == 1)
-        printf("exit\n"); 
+        // printf("exit\n"); 
     ft_free_tree(tree);
     gc_malloc(0, 0);
     gc_malloc(0, 1);
@@ -32,7 +96,7 @@ static void real_exit_status(t_tree *tree, t_env_var  **env_vars, int pid)
     char *argument = tree->data.argv[1];
     
     status  =(unsigned char)(ft_atoi(argument));
-    *(*env_vars)->status = status;
+    ft_status(status);
     exiting(tree, env_vars, 1, pid);
 }
 static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
@@ -43,21 +107,16 @@ static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
     (1 && (i = 1), (flag = 0));
     if(tree->data.argv[1][0]!='-' && tree->data.argv[1][0]!= '+' && !ft_is_a_numb(tree->data.argv[1][0]))
         flag =1;
-    while(tree->data.argv[1][i])
-    {
-        if(!ft_is_a_numb(tree->data.argv[1][i]))
-        {
-            if(pid == 1)
-                printf("exit\n");
-            flag =1;
-        }
-            i++;    
-    }
+    if((ft_strlen(tree->data.argv[1])>1 && !ft_is_a_numb(tree->data.argv[1][1])))
+        flag =1;
+    if(ft_lg__atoi(tree->data.argv[1]) == -111)
+        flag =1;
     if(flag == 1)
     {
-        ft_putstr_fd("bash: exit: %s: numeric argument required\n",2);
-        *(*env_vars)->status = 2;
-        // printf("%d\n", *((*env_vars)->status));
+        ft_putstr_fd("Minishell: exit: ",2);
+        ft_putstr_fd(tree->data.argv[1],2);
+        ft_putstr_fd(": numeric argument required\n",2);
+        ft_status(2);
         exiting(tree, env_vars,0, pid);
     }
 }
@@ -65,29 +124,31 @@ static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
 static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
 { 
     char **command = tree->data.argv;
-    
-    if(command[0] && command[1] && command[2])
+      
+    if(command[0] && command[1])
     {
         if(pid == 1)
             printf("exit\n");
-        printf("exit: too many arguments\n");
-        *(*env_vars)->status = 1;
-        // /printf("%d\n", *((*env_vars)->status));
-        exiting(tree, env_vars,0,pid);
-    }
-    else if(command[0] && command[1])
-    {
         parssing(tree,env_vars, pid);
-        real_exit_status(tree, env_vars, pid);          
-    }   
+        if(command[2])
+        {
+            ft_putstr_fd("Minishell: exit: too many arguments\n",2);
+            ft_status(1);
+            exiting(tree, env_vars,0,pid);
+        }
+        real_exit_status(tree, env_vars, pid);
+    }
 }
 void exit_execution(t_tree *tree,t_env_var **env_vars, int pid)
 {
     char **command = tree->data.argv;
    
     exit_argument_parssing(tree, env_vars, pid);
+    printf("**%d**\n", pid);
     if(command[0] && command[1] == NULL)
     {
+        if(pid == 1)
+            printf("exit\n");
         printf("%d\n",ft_status(-1));
         exiting(tree, env_vars,1, pid);
     }

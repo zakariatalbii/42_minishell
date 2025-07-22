@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 04:22:11 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:49:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,13 @@ static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var 
     int status_1;
 
     if(is_built_in(tree->data.argv) == 1)
+    {
+        if(flag)
+            flag = 0;
+        else 
+            flag = 1;
         execute_the_builtin(tree, environ, env_vars, flag);
+    }
     else
     {
         pid = fork();

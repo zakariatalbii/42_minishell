@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 03:52:44 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 01:03:05 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
 
     pipe(fd);
     if (access(tree->data.red.file.name, F_OK) == 0)
-        fd_ = open(tree->data.red.file.name, O_WRONLY);
+        fd_ = open(tree->data.red.file.name, O_WRONLY | O_TRUNC);
     else
         fd_ = open(tree->data.red.file.name, O_CREAT | O_RDWR, 0644);
     error_handling(fd_, "open");

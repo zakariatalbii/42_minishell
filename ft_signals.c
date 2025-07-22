@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/19 05:04:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/21 22:49:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_handler_i(int sig)
 	ft_status(130);
 	if(g_in_readline)
 	{
-		// ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', 1);
 		write(1,"\n",1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
