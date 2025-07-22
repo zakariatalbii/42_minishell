@@ -3,30 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   ft_signals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/21 22:49:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 00:54:49 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ft_prompt_i(int	flag)
+{
+	static int	pflag;
+
+	if (flag < 0)
+		return (pflag);
+	pflag = flag;
+	return (pflag);
+}
+
 static void	ft_handler_i(int sig)
 {
 	(void)sig;
 	ft_status(130);
-	if(g_in_readline)
+	if(!ft_prompt_i(-1))
 	{
 		ft_putchar_fd('\n', 1);
-		write(1,"\n",1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
 		rl_redisplay();
 		ft_count_lines(1);
 	}
 	else
-		write(1,"\n",1);
+		ft_putchar_fd('\n', 1);
 }
 
 int	ft_heredoc_i(int f, int *fds)

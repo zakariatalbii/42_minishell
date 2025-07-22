@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/21 22:49:23 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 01:14:15 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,16 @@ int	main(void)
 	env_vars = env_var_initialization();
 	ft_signals(1);
 	if (!ft_environ(&env, ft_envinit(), 1))
-		exit(1);
-	while (1)
+		return (gc_malloc(0, 0), gc_malloc(0, 1), 1);
+	while (!ft_prompt_i(0))
 	{
-		g_in_readline = 1;
 		line = ft_readline(env_vars);
-		g_in_readline = 0;
-		if (!line)
-		{
-			printf("exit\n");
-			gc_malloc(0, 0);
-			gc_malloc(0, 1);
-			break ;
-		}
+		if (ft_prompt_i(1) && !line)
+			return (printf("exit\n"), gc_malloc(0, 0), gc_malloc(0, 1),
+				clear_history(), ft_environ_clear(), ft_status(-1));
 		tree = ft_parser(line, ft_status(-1));
 		recursion(tree, env, &env_vars);
 		ft_free_tree(tree);
 		free(line);
 	}
-	clear_history();
-	ft_environ_clear();
-	exit(ft_status(-1));
 }

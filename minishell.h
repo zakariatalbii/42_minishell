@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/21 04:43:08 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 01:29:21 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <signal.h>
+# include <limits.h>
 # include <errno.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
-#include "limits.h"
 
 # define MAX_HEREDOC 16
 
@@ -42,7 +42,6 @@
 /* *************** environ *************** */
 
 extern char	**environ;
-extern int g_in_readline;
 
 /* *** env struct *** */
 typedef struct s_env
@@ -155,6 +154,7 @@ void	ft_free_argv(char **argv);
 typedef struct sigaction	t_sigaction;
 
 void	ft_signals(int flag);
+int		ft_prompt_i(int	flag);
 int		ft_heredoc_i(int f, int *fds);
 
 /* ************************************** */
