@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/13 21:26:49 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/22 15:47:04 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_list	*ft_split_line(char *line)
 		ft_lstadd_back(&head, node);
 		if (!node || !node->content)
 		{
-			if (!count && ft_status(2))
+			if (!count && ft_status(258))
 				ft_putendl_fd("minishell: unclosed quotes", 2);
 			else if (ft_status(1))
 				perror("malloc");

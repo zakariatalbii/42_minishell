@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/22 01:42:22 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/22 17:00:07 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,17 @@ int	ft_prompt_i(int flag)
 {
 	static int	pflag;
 
-	if (flag < 0)
-		return (pflag);
-	pflag = flag;
+	if (flag > -1)
+		pflag = flag;
 	return (pflag);
 }
 
 static void	ft_handler_i(int sig)
 {
 	(void)sig;
-	ft_status(130);
 	if (!ft_prompt_i(-1))
 	{
+		ft_status(1);
 		ft_putchar_fd('\n', 1);
 		rl_on_new_line();
 		rl_replace_line("", 1);
@@ -35,7 +34,10 @@ static void	ft_handler_i(int sig)
 		ft_count_lines(1);
 	}
 	else
+	{
+		ft_status(130);
 		ft_putchar_fd('\n', 1);
+	}
 }
 
 int	ft_heredoc_i(int f, int *fds)
@@ -53,7 +55,7 @@ int	ft_heredoc_i(int f, int *fds)
 static void	ft_handler_h(int sig)
 {
 	(void)sig;
-	ft_status(130);
+	ft_status(1);
 	ft_heredoc_i(1, NULL);
 	ft_putchar_fd('\n', 1);
 	close(0);

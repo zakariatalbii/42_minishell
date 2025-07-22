@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/14 17:46:36 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/22 16:00:23 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_syntax_error(t_list **list, char *token)
 	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
 	ft_putstr_fd(token, 2);
 	ft_putendl_fd("'", 2);
-	return (ft_lstclear(list, ft_free_token), ft_status(2));
+	return (ft_lstclear(list, ft_free_token), ft_status(258));
 }
 
 static void	ft_check_tokens(t_list **list)
