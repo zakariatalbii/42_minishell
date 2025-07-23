@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 06:15:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 02:08:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void cd_errno_handling(int ernum, char *path)
 {
 	if(ernum == ENOTDIR)
 	{
-		ft_putstr_fd("bash: cd: ",2);
+		ft_putstr_fd("minishell: cd: ",2);
 		ft_putstr_fd(path,2);
 		ft_putstr_fd(": Not a directory\n",2);
 	}
@@ -27,7 +27,7 @@ void cd_errno_handling(int ernum, char *path)
 	}	
 	else if(ernum == ENOENT)
 	{
-		ft_putstr_fd("bash: cd:",2);
+		ft_putstr_fd("minishell: cd: ",2);
 		ft_putstr_fd(path,2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 	}
@@ -101,12 +101,12 @@ int is_it_set(t_env **environ, char *var)
 		{
 			if(!(current->val) || (!ft_strcmp(var,"OLDPWD") && !ft_strcmp(current->val,"")))
 			{
-				printf("bash: cd: %s not set\n", var);
+				printf("minishell: cd: %s not set\n", var);
 				return(0);
 			}
 			else if(!ft_strcmp(current->val, ""))
 			{
-				printf("bash: cd: %s is empty\n", var);
+				printf("minishell: cd: %s is empty\n", var);
 				return(0);
 			}
 			return(1);
@@ -114,6 +114,6 @@ int is_it_set(t_env **environ, char *var)
 		}
 		current=current->next;
 	}
-	printf("bash: cd: %s not set\n", var);
+	printf("minishell: cd: %s not set\n", var);
 	return(0);
 }

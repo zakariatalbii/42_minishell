@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 01:16:23 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 01:27:59 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ void exit_execution(t_tree *tree,t_env_var **env_vars, int pid)
     {
         if(pid == 1)
             printf("exit\n");
-        printf("%d\n",ft_status(-1));
         exiting(tree, env_vars,1, pid);
     }
 }

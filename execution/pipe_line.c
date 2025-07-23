@@ -6,29 +6,40 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 01:15:32 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/22 05:25:54 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-void error_handling(int return_value,char *failed_function)
+void error_handling(int return_value,char *failed_function, char *path)
 {
     if(return_value==-1)
     {
         if(!strcmp(failed_function, "close"))
-            perror("close failed\n");
+            perror("close failed");
         if(!strcmp(failed_function, "dup2"))
-            perror("dup2 failed\n");
+            perror("dup2 failed");
         if(!strcmp(failed_function, "fork"))
-            perror("fork failed\n");
+            perror("fork failed");
         if(!strcmp(failed_function, "dup"))
-            perror("dup failed\n");
+            perror("dup failed");
         if(!strcmp(failed_function, "open"))
-            perror("minishell : permission denied\n");
-        // gc_malloc(0,0);
-        // exit(1);
+        {
+            if (errno == ENOENT)
+            {
+                ft_putstr_fd("minishell: ",2);
+                ft_putstr_fd(path, 2);
+                ft_putstr_fd(": No such file or directory\n", 2);
+                ft_status(1);
+            }
+            else if (errno == EACCES)
+            {
+                ft_putstr_fd("minishell : permission denied\n",2);
+                ft_status(1);
+            }
+        }
     }
 } 
 static void pipe_line(t_tree *tree,t_env **environ, t_env_var **env_vars)
@@ -38,30 +49,28 @@ static void pipe_line(t_tree *tree,t_env **environ, t_env_var **env_vars)
     int status_1;
     int status_2;
     
-    (1 && (pipe(fd)), (pid[0] = fork()), (error_handling(pid[0], "fork")));
+    (1 && (pipe(fd)), (pid[0] = fork()), (error_handling(pid[0], "fork", NULL)));
     if (pid[0] == 0)
     {
         ft_signals(0);
-        error_handling(close(fd[0]), "close");
-        error_handling(dup2(fd[1], STDOUT_FILENO), "dup2");
-        error_handling(close(fd[1]), "close");
+        error_handling(close(fd[0]), "close", NULL);
+        error_handling(dup2(fd[1], STDOUT_FILENO), "dup2", NULL);
+        error_handling(close(fd[1]), "close", NULL);
         recursion(tree->data.pipe.rtree,environ ,env_vars);
-        //gc_malloc(0,0);
         exit(ft_status(-1));
     }
-    (1 && (pid[1] = fork()), (error_handling(pid[1], "fork")));
+    (1 && (pid[1] = fork()), (error_handling(pid[1], "fork", NULL)));
     if (pid[1] == 0) 
     {
         ft_signals(0);
-        error_handling(close(fd[1]), "close");
-        error_handling(dup2(fd[0], STDIN_FILENO), "dup2");
-        error_handling(close(fd[0]), "close");
+        error_handling(close(fd[1]), "close", NULL);
+        error_handling(dup2(fd[0], STDIN_FILENO), "dup2", NULL);
+        error_handling(close(fd[0]), "close", NULL);
         recursion(tree->data.pipe.ltree,environ, env_vars);
-        //gc_malloc(0,0);
         exit(ft_status(-1));
     }
-    error_handling(close(fd[0]), "close");
-    error_handling(close(fd[1]), "close");
+    error_handling(close(fd[0]), "close", NULL);
+    error_handling(close(fd[1]), "close", NULL);
     waitpid(pid[0], &status_1, 0);
     waitpid(pid[1], &status_2, 0);
     if (WIFSIGNALED(status_2))
@@ -98,21 +107,13 @@ static void command_execution(t_tree *tree,t_env **environ ,int flag, t_env_var 
     else
     {
         pid = fork();
-        error_handling(pid, "close");
+        error_handling(pid, "close",NULL);
         if(pid == 0)
         {
             ft_signals(0);
             external_commands_execution(tree->data.argv,environ, env_vars);
         }
         waitpid(pid,&status_1,0);
-        // if (WTERMSIG(status_1) == SIGQUIT)
-        //     printf("Quit (core dumped)\n");
-        // if (status_1 != 0) 
-        // {
-        //     ft_status(status_1 >> 8); 
-        // }
-        // else 
-        //     ft_status(0);
         if (WIFSIGNALED(status_1))
         {
             int sig = WTERMSIG(status_1);
@@ -171,7 +172,6 @@ void recursion(t_tree *tree,t_env **environ,t_env_var **env_vars)
     { 
         last_command_arg(tree, environ);
         command_execution(tree,environ,flag,env_vars);
-        // (*env_vars)->last_command = custom_strdup(tree->data.argv[0],1);
     }
     else if (tree->type == 1)
     {   
