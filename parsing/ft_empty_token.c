@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/06/03 13:06:02 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/23 16:39:46 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ static int	ft_cmdcase(t_list **list, t_list **head, char *str)
 	return (ft_lstdelone(tmp, ft_free_token), free(str), 1);
 }
 
+static int	ft_withspaces(char *str)
+{
+	while (*str)
+	{
+		if (ft_isspace(*str))
+			return (1);
+		str++;
+	}
+	return (0);
+}
+
 int	ft_empty_token(t_list **list, t_list **head, char *str, int ptype)
 {
 	int	v;
@@ -41,7 +52,7 @@ int	ft_empty_token(t_list **list, t_list **head, char *str, int ptype)
 	}
 	if (!*str && ptype < INRED)
 		return (ft_cmdcase(list, head, str));
-	else if (!*str && ptype >= INRED)
+	else if ((!*str || ft_withspaces(str)) && ptype >= INRED)
 		return (ft_putstr_fd("minishell: ", 2),
 			ft_putstr_fd(((t_token *)(*head)->content)->token, 2),
 			ft_putendl_fd(": ambiguous redirect", 2), *head = NULL,

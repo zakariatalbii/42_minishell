@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/13 21:51:36 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/23 16:11:12 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,25 @@ static size_t	ft_envcpy(char **dst, char *src, int flag)
 	if (src[v] == '$' && ++v)
 		*dst += ft_strlcpy(*dst, "$$", 3);
 	else if (!ft_isalnum(src[v]) && src[v] != '_' && ((src[v] != '\''
-				&& src[v] != '"') || flag))
+				&& src[v] != '"') || flag == 2))
 		*(*dst)++ = *(src - 1);
-	while (ft_isalnum(src[v]) || src[v] == '_')
+	while (!flag && (ft_isalnum(src[v]) || src[v] == '_'))
 		v++;
 	env = ft_getlenv(src, v);
 	while (env && *env)
 		*(*dst)++ = *env++;
+	return (v);
+}
+
+static size_t	ft_qcase(char **dst, char *src)
+{
+	size_t	v;
+
+	v = 0;
+	ft_qchar_add(*dst, 0);
+	while (src[++v] != '\'')
+		*(*dst)++ = src[v];
+	ft_qchar_add(*dst, 1);
 	return (v);
 }
 
@@ -85,18 +97,13 @@ void	ft_expand_token(char *dst, char *src, int status, int flag)
 	while (src[v])
 	{
 		if ((flag | 0b01) == 0b01 && src[v] == '\'')
-		{
-			ft_qchar_add(dst, 0);
-			while (src[++v] != '\'')
-				*dst++ = src[v];
-			ft_qchar_add(dst, 1);
-		}
+			v += ft_qcase(&dst, &src[v]);
 		else if ((flag | 0b01) == 0b01 && src[v] == '"')
 			v += ft_dqcase(&dst, &src[v], status, flag);
 		else if ((flag | 0b10) == 0b10 && src[v] == '$' && src[v + 1] == '?'
 			&& ++v)
 			dst = ft_numcpy(dst, status);
-		else if ((flag | 0b10) == 0b10 && src[v] == '$' && ++v)
+		else if (src[v] == '$' && ++v)
 			v += ft_envcpy(&dst, &src[v], flag) - 1;
 		else
 			*dst++ = src[v];
