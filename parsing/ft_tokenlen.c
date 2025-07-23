@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/23 16:11:24 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/23 18:36:21 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ static size_t	ft_envlen(char *str, size_t *count, int flag)
 	v = 0;
 	if (str[v] == '$')
 		return (*count += 2, 1);
-	else if (!ft_isalnum(str[v]) && str[v] != '_' && ((str[v] != '\''
-				&& str[v] != '"') || flag == 2) && ++(*count))
+	else if (((!ft_isalnum(str[v]) && str[v] != '_' && ((str[v] != '\''
+						&& str[v] != '"') || flag == 0b10))
+			|| (flag == 0b01 && (ft_isalnum(str[v]) || str[v] == '_')))
+		&& ++(*count))
 		return (0);
-	while (!flag && (ft_isalnum(str[v]) || str[v] == '_'))
+	while ((flag | 0b10) == 0b10 && (ft_isalnum(str[v]) || str[v] == '_'))
 		v++;
 	env = ft_getlenv(str, v);
 	if (env)

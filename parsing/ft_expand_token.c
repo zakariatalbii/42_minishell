@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/23 16:11:12 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/23 18:36:38 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ static size_t	ft_envcpy(char **dst, char *src, int flag)
 	v = 0;
 	if (src[v] == '$' && ++v)
 		*dst += ft_strlcpy(*dst, "$$", 3);
-	else if (!ft_isalnum(src[v]) && src[v] != '_' && ((src[v] != '\''
-				&& src[v] != '"') || flag == 2))
+	else if ((!ft_isalnum(src[v]) && src[v] != '_' && ((src[v] != '\''
+					&& src[v] != '"') || flag == 0b10))
+		|| (flag == 0b01 && (ft_isalnum(src[v]) || src[v] == '_')))
 		*(*dst)++ = *(src - 1);
-	while (!flag && (ft_isalnum(src[v]) || src[v] == '_'))
+	while ((flag | 0b10) == 0b10 && (ft_isalnum(src[v]) || src[v] == '_'))
 		v++;
 	env = ft_getlenv(src, v);
 	while (env && *env)
