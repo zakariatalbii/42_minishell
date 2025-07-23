@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/22 01:29:21 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/23 02:39:07 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ char	**potential_path(t_env **environ, char *command);
 int   ft_flag(int flag);
 int   ft_unset_flag(int flag);
 void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid);
-void	error_handling(int return_value,char *failed_function);
+void	error_handling(int return_value,char *failed_function, char *PATH);
 // void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
 void	infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
 // void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 05:36:41 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 02:50:11 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ void unsetting_input(char *variable, t_env **environ)
 
     tmp = (*environ);
     if(!ft_strcmp(variable ,"PATH"))
-    {
-	       (void)ft_unset_flag(1);
-    }
+	    (void)ft_unset_flag(1);
     if(tmp && !strcmp(tmp->var, variable))
     {
         *environ=(*environ)->next;
@@ -82,19 +80,11 @@ static int unsetting_input_parsing(char *variable, t_env **environ)
     while(current)
     {
         if(!ft_strcmp(variable,(current)->var))
-        {
-            // if(!ft_strcmp(variable, "OLDPWD"))
-            //     (void)ft_unset_flag(3);
             return(1);
-        }
         current = current->next; 
     }
     if(!ft_strcmp(variable , "PATH"))
         return(2);
-    // if(!ft_strcmp(variable, "OLDPWD"))
-    // {
-    //     return(3);
-    // }
     return(0);
 }
 int invalid_var_handling(char *command, t_env_var **env_vars)
@@ -136,11 +126,7 @@ void valid_var_handling(char *command,t_env **environ, t_env_var **env_vars)
             (void)ft_unset_flag(1);
             return;
         }
-        // else if(unsetting_input_parsing(command, environ) == 3)
-        // {
-        //     (void)ft_unset_flag(2);
-        //     ft_status(0);
-        // }
+    
     }
     else
         ft_status(0);

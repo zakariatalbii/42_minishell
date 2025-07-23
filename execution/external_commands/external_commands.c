@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 03:50:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 02:40:54 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,10 +252,10 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
     envp_= envp(environ);
     if(command && command[0])
     {
-        if(!ft_strlen(command))
+        if(!ft_strlen(command[0]))
         {
             ft_putstr_fd("Minishell: ", 2);
-	        ft_putstr_fd(command , 2);
+	        ft_putstr_fd(command[0] , 2);
 	        ft_putstr_fd(": command not found\n", 2);
             ft_status(127);
             return;

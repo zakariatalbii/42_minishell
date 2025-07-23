@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 02:19:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 02:44:01 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,16 @@
 void   printing_export(t_env *current)
 {
     printf("declare -x ");
-    printf("%s", current->var);
-    if(current->val)
+    if(ft_strcmp(current->var, "_"))
     {
-        printf("=");
-        printf("\"%s\"", current->val);
+        printf("%s", current->var);
+        if(current->val)
+        {
+            printf("=");
+            printf("\"%s\"", current->val);
+        }
+            printf("\n");
     }
-        printf("\n");
 }
 
 int is_the_var_in_environ(char *variable, t_env *environ)
