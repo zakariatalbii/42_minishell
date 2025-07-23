@@ -6,94 +6,94 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 02:40:54 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 05:43:40 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-static int is_a_directory(char *command,t_env *environ, t_env_var **env_vars)
-{
-    if(command[ft_strlen(command)-1] == '/')
-    {
-        if(!chdir(command))
-        {
-            ft_putstr_fd("bash: ",2);
-            ft_putstr_fd(command,2);
-            ft_putstr_fd(": Is a directory\n",2);
-            ft_status(126);
-            if(chdir(get_value("PWD", environ)))
-                ft_putstr_fd("chdir error\n",2);
-            return(1);
-        }
-        return(0);
-    }
-    return(0);
-}
-static int  check_full_path(char *full_path, t_env_var **env_vars)
-{
+// static int is_a_directory(char *command,t_env *environ, t_env_var **env_vars)
+// {
+//     if(command[ft_strlen(command)-1] == '/')
+//     {
+//         if(!chdir(command))
+//         {
+//             ft_putstr_fd("bash: ",2);
+//             ft_putstr_fd(command,2);
+//             ft_putstr_fd(": Is a directory\n",2);
+//             ft_status(126);
+//             if(chdir(get_value("PWD", environ)))
+//                 ft_putstr_fd("chdir error\n",2);
+//             return(1);
+//         }
+//         return(0);
+//     }
+//     return(0);
+// }
+// static int  check_full_path(char *full_path, t_env_var **env_vars)
+// {
 
-	if(access(full_path, F_OK) == 0)
-	{   
-		if(access(full_path, X_OK ) == 0)
-        {
-			return(1);
-        }
-		else
-		{
-			ft_putstr_fd("permission denied",2);
-			ft_status(126);
-			return(-1);
-		}
-	}
-	ft_status(127);
-	ft_putstr_fd("Minishell: ",2);
-    ft_putstr_fd(full_path,2);
-    ft_putstr_fd(": No such file or directory\n",2);
-	return(-1);
-} 
+// 	if(access(full_path, F_OK) == 0)
+// 	{   
+// 		if(access(full_path, X_OK ) == 0)
+//         {
+// 			return(1);
+//         }
+// 		else
+// 		{
+// 			ft_putstr_fd("permission denied",2);
+// 			ft_status(126);
+// 			return(-1);
+// 		}
+// 	}
+// 	ft_status(127);
+// 	ft_putstr_fd("Minishell: ",2);
+//     ft_putstr_fd(full_path,2);
+//     ft_putstr_fd(": No such file or directory\n",2);
+// 	return(-1);
+// } 
 
-static int full_path(char *command, t_env **environ, t_env_var **env_vars)
-{   
-    if(!ft_strlen(command))
-    {
-        ft_putstr_fd("Minishell: ", 2);
-	    ft_putstr_fd(command , 2);
-	    ft_putstr_fd(": command not found\n", 2);
-        *((*env_vars)->status)=127;
-        return(-2);
-    }
-    if(command[0] == '/')
-    {
-        if(!chdir(command))
-        {
-            ft_putstr_fd("Minishell: ",2);
-            ft_putstr_fd(command,2);
-            ft_putstr_fd(": Is a directory\n",2);
-            *((*env_vars)->status)=126;
-            if(chdir(get_value("PWD", *environ)))
-                perror("chdir error\n");
-            return(-2);
-        }
-        return(1);
-    }     
-    else if(!ft_strncmp(command,"./", 2))
-    {
-        if(!chdir(command))
-        {
-            ft_putstr_fd("bash: Is a directory\n",2);
-            *((*env_vars)->status)=1;
-            if(chdir(get_value("PWD", *environ)))
-                perror("chdir error\n");
-        }
-        return(2);
-    }   
-    else if(command[ft_strlen(command)-1] == '/')
-        return(4);
-    else
-        return(0);
-}
+// static int full_path(char *command, t_env **environ, t_env_var **env_vars)
+// {   
+//     if(!ft_strlen(command))
+//     {
+//         ft_putstr_fd("Minishell: ", 2);
+// 	    ft_putstr_fd(command , 2);
+// 	    ft_putstr_fd(": command not found\n", 2);
+//         *((*env_vars)->status)=127;
+//         return(-2);
+//     }
+//     if(command[0] == '/')
+//     {
+//         if(!chdir(command))
+//         {
+//             ft_putstr_fd("Minishell: ",2);
+//             ft_putstr_fd(command,2);
+//             ft_putstr_fd(": Is a directory\n",2);
+//             *((*env_vars)->status)=126;
+//             if(chdir(get_value("PWD", *environ)))
+//                 perror("chdir error\n");
+//             return(-2);
+//         }
+//         return(1);
+//     }     
+//     else if(!ft_strncmp(command,"./", 2))
+//     {
+//         if(!chdir(command))
+//         {
+//             ft_putstr_fd("bash: Is a directory\n",2);
+//             *((*env_vars)->status)=1;
+//             if(chdir(get_value("PWD", *environ)))
+//                 perror("chdir error\n");
+//         }
+//         return(2);
+//     }   
+//     else if(command[ft_strlen(command)-1] == '/')
+//         return(4);
+//     else
+//         return(0);
+// }
 
 static char *variable(t_env *environ)
 {
@@ -136,23 +136,40 @@ char **envp(t_env **environ)
     env[count]= NULL;
     return(env);
 }
-static char *current_directory(char *command, t_env *environ)
+// static char *current_directory(char *command, t_env *environ)
+// {
+//     char *current_directory;
+//     char *tmp;
+
+//     char **split_it;
+//     split_it = custom_split(command,'/', 0);
+//     if(!split_it || !split_it[1])
+//         return(NULL);
+//     tmp= custom_strjoin(get_value("PWD",environ), "/",0);
+//     if(!tmp)
+//         return(NULL);
+//     current_directory= custom_strjoin(tmp, split_it[1],0);
+//     return(current_directory);
+// }
+int invalid_commands_checking(char *command,t_env **environ, t_env_var **env_vars)
 {
-    char *current_directory;
-    char *tmp;
-
-    char **split_it;
-    split_it = custom_split(command,'/', 0);
-    if(!split_it || !split_it[1])
-        return(NULL);
-    tmp= custom_strjoin(get_value("PWD",environ), "/",0);
-    if(!tmp)
-        return(NULL);
-    current_directory= custom_strjoin(tmp, split_it[1],0);
-    return(current_directory);
+    if(!ft_strlen(command))
+    {
+        ft_putstr_fd("Minishell: ", 2);
+	    ft_putstr_fd(command , 2);
+	    ft_putstr_fd(": command not found\n", 2);
+        ft_status(127);
+         return(0);
+    }
+    else if(there_is_slash(command,environ,env_vars))
+    {
+        if(!stat_the_command(command))
+           return(0);
+        return(1);
+    }
+    return(1);
 }
-
-static int there_is_slash(char *command,t_env **environ, t_env_var **env_vars)
+int there_is_slash(char *command,t_env **environ, t_env_var **env_vars)
 {
     int i;
 
@@ -176,12 +193,14 @@ int stat_the_command(char *command)
             ft_putstr_fd("Minishell ",2);
             ft_putstr_fd(command, 2);
             ft_putstr_fd(": NO such file or directory\n",2);
+            return(0);
         }
         else if (errno == EACCES)
         {
             ft_putstr_fd("Minishell ",2);
             ft_putstr_fd(command, 2);
             ft_putstr_fd(": Permission denied\n",2);
+            return(0);
         }
         else
             perror("Minishell : stat error");
@@ -199,6 +218,7 @@ int stat_the_command(char *command)
                 ft_putstr_fd(command, 2);
                 ft_putstr_fd(": Permission denied\n",2);
             }
+            return(0);
         }
         else if (S_ISDIR(file_stat.st_mode))
         {
@@ -206,12 +226,14 @@ int stat_the_command(char *command)
             ft_putstr_fd("Minishell ",2);
             ft_putstr_fd(command, 2);
             ft_putstr_fd(": is a Directory\n",2);
+            return(0);
         }
         else
         {
             ft_putstr_fd("Minishell ",2);
             ft_putstr_fd(command, 2);
             ft_putstr_fd(": Not a regular file or directory\n",2);
+            return(0);
         }
         return(0);
     }
@@ -252,18 +274,8 @@ void external_commands_execution(char **command,t_env **environ, t_env_var **env
     envp_= envp(environ);
     if(command && command[0])
     {
-        if(!ft_strlen(command[0]))
+        if(there_is_slash(command[0],environ, env_vars))
         {
-            ft_putstr_fd("Minishell: ", 2);
-	        ft_putstr_fd(command[0] , 2);
-	        ft_putstr_fd(": command not found\n", 2);
-            ft_status(127);
-            return;
-        }
-        if(there_is_slash(command[0],environ,env_vars))
-        {
-            if(!stat_the_command(command[0]))
-                return;
             if(!execve(command[0], command, envp_))
             {
                 gc_malloc(0,0);
