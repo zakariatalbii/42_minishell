@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/20 23:28:25 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 06:29:41 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ static void command_handling( int *flag, char **command, t_env **environ , t_env
         }
         else
         {
+                *flag = 1;
                 ft_status(1);
                 ft_putstr_fd("Minishell: export `",2);
                 ft_putstr_fd(command[i],2);

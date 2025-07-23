@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 05:43:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 06:41:53 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int stat_the_command(char *command)
             ft_putstr_fd("Minishell ",2);
             ft_putstr_fd(command, 2);
             ft_putstr_fd(": NO such file or directory\n",2);
+            ft_status(127);
             return(0);
         }
         else if (errno == EACCES)
@@ -200,6 +201,7 @@ int stat_the_command(char *command)
             ft_putstr_fd("Minishell ",2);
             ft_putstr_fd(command, 2);
             ft_putstr_fd(": Permission denied\n",2);
+            ft_status(126);
             return(0);
         }
         else
@@ -217,6 +219,7 @@ int stat_the_command(char *command)
                 ft_putstr_fd("Minishell ",2);
                 ft_putstr_fd(command, 2);
                 ft_putstr_fd(": Permission denied\n",2);
+                ft_status(126);
             }
             return(0);
         }

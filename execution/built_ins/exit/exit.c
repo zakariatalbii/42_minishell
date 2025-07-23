@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 01:27:59 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 06:22:14 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
         ft_putstr_fd("Minishell: exit: ",2);
         ft_putstr_fd(tree->data.argv[1],2);
         ft_putstr_fd(": numeric argument required\n",2);
-        ft_status(2);
+        ft_status(255);
         exiting(tree, env_vars,0, pid);
     }
 }

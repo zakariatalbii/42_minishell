@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/22 01:14:15 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/23 06:04:05 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,9 @@ static char	*ft_readline(t_env_var *env_vars)
 	prompt = ft_strjoin(cwd, "$ ");
 	if (!prompt)
 		return (NULL);
-	line = readline(prompt);
+	// line = readline(prompt);
+	// for testing
+	line = readline("$>");
 	if (line && *line)
 		add_history(line);
 	return (free(prompt), ft_count_lines(1), line);

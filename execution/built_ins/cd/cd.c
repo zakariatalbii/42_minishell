@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/20 23:18:34 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/23 06:20:00 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,13 +229,13 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 	char *telda_path;
 	static int flag;
 	
-    if(command && command[1] && command[2])
-    {
-        ft_putstr_fd("Minishell: cd: too many arguments\n",2);
-		ft_status(1);
-        return;
-    }
-	else if((command)[1] && !strcmp((command)[1],"-"))
+    // if(command && command[1] && command[2])
+    // {
+    //     ft_putstr_fd("Minishell: cd: too many arguments\n",2);
+	// 	ft_status(1);
+    //     return;
+    // }
+	if((command)[1] && !strcmp((command)[1],"-"))
 	{
 		
 		flag++;
