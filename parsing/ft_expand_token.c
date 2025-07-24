@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/23 18:36:38 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/24 03:40:59 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ static size_t	ft_envcpy(char **dst, char *src, int flag)
 	char	*env;
 
 	v = 0;
-	if (src[v] == '$' && ++v)
-		*dst += ft_strlcpy(*dst, "$$", 3);
+	if (src[v] == '$')
+		return (*dst += ft_strlcpy(*dst, "$$", 3), v + 1);
 	else if ((!ft_isalnum(src[v]) && src[v] != '_' && ((src[v] != '\''
 					&& src[v] != '"') || flag == 0b10))
 		|| (flag == 0b01 && (ft_isalnum(src[v]) || src[v] == '_')))
 		*(*dst)++ = *(src - 1);
-	while ((flag | 0b10) == 0b10 && (ft_isalnum(src[v]) || src[v] == '_'))
+	if ((flag | 0b10) == 0b10 && ft_isdigit(src[v]))
 		v++;
+	else
+		while ((flag | 0b10) == 0b10 && (ft_isalnum(src[v]) || src[v] == '_'))
+			v++;
 	env = ft_getlenv(src, v);
 	while (env && *env)
 		*(*dst)++ = *env++;
