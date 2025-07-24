@@ -37,7 +37,7 @@ static size_t	ft_envlen(char *str, size_t *count, int flag)
 			|| (flag == 0b01 && (ft_isalnum(str[v]) || str[v] == '_')))
 		&& ++(*count))
 		return (0);
-	if ((flag | 0b10) == 0b10 && ft_isalnum(str[v]))
+	if ((flag | 0b10) == 0b10 && ft_isdigit(str[v]))
 		v++;
 	else
 		while ((flag | 0b10) == 0b10 && (ft_isalnum(str[v]) || str[v] == '_'))
