@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 13:14:26 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 05:16:16 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/24 07:39:32 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ void error_handling(int return_value,char *failed_function, char *path)
             }
             else if (errno == EACCES)
             {
-                ft_putstr_fd("minishell : permission denied\n",2);
+                ft_putstr_fd("minishell: ",2);
+                ft_putstr_fd(path, 2);
+                ft_putstr_fd(": Permission denied\n",2);
                 ft_status(1);
             }
         }
@@ -163,29 +165,83 @@ void last_command_arg(t_tree *tree, t_env **environ)
     last_arg =args[i-1];
     change_lst_arg_(last_arg ,environ);
 }
+int recursive_check(t_tree *tree)
+{
+    int fd;
 
-void recursion(t_tree *tree,t_env **environ,t_env_var **env_vars)
-{   
+    while (tree)
+    {
+        if(tree->type >= 2 && tree->type <=5)
+        {
+            if (tree->type == 2 )
+            {
+                
+                if (access(tree->data.red.file.name, R_OK) != 0)
+                {
+                    error_handling(-1, "open", tree->data.red.file.name);
+                    return (1);
+                }
+            }
+            else if (tree->type == 3)
+            {
+                fd = open(tree->data.red.file.name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                if (fd < 0)
+                {
+                    error_handling(-1, "open", tree->data.red.file.name);
+                    return (1);
+                }
+                close(fd);
+            }
+            else if (tree->type == 5)
+            {
+                fd = open(tree->data.red.file.name, O_WRONLY | O_CREAT | O_APPEND, 0644);
+                if (fd < 0)
+                {
+                    error_handling(-1, "open", tree->data.red.file.name);
+                    return (1);
+                }
+                close(fd);
+            }
+        
+            tree = tree->data.red.ntree;
+        }
+        else
+            break;
+    }
+    return (0);
+}
+      
+ void recursion(t_tree *tree, t_env **environ, t_env_var **env_vars)
+{
     static int flag;
 
-    if (!tree) 
+    if (!tree)
         return;
+
     if (tree->type == 0 && tree->data.argv && tree->data.argv[0])
-    { 
+    {
         last_command_arg(tree, environ);
-        command_execution(tree,environ,flag,env_vars);
+        command_execution(tree, environ, flag, env_vars);
     }
     else if (tree->type == 1)
-    {   
-        flag =1;
-        pipe_line(tree,environ,env_vars);
+    {
+        flag = 1;
+        pipe_line(tree, environ, env_vars);
     }
-    else if (tree->type == 2)
-        infile_handling(tree,environ,env_vars);
-    else if (tree->type == 3)
-        outfile_handling(tree,environ,env_vars);
-    else if (tree->type == 4)
-        heredoc_handling(tree,environ,env_vars);
-    else if(tree->type == 5)
-        append_handling(tree,environ,env_vars);
+    if (tree->type >= 2 && tree->type <= 5)
+    {
+        if (recursive_check(tree))
+            return;
+        else if (tree->type == 2)
+            infile_handling(tree, environ, env_vars);
+        else if (tree->type == 3)
+            outfile_handling(tree, environ, env_vars);
+        else if (tree->type == 4)
+            heredoc_handling(tree, environ, env_vars);
+        else if (tree->type == 5)
+            append_handling(tree, environ, env_vars);
+    }
 }
+  
+   
+

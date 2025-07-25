@@ -6,12 +6,23 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 05:32:23 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/24 09:14:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int failed_redirection(int flag_)
+{
+    static int flag;
+    if(flag_ == 0)
+        return(flag);
+    else
+    {
+        flag = flag_;
+        return(flag);
+    }
+}
 void infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars)
 {
     int original_in;
@@ -22,11 +33,6 @@ void infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars)
         original_in=dup(STDIN_FILENO);
         error_handling(original_in, "dup", NULL);
         fd = open(tree->data.red.file.name, O_RDONLY);
-        if(fd<0)
-        {
-            error_handling(fd,"open", tree->data.red.file.name);
-            return;
-        }
         error_handling(dup2(fd,STDIN_FILENO),"dup2", NULL);
         recursion(tree->data.red.ntree, environ,env_vars);
         error_handling(close(fd),"close", NULL);
@@ -65,11 +71,6 @@ void outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
         fd_ = open(tree->data.red.file.name, O_WRONLY | O_TRUNC);
     else
         fd_ = open(tree->data.red.file.name, O_CREAT | O_RDWR, 0644);
-    if(fd_<0)
-    {
-        error_handling(fd_,"open", tree->data.red.file.name);
-        return;
-    }
     original_out = dup(STDOUT_FILENO);
     error_handling(original_out, "dup", NULL);
     error_handling(dup2(fd[1], STDOUT_FILENO), "dup2", NULL);
@@ -113,11 +114,6 @@ void append_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
         fd_ = open(tree->data.red.file.name, O_WRONLY|O_APPEND);
     else
         fd_ = open(tree->data.red.file.name, O_CREAT|O_WRONLY|O_APPEND, 0644);
-    if(fd_<0)
-    {
-        error_handling(fd_,"open",tree->data.red.file.name);
-        return;
-    }
     error_handling(dup2(fd[1], STDOUT_FILENO), "dup2", NULL);
     close(fd[1]);
     recursion(tree->data.red.ntree,environ,env_vars);
@@ -128,6 +124,6 @@ void append_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
         fd_input_directing(fd_,fd[0]);
     close(original_out);
     close(fd[0]);
-    close(fd_);
-    
+    close(fd_); 
 }
+

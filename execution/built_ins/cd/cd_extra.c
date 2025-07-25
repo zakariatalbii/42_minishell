@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 02:08:39 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/24 04:21:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,12 +101,16 @@ int is_it_set(t_env **environ, char *var)
 		{
 			if(!(current->val) || (!ft_strcmp(var,"OLDPWD") && !ft_strcmp(current->val,"")))
 			{
-				printf("minishell: cd: %s not set\n", var);
+				ft_putstr_fd("minishell: cd: ",2);
+				ft_putstr_fd(var,2);
+				ft_putstr_fd ("not set\n",2);
 				return(0);
 			}
 			else if(!ft_strcmp(current->val, ""))
 			{
-				printf("minishell: cd: %s is empty\n", var);
+				ft_putstr_fd("minishell: cd: ",2);
+				ft_putstr_fd(var,2);
+				ft_putstr_fd ("is empty\n",2);
 				return(0);
 			}
 			return(1);
@@ -114,6 +118,8 @@ int is_it_set(t_env **environ, char *var)
 		}
 		current=current->next;
 	}
-	printf("minishell: cd: %s not set\n", var);
+	ft_putstr_fd("minishell: cd: ",2);
+	ft_putstr_fd(var,2);
+	ft_putstr_fd ("not set\n",2);
 	return(0);
 }
