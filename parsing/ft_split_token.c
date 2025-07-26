@@ -6,11 +6,22 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/14 18:10:11 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/26 20:24:45 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int	ft_withequal(char *str)
+{
+	while (*str && *str != '\'' && *str != '"')
+	{
+		if (*str == '=')
+			return (1);
+		str++;
+	}
+	return (0);
+}
 
 static int	ft_nultoken(t_list **lst, char *token, int ptype)
 {
@@ -53,7 +64,13 @@ int	ft_split_token(t_list **list, t_list **head, char *str, int *ptype)
 {
 	t_list	*lst;
 	t_list	*tmp;
+	char	*cmd;
 
+	cmd = ft_tokencmd(*list, *head);
+	if (cmd && !ft_strcmp(cmd, "export")
+		&& ft_withequal(((t_token *)(*head)->content)->token))
+		return (*ptype = STR, free(((t_token *)(*head)->content)->token),
+		((t_token *)(*head)->content)->token = str, *head = (*head)->next, 1);
 	lst = ft_tokenlst(str);
 	free(str);
 	if (!lst || (!*((t_token *)lst->content)->token

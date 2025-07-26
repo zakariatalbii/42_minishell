@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/25 03:04:31 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:29:05 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int		ft_split_token(t_list **list, t_list **head, char *str, int *ptype);
 t_qchar	*ft_qchar(char *str, int flag);
 void	ft_qchar_add(char *str, int flag);
 t_list	*ft_tokenlst(char *str);
+char	*ft_tokencmd(t_list *lst, t_list *head);
 
 /* *** token *** */
 t_token	*ft_new_token(char *token);
