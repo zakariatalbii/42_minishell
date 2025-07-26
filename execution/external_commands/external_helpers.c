@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 02:29:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 03:37:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,9 @@ char	**potential_path(t_env **environ, char *command)
 	char 	*join;
 	int		i;
 	
-	
-	PATH = get_value("PATH", *environ);
-	// ft_unset_flag(0);
+	PATH = ft_getenv("PATH");
 	if(!PATH && ft_unset_flag(0) == 0)
-	{
-		PATH=custom_strdup(PATH_, 0);
-	}
+		PATH=custom_strdup(PATH_, 0);	
 	splited_path = custom_split(PATH,':', 0);
 	if(splited_path == NULL)
 	{
