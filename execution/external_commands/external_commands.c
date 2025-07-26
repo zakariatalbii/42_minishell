@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 06:41:53 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 04:34:43 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ char **envp(t_env **environ)
 // }
 int invalid_commands_checking(char *command,t_env **environ, t_env_var **env_vars)
 {
-    if(!ft_strlen(command))
+    if(!ft_strlen(command)|| !ft_strcmp(command,"..") || !ft_strcmp(command,"."))
     {
         ft_putstr_fd("Minishell: ", 2);
 	    ft_putstr_fd(command , 2);

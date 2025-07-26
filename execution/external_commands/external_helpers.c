@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/26 03:37:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 04:32:16 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**potential_path(t_env **environ, char *command)
 	splited_path = custom_split(PATH,':', 0);
 	if(splited_path == NULL)
 	{
-		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(command , 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
 		return (NULL);
@@ -120,7 +120,6 @@ int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **e
 	int	i;
 	char 	**potential_paths;
 	
-
 	potential_paths=potential_path(environ, command);
 	if(!potential_paths)
 		return(-1);
@@ -140,11 +139,9 @@ int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **e
 		}
 		i++;
 	}
-	// ft_status(127);
 	ft_status(127);
-	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command , 2);
 	ft_putstr_fd(": command not found\n", 2);
-	// ft_putstr_fd("bash: command not found\n",2);
 	return(-1);
 }
