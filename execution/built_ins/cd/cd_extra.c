@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/24 04:21:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 02:49:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,13 @@ void  cd_oldpwd(t_env **environ, t_env_var **env_vars)
 		ft_status(1);
 		return;
 	}
-	old_pwd = ft_getenv("OLDPWD");
+	if(ft_getenv("OLDPWD"))
+	{
+		old_pwd = custom_strdup(ft_getenv("OLDPWD"),1);
+		printf("%s\n",old_pwd);
+	}
+	else
+		old_pwd = (*env_vars)->pwd;
 	if(!chdir(old_pwd))
 	{
 		ft_setenv("OLDPWD", (*env_vars)->pwd,0);
@@ -82,7 +88,6 @@ void  cd_oldpwd(t_env **environ, t_env_var **env_vars)
 			ft_setenv("PWD", old_pwd,0);
 		(*env_vars)->pwd = old_pwd;
 		ft_status(0);
-		printf("%s\n", (*env_vars)->pwd);
 	}
 	else
 	{
@@ -103,14 +108,14 @@ int is_it_set(t_env **environ, char *var)
 			{
 				ft_putstr_fd("minishell: cd: ",2);
 				ft_putstr_fd(var,2);
-				ft_putstr_fd ("not set\n",2);
+				ft_putstr_fd (" not set\n",2);
 				return(0);
 			}
 			else if(!ft_strcmp(current->val, ""))
 			{
 				ft_putstr_fd("minishell: cd: ",2);
 				ft_putstr_fd(var,2);
-				ft_putstr_fd ("is empty\n",2);
+				ft_putstr_fd (" is empty\n",2);
 				return(0);
 			}
 			return(1);
@@ -120,6 +125,6 @@ int is_it_set(t_env **environ, char *var)
 	}
 	ft_putstr_fd("minishell: cd: ",2);
 	ft_putstr_fd(var,2);
-	ft_putstr_fd ("not set\n",2);
+	ft_putstr_fd (" not set\n",2);
 	return(0);
 }

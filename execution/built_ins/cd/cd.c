@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 06:20:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/25 03:03:18 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ static char *trim_back_slach(char *new)
 	char *trimmed;
 	char *new_;
 	
-	trimmed = ft_strtrim(new, "/");
+	trimmed = custom_strtrim(new, "/");
 	new_= custom_strjoin("/", trimmed,1);
 	return(new_);
 
@@ -171,7 +171,7 @@ static char *escaped_path(char *pwd, int flag)
 	
 	count = (flag + 1 )*2;
 	
-	trimmed = ft_strtrim(pwd, "/..");
+	trimmed = custom_strtrim(pwd, "/..");
 	if(!trimmed)
 		return(NULL);
 	lengh = ft_strlen(trimmed) - count;
@@ -237,8 +237,10 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
     // }
 	if((command)[1] && !strcmp((command)[1],"-"))
 	{
-		
-		flag++;
+		if(!ft_getenv("PWD"))
+			flag++;
+		if(ft_getenv("PWD") && flag)
+			flag = 0;
         cd_oldpwd(environ ,env_vars);
 	}
 	else if ((command)[1] == NULL || ((command)[1] && !ft_strcmp(command[1], "/home/wnid-hsa")))
@@ -251,6 +253,10 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 	}
 	else if (command[1][0] == '~' )
 	{
+		if(!ft_getenv("PWD"))
+			flag++;
+		if(ft_getenv("PWD") && flag)
+			flag = 0;
 		telda_path = telda_full_path(command[1]);
 		if(!telda_path)
 			return;
@@ -258,7 +264,10 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 	}
 	else
 	{
-		flag++;
+		if(!ft_getenv("PWD"))
+			flag++;
+		if(ft_getenv("PWD") && flag)
+			flag = 0;
         new_path_cd(environ,(command)[1],env_vars);
 	}
 }

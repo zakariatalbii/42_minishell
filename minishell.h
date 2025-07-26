@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/23 05:17:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/25 03:04:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,6 +310,8 @@ void replace_node(t_environ **new, t_env **environ, t_env_var **env_vars);
 int 	invalid_commands_checking(char *command,t_env **environ, t_env_var **env_vars);
 int 	there_is_slash(char *command,t_env **environ, t_env_var **env_vars);
 int 	stat_the_command(char *command);
+char	*custom_strtrim(char const *s1, char const *set);
+char	*custom_substr(char const *s, unsigned int start, size_t len);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */
