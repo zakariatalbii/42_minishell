@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/25 03:03:18 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/27 08:39:25 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,28 @@ static void cd_home(t_env **environ, t_env_var **env_vars, int flag_)
 		perror("chdir error!");
 	}
 }
+
+static char *trim_back_slach(char *new)
+{
+	char *trimmed;
+	char *new_;
+	
+	trimmed = custom_strtrim(new, "/");
+	new_= custom_strjoin("/", trimmed,1);
+	return(new_);
+
+}
 static char *get_deleted_path_gain(char *PWD, char *new)
 {
 	char *deleted_path;
+	char *new_;
 
 	char *pwd_for_path;
 	pwd_for_path = custom_strjoin(PWD, "/",1);
 	if(!pwd_for_path)
 		return (NULL);
-	deleted_path = custom_strjoin(pwd_for_path, new,1);
+	new_ = custom_strtrim(new, "/");
+	deleted_path = custom_strjoin(pwd_for_path, new_,1);
 	if(!deleted_path)
 		return(NULL);
 	else
@@ -109,16 +122,6 @@ static int count_two_points(char *new)
 	}
 	return(count);
 } 
-static char *trim_back_slach(char *new)
-{
-	char *trimmed;
-	char *new_;
-	
-	trimmed = custom_strtrim(new, "/");
-	new_= custom_strjoin("/", trimmed,1);
-	return(new_);
-
-}
 
 char *right_pwd(t_env **environ, char *new, t_env_var **env_vars)
 {
@@ -235,7 +238,7 @@ void cd_execution(char **command , t_env **environ, t_env_var **env_vars)
 	// 	ft_status(1);
     //     return;
     // }
-	if((command)[1] && !strcmp((command)[1],"-"))
+	if((command)[1] && !ft_strcmp((command)[1],"-"))
 	{
 		if(!ft_getenv("PWD"))
 			flag++;

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 06:29:41 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 08:19:08 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars
         return;
     if(!((*new)->value))
         return;
-    else if(!ft_strcmp((*new)->operator, "+=") && !strcmp((*new)->value,""))
+    else if(!ft_strcmp((*new)->operator, "+=") && !ft_strcmp((*new)->value,""))
         return;
     replace_node(new, environ,env_vars); 
 }
 
-static int input_struct_handling(char *arg, int *status)
+static int input_struct_handling(char *arg, int flag)
 {
     int var_name_end_;
     int i;
@@ -61,7 +61,7 @@ static int input_struct_handling(char *arg, int *status)
         i = 0;
         if(!ft_strlen(arg))
         {
-            ft_putstr_fd("Minishell: export `",2);
+            ft_putstr_fd("minishell: export `",2);
             ft_putstr_fd(arg,2);
             ft_putstr_fd("': not a valid identifier\n",2);
             ft_status(1);
@@ -72,16 +72,16 @@ static int input_struct_handling(char *arg, int *status)
             var_name_end_=(var_name_end(arg));
             if(!valid_var_name(arg, var_name_end_))
             {
-                if(arg[0] == '-')
+                if(arg[0] == '-' && flag == 1)
                 {
-                    ft_putstr_fd("Minishell: export ",2);
+                    ft_putstr_fd("minishell: export ",2);
                     write(2,&arg[0],1);
                     write(2,&arg[1],1);
                     ft_putstr_fd(": invalid option\n",2);
                     ft_status(2);
                     return(1);
                 }
-                ft_putstr_fd("Minishell: export `",2);
+                ft_putstr_fd("minishell: export `",2);
                 ft_putstr_fd(arg,2);
                 ft_putstr_fd("': not a valid identifier\n",2);
                 ft_status(1);
@@ -102,7 +102,7 @@ static void command_handling( int *flag, char **command, t_env **environ , t_env
     {
         if(valid_position_export(command[i], (*env_vars)->status))
         {
-            if(input_struct_handling(command[i], (*env_vars)->status))
+            if(input_struct_handling(command[i], i))
             {   
                 *flag = 1;
                 i++;

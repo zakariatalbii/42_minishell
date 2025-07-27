@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:44 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 02:10:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/27 03:23:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ void echo_execution(char **command, t_env_var **env_vars)
     if(!identify_the_arg((command), &i))
     {
         if(i != 1 )//cause if i != 1 of course we did pass one valid argument   
-            new_line = 1; 
-    }
+            new_line = 1;
+    } 
     else 
     {
         if(!command[1])
@@ -126,12 +126,12 @@ void echo_execution(char **command, t_env_var **env_vars)
         if(!ft_strcmp(command[i],"$?"))
             printf("%s\n", ft_itoa(*((*env_vars)->status)));
         else
-            printf("%s",(command)[i]);
+            ft_putstr_fd((command)[i],1);
         if((command)[i+1] != NULL)
-            printf(" ");
+            ft_putstr_fd(" ",1);
         i++;
     }
     if(new_line == 0)
-        printf("\n");
+        ft_putstr_fd("\n",1);
     ft_status(0);
 }

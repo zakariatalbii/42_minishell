@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/26 20:29:05 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/27 10:11:34 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,8 @@ void	execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, 
 int  	is_built_in(char **command);
 // void	executing_env(t_environ **environ,int *status);
 // void 	executing_env(t_environ **environ, t_env_var **env_vars);
-void executing_env(t_env **environ, t_env_var **env_vars);
+// void executing_env(t_env **environ, t_env_var **env_vars);
+void 	executing_env(char  **command,t_env **environ, t_env_var **env_vars);
 // void	export_execution(char **command, t_environ **environ, char **PWD, int *status);
 // void	export_execution(char **command, t_environ **environ, t_env_var **env_vars);
 void 	export_execution(char **command, t_env **environ, t_env_var **env_vars);

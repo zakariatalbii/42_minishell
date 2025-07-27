@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/24 09:14:31 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/27 02:53:42 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,17 @@ void outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
     recursion(tree->data.red.ntree, environ,env_vars);
     error_handling(dup2(original_out, STDOUT_FILENO), "dup2", NULL);
     if (ft_status(-1) == 127)
-        fd_input_directing(STDERR_FILENO, fd[0]);
+    {
+        close(original_out);
+        close(fd[0]);
+        close(fd_);
+        return;
+    }
+     // fd_input_directing(STDERR_FILENO, fd[0]);
     else 
+    {
         fd_input_directing(fd_,fd[0]);
+    }
     close(original_out);
     close(fd[0]);
     close(fd_);

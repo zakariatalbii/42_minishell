@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/23 06:22:14 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/27 08:46:38 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
 static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
 { 
     char **command = tree->data.argv;
-      
+    
     if(command[0] && command[1])
     {
         if(pid == 1)
@@ -134,7 +134,7 @@ static void exit_argument_parssing(t_tree *tree, t_env_var  **env_vars, int pid)
         {
             ft_putstr_fd("Minishell: exit: too many arguments\n",2);
             ft_status(1);
-            exiting(tree, env_vars,0,pid);
+           return;
         }
         real_exit_status(tree, env_vars, pid);
     }

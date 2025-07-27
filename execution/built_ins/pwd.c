@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/19 02:23:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 05:34:02 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char *get_value(char *var,t_env *environ)
 {
     while(environ)
     {
-        if(!strcmp(environ->var ,var))
+        if(!ft_strcmp(environ->var ,var))
            return(environ->val);
         environ=environ->next;
     }

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/22 02:22:02 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/26 08:12:02 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void export_printing_conditions(t_env *current, t_env_var **env_vars)
 {
-    if(!strcmp(current->var, "PATH"))
+    if(!ft_strcmp(current->var, "PATH"))
     {
         if(*((*env_vars)->export_PATH) == 1)
             printing_export(current);
     }
-    else if(!strcmp(current->var, "_"))
+    else if(!ft_strcmp(current->var, "_"))
     {
         if(*((*env_vars)->export_) == 1)
             printing_export(current);
@@ -31,11 +31,11 @@ void export_flags_apdate(t_env**environ ,t_environ *new, t_env_var **env_vars)
 {
     t_env *new_;
 
-    if(!strcmp(new->var, "PATH") )
+    if(!ft_strcmp(new->var, "PATH") )
         *((*env_vars)->export_PATH) = 1;
-    if(!strcmp(new->var, "_"))
+    if(!ft_strcmp(new->var, "_"))
         *((*env_vars)->export_) = 1;
-    if(!strcmp(new->var, "OLDPWD"))
+    if(!ft_strcmp(new->var, "OLDPWD"))
         *((*env_vars)->export_OLDPWD) = 1;
     // handling_new_changes(&new, environ);
    replace_node(&new, environ, env_vars);
@@ -45,7 +45,6 @@ char **splited_export_command(char *str)
     char **splited_char;
     int  lengh_var_str;
 
-    
     lengh_var_str = count_lengh_var_str_export(str);
     if(!str)
         return(NULL);
