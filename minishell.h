@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/27 10:11:34 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:56:48 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ void	ft_free_argv(char **argv);
 typedef struct sigaction	t_sigaction;
 
 void	ft_signals(int flag);
-int		ft_prompt_i(int	flag);
 int		ft_heredoc_i(int f, int *fds);
 
 /* ************************************** */
