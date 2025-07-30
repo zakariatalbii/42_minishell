@@ -5,24 +5,13 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 16:45:55 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/29 20:27:55 by wnid-hsa         ###   ########.fr       */
+/*   Created: 2025/07/30 02:36:24 by wnid-hsa          #+#    #+#             */
+/*   Updated: 2025/07/30 02:42:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
-int failed_redirection(int flag_)
-{
-    static int flag;
-    if(flag_ == 0)
-        return(flag);
-    else
-    {
-        flag = flag_;
-        return(flag);
-    }
-}
 void infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars)
 {
     int original_in;
@@ -48,18 +37,6 @@ void infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars)
     }
 }
 
-void fd_input_directing(int fd_to,int fd_from)
-{
-    char buffer[1024];
-    ssize_t bytes_read;
-
-    bytes_read = read(fd_from, buffer, sizeof(buffer));
-    while(bytes_read>0)
-    {
-        write(fd_to, buffer, bytes_read);
-        bytes_read = read(fd_from, buffer,bytes_read);
-    }
-}
 void outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars)
 {
     int fd_;

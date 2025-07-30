@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/29 22:46:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:41:20 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,33 @@ int 	stat_the_command(char *command);
 char	*custom_strtrim(char const *s1, char const *set);
 char	*custom_substr(char const *s, unsigned int start, size_t len);
 void 	print_msg(char *text1, char *text2, char *text3);
+char 	*get_deleted_path_gain(char *PWD, char *new);
+char 	*go_backwards(char *pwd);
+int 	count_two_points(char *new);
+void 	cd_points_handling(char **right_pwd,char *new, char *pwd);
+char 	*right_pwd(t_env **environ, char *new, t_env_var **env_vars);
+int 	cd_flag(int flag_);
+void 	pwdinf_update(t_env_var **env_vars, char *path);
+char 	*trim_back_slach(char *new);
+char 	*escaped_path(char *pwd, int flag);
+void 	cd_deleted_path(char **right_pwd_ ,char *new,
+										 t_env_var **env_vars, int *flag);
+long long ft_lg__atoi(const char *str);
+void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid);
+void real_exit_status(t_tree *tree, t_env_var  **env_vars, int pid);
+void print_chr_str(char *text1, char c1,char c2, char *text2);
+int var_name_error(char *arg, int flag);
+int   ft_unset_flag(int flag);
+int stat_plus(char *command ,struct stat file_stat);
+void status_handling_chid(int *pid, 
+    int *fd, int status_2, int status_1);
+void status_handling(int status_1);	
+void change_lst_arg_(char *last_arg ,t_env **environ);
+int outfiles_checking(t_tree *tree);
+int recursive_check(t_tree *tree);
+void last_command_arg(t_tree *tree, t_env **environ);
+int failed_redirection(int flag_);
+void fd_input_directing(int fd_to,int fd_from);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */

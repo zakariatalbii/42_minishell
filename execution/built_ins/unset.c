@@ -6,24 +6,24 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/29 23:31:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:05:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int   ft_unset_flag(int flag)
-{
-	static int flag_;
+// int   ft_unset_flag(int flag)
+// {
+// 	static int flag_;
 
-	if(flag == 0)
-		return(flag_);
-	else
-	{
-		flag_ = flag;
-		return(flag_);
-	}
-}
+// 	if(flag == 0)
+// 		return(flag_);
+// 	else
+// 	{
+// 		flag_ = flag;
+// 		return(flag_);
+// 	}
+// }
 
 static int valid_unset_var_name(char *str)
 {
