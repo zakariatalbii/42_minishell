@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/26 03:35:47 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:31:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,29 +49,6 @@ static int valid_unset_var_name(char *str)
     return(1); 
 }
 
-// void unsetting_input(char *variable, t_env **environ)
-// {
-//     t_env *tmp;
-//     // int i;
-
-//     tmp = (*environ);
-//     if(!ft_strcmp(variable ,"PATH"))
-// 	    (void)ft_unset_flag(1);
-//     if(tmp && !strcmp(tmp->var, variable))
-//     {
-//         *environ=(*environ)->next;
-//         return;
-//     }
-//     while(tmp)
-//     {
-//         if((tmp->next) && !strcmp((tmp->next)->var, variable))
-//         {
-//             tmp->next = (tmp->next)->next;
-//             break;
-//         }
-//         tmp=tmp->next;     
-//     }
-// }
 static int unsetting_input_parsing(char *variable, t_env **environ)
 {
     t_env *current;
@@ -125,7 +102,8 @@ void valid_var_handling(char *command,t_env **environ, t_env_var **env_vars)
 {
     if(ft_strcmp(command,"_") )
     {
-        if(unsetting_input_parsing(command, environ)==1 || unsetting_input_parsing(command, environ)==3)
+        if(unsetting_input_parsing(command, environ)==1 
+            || unsetting_input_parsing(command, environ)==3)
         {
             ft_unsetenv(command);
             ft_status(0);

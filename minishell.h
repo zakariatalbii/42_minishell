@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/27 15:56:48 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/07/29 22:46:49 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,13 +185,13 @@ typedef struct s_environ
 typedef struct s_env_var
 {
 	char				*pwd;
-	char 				*oldpwd;
-	int					*status;
-	int					*env_flag;
-	int					*export_PATH;
+	// char 				*oldpwd;
+	// int					*status;
+	// int					*env_flag;
+	// int					*export_PATH;
 	int                 *export_;
-	int					*export_OLDPWD;
-	char 				*PATH;
+	// int					*export_OLDPWD;
+	// char 				*PATH;
 	char				*last_command;
 }	t_env_var;
 
@@ -230,7 +230,7 @@ void 	unset_executing(char **command, t_env **environ, t_env_var **env_vars);
 int 	is_the_var_in_environ(char *variable, t_env *environ);
 char	**split_environ(char *str);
 void	fill_in_var(char **var, char *str);
-int		valid_position_export(char *str, int *status);
+int		valid_position_export(char *str);
 int		var_name_end(char *str);
 int		valid_var_name(char *str, int count);
 int		ft_is_a_numb(char c);
@@ -313,6 +313,7 @@ int 	there_is_slash(char *command,t_env **environ, t_env_var **env_vars);
 int 	stat_the_command(char *command);
 char	*custom_strtrim(char const *s1, char const *set);
 char	*custom_substr(char const *s, unsigned int start, size_t len);
+void 	print_msg(char *text1, char *text2, char *text3);
 // void 	replace_node(t_environ **new, t_environ **environ);
 
 /* ************************************** */

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/27 09:29:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:02:36 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int  is_built_in(char **command)
             return(0);
         if((!ft_strcmp(command[0], "echo")) || 
             (!ft_strcmp(command[0], "cd")) || (!ft_strcmp(command[0], "pwd")) ||
-                (!ft_strcmp(command[0], "export")) || (!ft_strcmp(command[0], "unset") 
-                    || (!ft_strcmp(command[0], "env")) || (!ft_strcmp(command[0], "exit"))))
+                (!ft_strcmp(command[0], "export"))
+                     || (!ft_strcmp(command[0], "unset") 
+                    || (!ft_strcmp(command[0], "env")) 
+                    || (!ft_strcmp(command[0], "exit"))))
             return (1);
         else
             return (0);       
@@ -31,7 +33,8 @@ int  is_built_in(char **command)
         
 }
 
-void execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, int pid)
+void execute_the_builtin(t_tree *tree, 
+    t_env **s_environ, t_env_var **env_vars, int pid)
 {
     char    **command = tree->data.argv;
     
@@ -56,20 +59,3 @@ void execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, 
     }  
 }
 
-// void no_pipe_execution(t_tree *tree, t_env *environ, t_env_var **env_vars, int pid)
-// {
-//     char **command = tree->data.argv;
-//     int built_in;
-    
-//     built_in = 0;
-//     if(!command)
-//         return;
-//     built_in = is_built_in(command);
-//     if(built_in == 1)
-//     {
-//         execute_the_builtin(tree, &environ, env_vars, pid);
-//     }
-//     else
-//         external_commands_execution(command, &environ, env_vars);
-        
-// }

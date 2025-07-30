@@ -6,72 +6,38 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/27 08:46:38 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:06:04 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-// static long long ft_lg__atoi(const char *str)
-// {
-// 	long long	num ;
-// 	int			sign ;
-// 	int			digit;
-
-// 	sign = 1;
-// 	while (*str == ' ' || *str == '\t' || *str == '\n'
-// 		|| *str == '\v' || *str == '\r' || *str == '\f')
-// 		str++;
-// 	if (*str == '+' || *str == '-')
-// 		if (*str++ == '-')
-// 			sign = -1;
-// 	while (*str >= '0' && *str <= '9')
-// 	{
-// 		digit = *str - '0';
-// 		if (sign == 1 && num > 9223372036854775807)
-// 			return (-111);
-// 		if ( sign == -1 &&  num > 9223372036854775807)
-//         {
-//             if(num * sign == LLONG_MIN)
-//                 return(LLONG_MIN);
-// 			return (-111);
-//         }
-// 		num = num * 10 + digit;
-// 		str++;
-// 	}
-// 	num = (num *sign);
-// 	return (num);
-// }
-#include <limits.h>
-
 static long long ft_lg__atoi(const char *str)
 {
-    long long num = 0;
-    int sign = 1;
+    long long num ;
+    int sign ;
     int digit;
 
+    (1 && (num = 0),(sign = 1));
     while (*str == ' ' || *str == '\t' || *str == '\n'
         || *str == '\v' || *str == '\r' || *str == '\f')
         str++;
-
     if (*str == '+' || *str == '-')
         if (*str++ == '-')
             sign = -1;
-
     while (*str >= '0' && *str <= '9')
     {
         digit = *str - '0';
-
         if (sign == 1 && num > (LLONG_MAX - digit) / 10)
             return (-111);
-        if (sign == -1 && num > ((unsigned long long)LLONG_MAX + 1ULL - digit) / 10)
+        if (sign == -1 && 
+                num > ((unsigned long long)LLONG_MAX + 1ULL - digit) / 10)
             return (-111);
         num = num * 10 + digit;
         str++;
     }
     if (sign == -1 && num == (unsigned long long)LLONG_MAX + 1ULL)
         return LLONG_MIN;
-
     return (num * sign);
 }
 
@@ -82,11 +48,9 @@ void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
     
     status = ft_status(-1);
     if(exit_printing && pid == 1)
-        // printf("exit\n"); 
     ft_free_tree(tree);
     gc_malloc(0, 0);
     gc_malloc(0, 1);
-    // exit(*(*env_vars)->status);
     exit(status);
 }
 
@@ -105,9 +69,11 @@ static void parssing(t_tree *tree,t_env_var  **env_vars, int pid)
     int flag;
     
     (1 && (i = 1), (flag = 0));
-    if(tree->data.argv[1][0]!='-' && tree->data.argv[1][0]!= '+' && !ft_is_a_numb(tree->data.argv[1][0]))
+    if(tree->data.argv[1][0]!='-' && 
+            tree->data.argv[1][0]!= '+' && !ft_is_a_numb(tree->data.argv[1][0]))
         flag =1;
-    if((ft_strlen(tree->data.argv[1])>1 && !ft_is_a_numb(tree->data.argv[1][1])))
+    if((ft_strlen(tree->data.argv[1])>1 &&
+         !ft_is_a_numb(tree->data.argv[1][1])))
         flag =1;
     if(ft_lg__atoi(tree->data.argv[1]) == -111)
         flag =1;

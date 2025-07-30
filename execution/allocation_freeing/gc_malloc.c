@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 07:06:48 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/24 17:23:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:59:52 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void free_local_garbage(t_local_trash **local_trash)
 		free(tmp);
 	}
 }
-static void *global_collection(t_global_trash **global_trash, size_t size)
+static void *global_collection(t_global_trash
+         **global_trash, size_t size)
 {
    
     t_global_trash			        *new;

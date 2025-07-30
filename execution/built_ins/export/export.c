@@ -6,27 +6,15 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/26 08:29:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:22:54 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-// static int export_when_restoring(t_env *current)
-// {
-//     if(!strcmp(current->var, "OLDPWD"))
-//         return(1);
-//     if(!strcmp(current->var, "PWD"))
-//         return(1);
-//     if(!strcmp(current->var, "SHLVL"))
-//        return(1);
-//     return(0);
-// }
 void   printing_export(t_env *current)
 {
     
-    if(ft_strcmp(current->var, "_"))
-    {
         printf("declare -x ");
         printf("%s", current->var);
         if(current->val)
@@ -35,7 +23,6 @@ void   printing_export(t_env *current)
             printf("\"%s\"", current->val);
         }
             printf("\n");
-    }
 }
 
 int is_the_var_in_environ(char *variable, t_env *environ)
@@ -51,47 +38,17 @@ int is_the_var_in_environ(char *variable, t_env *environ)
        }
        current = current->next;
    }
-//    printf("you are fine\n");
    return(0);
 }
 
-static void export_no_arg(t_env **environ)
+static void export_no_arg(t_env **environ, t_env_var **env_vars)
 {
     t_env *current;
 
     current = (*environ);
-    // if(!is_the_var_in_environ("OLDPWD",*environ))
-    // {
-    //     if(!ft_unset_flag(0) )
-    //     {
-    //         printf("declare -x ");
-    //         printf("OLDPWD\n");
-    //     }
-    // }
     while(current)
     {
-        // if(*(*env_vars)->env_flag)
-        // {
-        //     if(export_when_restoring(current))
-        //        printing_export(current); 
-        // }
-        // else
-        // {
-        //     export_printing_conditions(current, env_vars);
-        //     // if(!strcmp(current->var, "PATH"))
-        //     // {
-        //     //     if(*((*env_vars)->export_PATH) == 1)
-        //     //         printing_export(current);
-        //     // }
-        //     // else if(!strcmp(current->var, "_"))
-        //     // {
-        //     //     if(*((*env_vars)->export_) == 1)
-        //     //         printing_export(current);
-        //     // }       
-        //     // else
-        //     //     printing_export(current);
-        // }
-        printing_export(current);
+        export_printing_conditions(current, env_vars);
         current = current->next;
     }
 }
@@ -102,11 +59,11 @@ void export_execution(char **command, t_env **environ, t_env_var **env_vars)
     {
         if(!command[1])
         {
-            export_no_arg(environ);
+            export_no_arg(environ,env_vars);
             ft_status(0);
             return;
         }
         make_export_struct(command,environ,env_vars);
-        *((*env_vars)->env_flag) = 0;
+        // ft_status(0);
     }
 }

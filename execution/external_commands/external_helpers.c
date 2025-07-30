@@ -6,30 +6,12 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/26 04:32:16 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:20:36 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
-
-// static int	count_words(const char *s, char c)
-// {
-// 	int		i;
-// 	int		count;
-
-// 	i = 0;
-// 	count = 0;
-// 	while (s[i])
-// 	{
-// 		if ((s[i] != c)
-// 			&& (s[i + 1] == c || s[i + 1] == '\0'))
-// 			count++;
-// 		i++;
-// 	}
-// 	return (count);
-// }
 
 int	count_lengh_of_str(char *str, char c, int *i)
 {
@@ -43,23 +25,6 @@ int	count_lengh_of_str(char *str, char c, int *i)
 	}
 	return(lengh);
 }
-// static char *path_extraction(t_env *environ ,t_env_var **env_vars)
-// {
-// 	while(environ)
-// 	{
-// 		if(!strcmp(environ->var,"PATH"))
-// 		{
-// 			if(!strcmp(environ->val, (*env_vars)->PATH))
-// 			{
-// 				return(environ->val);
-// 			}
-// 			else
-// 				return(NULL);
-// 		}
-// 		environ =environ->next;
-// 	}
-// 	return(NULL);
-// }
 
 static char	**allocate_double_char(char *str, char c, char *command)
 {
@@ -69,14 +34,16 @@ static char	**allocate_double_char(char *str, char c, char *command)
 
 	if (!str)
 		return (NULL);
-	ptr = (char **)gc_malloc(sizeof(char *) * (count_words(str, c) + 1), 0);
+	ptr = (char **)gc_malloc(sizeof(char *) *
+		 (count_words(str, c) + 1), 0);
 	if (!ptr || command == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (j < count_words(str, c))
 	{
-		ptr[j] = (char *)gc_malloc(count_lengh_of_str(str, c, &i) + ft_strlen(command) + 2, 0);
+		ptr[j] = (char *)gc_malloc(count_lengh_of_str(str, c, &i) +
+			 ft_strlen(command) + 2, 0);
 		j++;
 	}
 	ptr[j] = NULL;
@@ -96,12 +63,8 @@ char	**potential_path(t_env **environ, char *command)
 		PATH=custom_strdup(PATH_, 0);	
 	splited_path = custom_split(PATH,':', 0);
 	if(splited_path == NULL)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command , 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
-		return (NULL);
-	}
+		return ((print_msg("minishell: ", 
+			command, ": No such file or directory\n")),NULL);
 	potential_paths = allocate_double_char(PATH,':',command);
 	i = 0;
 	while(splited_path[i] != NULL)
@@ -115,7 +78,8 @@ char	**potential_path(t_env **environ, char *command)
 	return(potential_paths);
 }
 
-int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars)
+int  check_existans_and_permisisons(t_env **environ,
+	char *command, t_env_var **env_vars)
 {
 	int	i;
 	char 	**potential_paths;
@@ -133,15 +97,12 @@ int  check_existans_and_permisisons(t_env **environ,char *command, t_env_var **e
 			else
 			{
 				ft_putstr_fd("permission denied\n",2);
-				ft_status(126);
-				return(-1);
+				return(ft_status(126),-1);
 			}
 		}
 		i++;
 	}
 	ft_status(127);
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(command , 2);
-	ft_putstr_fd(": command not found\n", 2);
+	print_msg("minishell: ", command, ": command not found\n");
 	return(-1);
 }

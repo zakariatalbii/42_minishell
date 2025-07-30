@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/26 05:34:02 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 00:55:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int is_valid_pwd(char **command)
 {
-    if (!ft_strcmp(command[1],"-p") || !ft_strcmp(command[1],"--p" ) || !ft_strcmp(command[1],"---p"))
+    if (!ft_strcmp(command[1],"-p") || 
+        !ft_strcmp(command[1],"--p" ) || !ft_strcmp(command[1],"---p"))
         return(0);
     else
         return(1);
@@ -32,8 +33,7 @@ char *get_value(char *var,t_env *environ)
 
 void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars)
 {
-    // char *pwd_;
-    
+ 
     if (command[1] && !is_valid_pwd(command))
     {
         ft_putstr_fd("Minishell: pwd: ",2);
@@ -45,11 +45,8 @@ void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars)
     }
     else
     {   
-        // *((*env_vars)->status) = 0;
-        // if(get_value("PWD",environ))
-        //     printf("%s\n", get_value("PWD",environ));
-			printf("%s\n", (*env_vars)->pwd);
-            ft_status(0);
+		printf("%s\n", (*env_vars)->pwd);
+        ft_status(0);
     }
 }
 
