@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 21:05:44 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/25 03:02:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 01:56:12 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ char	*custom_substr(char const *s, unsigned int start, size_t len)
 	}
 	if (v < len)
 		len = v;
-	str = (char *)gc_malloc(len + 1,1);
+	str = (char *)gc_malloc(len + 1, 1);
 	if (str == NULL)
 		return (NULL);
 	ft_strlcpy(str, s + start, len + 1);
 	return (str);
 }
+
 char	*custom_strtrim(char const *s1, char const *set)
 {
 	size_t	start;
@@ -50,6 +51,7 @@ char	*custom_strtrim(char const *s1, char const *set)
 		end--;
 	return (custom_substr(s1, (unsigned int)start, end - start));
 }
+
 char	*custom_strndup(const char *s1, size_t n, int pid)
 {
 	size_t	size;
@@ -60,7 +62,7 @@ char	*custom_strndup(const char *s1, size_t n, int pid)
 	size = ft_strlen(s1);
 	if (size > n)
 		size = n;
-	str = (char *)gc_malloc(size + 1,1);
+	str = (char *)gc_malloc(size + 1, 1);
 	if (str == NULL)
 		return (NULL);
 	ft_strlcpy(str, s1, size + 1);

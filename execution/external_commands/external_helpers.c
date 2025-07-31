@@ -6,24 +6,23 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 00:20:36 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/30 05:49:42 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-
 int	count_lengh_of_str(char *str, char c, int *i)
 {
-	int lengh;
+	int	lengh;
 
 	lengh = 0;
-	while(str[*i] && str[*i] != c)
+	while (str[*i] && str[*i] != c)
 	{
 		(*i)++;
 		lengh++;
 	}
-	return(lengh);
+	return (lengh);
 }
 
 static char	**allocate_double_char(char *str, char c, char *command)
@@ -34,16 +33,16 @@ static char	**allocate_double_char(char *str, char c, char *command)
 
 	if (!str)
 		return (NULL);
-	ptr = (char **)gc_malloc(sizeof(char *) *
-		 (count_words(str, c) + 1), 0);
+	ptr = (char **)gc_malloc(sizeof(char *)
+			*(count_words(str, c) + 1), 0);
 	if (!ptr || command == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (j < count_words(str, c))
 	{
-		ptr[j] = (char *)gc_malloc(count_lengh_of_str(str, c, &i) +
-			 ft_strlen(command) + 2, 0);
+		ptr[j] = (char *)gc_malloc(count_lengh_of_str(str, c, &i)
+				+ ft_strlen(command) + 2, 0);
 		j++;
 	}
 	ptr[j] = NULL;
@@ -52,57 +51,57 @@ static char	**allocate_double_char(char *str, char c, char *command)
 
 char	**potential_path(t_env **environ, char *command)
 {
-	char	*PATH;
+	char	*path;
 	char	**splited_path;
-	char 	**potential_paths;
-	char 	*join;
+	char	**potential_paths;
+	char	*join;
 	int		i;
-	
-	PATH = ft_getenv("PATH");
-	if(!PATH && ft_unset_flag(0) == 0)
-		PATH=custom_strdup(PATH_, 0);	
-	splited_path = custom_split(PATH,':', 0);
-	if(splited_path == NULL)
-		return ((print_msg("minishell: ", 
-			command, ": No such file or directory\n")),NULL);
-	potential_paths = allocate_double_char(PATH,':',command);
+
+	path = ft_getenv("PATH");
+	if (!path && ft_unset_flag(0) == 0)
+		path = custom_strdup(PATH_, 0);
+	splited_path = custom_split(path, ':', 0);
+	if (splited_path == NULL)
+		return ((print_msg("minishell: ",
+					command, ": No such file or directory\n")), NULL);
+	potential_paths = allocate_double_char(path, ':', command);
 	i = 0;
-	while(splited_path[i] != NULL)
+	while (splited_path[i] != NULL)
 	{
-		join = custom_strjoin(splited_path[i],"/", 0);
-		if(!join)
-			return(NULL);
+		join = custom_strjoin(splited_path[i], "/", 0);
+		if (!join)
+			return (NULL);
 		potential_paths[i] = custom_strjoin(join, command, 0);
 		i++;
 	}
-	return(potential_paths);
+	return (potential_paths);
 }
 
-int  check_existans_and_permisisons(t_env **environ,
+int	check_existans_and_permisisons(t_env **environ,
 	char *command, t_env_var **env_vars)
 {
-	int	i;
-	char 	**potential_paths;
-	
-	potential_paths=potential_path(environ, command);
-	if(!potential_paths)
-		return(-1);
+	int		i;
+	char	**potential_paths;
+
+	potential_paths = potential_path(environ, command);
+	if (!potential_paths)
+		return (-1);
 	i = 0;
-	while(potential_paths[i])
+	while (potential_paths[i])
 	{
-		if(access(potential_paths[i], F_OK) == 0)
+		if (access(potential_paths[i], F_OK) == 0)
 		{
-			if(access(potential_paths[i], X_OK ) == 0)
-				return(i);
+			if (access(potential_paths[i], X_OK) == 0)
+				return (i);
 			else
 			{
-				ft_putstr_fd("permission denied\n",2);
-				return(ft_status(126),-1);
+				ft_putstr_fd("permission denied\n", 2);
+				return (ft_status(126), -1);
 			}
 		}
 		i++;
 	}
 	ft_status(127);
 	print_msg("minishell: ", command, ": command not found\n");
-	return(-1);
+	return (-1);
 }

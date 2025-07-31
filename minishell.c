@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/29 22:58:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 02:40:21 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,41 +14,25 @@
 
 void	show_the_tree(t_tree *tree);// for test
 
-// void export_flags_initialization(t_env_var **env_vars)
-// {
-// 	// (*env_vars)->export_PATH = (int *)gc_malloc(sizeof(int),1);
-// 	// if((*env_vars)->export_PATH)
-// 	// 	*((*env_vars)->export_PATH) = 0;
-// 	(*env_vars)->export_ = (int *)gc_malloc(sizeof(int),1);
-// 	if((*env_vars)->export_ )
-// 		*((*env_vars)->export_) = 0;
-// 	// (*env_vars)->export_OLDPWD=(int *)gc_malloc(sizeof(int),1);
-// 	// if((*env_vars)->export_OLDPWD)
-// 	// 	*((*env_vars)->export_OLDPWD)=0;
-// 	(*env_vars)->last_command =custom_strdup("a",1);
-// 	if(!(*env_vars)->last_command )
-// 		return;
-
-// }
 t_env_var	*env_var_initialization(void)
 {
-	t_env_var *env_vars;
-	char	*cwd;
-	
+	t_env_var	*env_vars;
+	char		*cwd;
+
 	cwd = getcwd(NULL, 0);
-	env_vars = gc_malloc(sizeof(t_env_var),1);
-	if(!env_vars || !cwd)
-		return(NULL);
+	env_vars = gc_malloc(sizeof(t_env_var), 1);
+	if (!env_vars || !cwd)
+		return (NULL);
 	else
 	{
 		env_vars->pwd = custom_strdup(cwd, 1);
-		env_vars->export_ = (int *)gc_malloc(sizeof(int),1);
-		if(env_vars->export_)
+		env_vars->export_ = (int *)gc_malloc(sizeof(int), 1);
+		if (env_vars->export_)
 			*(env_vars->export_) = 0;
-		env_vars->last_command =custom_strdup("a",1);
-		if(!env_vars->pwd || !env_vars->export_ || !env_vars->last_command)
-			return(free(cwd),NULL);
-		return(free(cwd),env_vars);
+		env_vars->last_command = custom_strdup("a", 1);
+		if (!env_vars->pwd || !env_vars->export_ || !env_vars->last_command)
+			return (free(cwd), NULL);
+		return (free(cwd), env_vars);
 	}
 }
 
@@ -77,7 +61,7 @@ int	main(void)
 
 	env_vars = env_var_initialization();
 	ft_signals(1);
-	if (!env_vars||!ft_environ(&env, ft_envinit(), 1))
+	if (!env_vars || !ft_environ(&env, ft_envinit(), 1))
 		return (gc_malloc(0, 0), gc_malloc(0, 1), 1);
 	while (1)
 	{

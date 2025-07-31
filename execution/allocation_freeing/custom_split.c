@@ -6,12 +6,11 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 08:35:09 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/06/23 11:24:31 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 01:50:54 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
 
 int	count_words(const char *s, char c)
 {
@@ -92,4 +91,3 @@ char	**custom_split(const char *s, char c, int pid)
 	ptr[j] = NULL;
 	return (ptr);
 }
-

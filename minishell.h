@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/30 02:41:20 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 03:01:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int		ft_empty_token(t_list **list, t_list **head, char *str, int ptype);
 int		ft_isspace(int c);
 
 /* *** "expand with spaces" struct *** */
-typedef struct	s_qchar
+typedef struct s_qchar
 {
 	char	*fc;
 	char	*lc;
@@ -184,164 +184,116 @@ typedef struct s_environ
 
 typedef struct s_env_var
 {
-	char				*pwd;
-	// char 				*oldpwd;
-	// int					*status;
-	// int					*env_flag;
-	// int					*export_PATH;
-	int                 *export_;
-	// int					*export_OLDPWD;
-	// char 				*PATH;
-	char				*last_command;
+	char	*pwd;
+	int		*export_;
+	char	*last_command;
 }	t_env_var;
 
 typedef struct s_local_trash
 {
-	void			*point;
+	void					*point;
 	struct s_local_trash	*next;
 }					t_local_trash;
 
 typedef struct s_global_trash
 {
-	void			*point;
+	void					*point;
 	struct s_global_trash	*next;
 }					t_global_trash;
 
-
-// void	cd_execution(char **command, char **PWD, t_environ **environ, char **OLDPWD, int *status);
-// void	cd_execution(char **command , t_environ **environ, t_env_var **env_vars);
-void 	cd_execution(char **command , t_env **environ, t_env_var **env_vars);
+void	cd_execution(char **command, t_env **environ, t_env_var **env_vars);
 void	echo_execution(char **command, t_env_var **env_vars);
 
 t_environ	*ft_lstnew_environ(char *str);
 void	ft_lstadd_back_environ(t_environ **lst, t_environ *new);
-// t_environ	*making_the_environ_struct(int *flag, char *pwd);
-t_environ *making_the_environ_struct(int *flag, t_env_var **env_vars);
-// void	pwd_execution(char **command, char **PWD, int *status);
-// void  	pwd_execution(char **command, t_env_var **env_vars);
-void  pwd_execution(char **command, t_env *environ, t_env_var **env_vars);
-// void	recursion(t_tree *tree, t_env_var **env_vars);
-// void	recursion(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void 	recursion(t_tree *tree,t_env **environ,t_env_var **env_vars);
-// void	unset_executing(char **command, t_environ **environ, int *status);
-// void 	unset_executing(char **command, t_environ **environ, t_env_var **env_vars);
-void 	unset_executing(char **command, t_env **environ, t_env_var **env_vars);
-// int		is_the_var_in_environ(char *variable, t_environ *environ);
-int 	is_the_var_in_environ(char *variable, t_env *environ);
-char	**split_environ(char *str);
-void	fill_in_var(char **var, char *str);
-int		valid_position_export(char *str);
-int		var_name_end(char *str);
-int		valid_var_name(char *str, int count);
-int		ft_is_a_numb(char c);
-int		is_while_space(char c);
-// void	make_export_struct(char **command, t_environ **environ, char **PWD, int *status);
-void	make_export_struct(char **command, t_env **environ, t_env_var **env_vars);
-// void  	cd_oldpwd(t_environ **environ, char **PWD, char **OLDPWD, int *status);
-void 	cd_oldpwd(t_env **environ, t_env_var **env_vars);
-char	*telda_full_path(char *telda_path);
-int		is_it_set(t_env **environ, char *path);
-void	changing_nodes(t_env **environ, char *var, char *new_value);
-// int 	check_existans_and_permisisons(char *command, int *status);
-int  	check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars);
-void 	external_commands_execution(char **command,t_env **environ, t_env_var **env_vars);
-// void	external_commands_execution(char **command, t_environ **environ, int *status);
-// char	**potential_path(char *command);
-// char	**potential_path(t_env **environ, char *command,t_env_var **env_vars);
-char	**potential_path(t_env **environ, char *command);
-// char	**potential_path(t_environ **environ, char *command,t_env_var **env_vars);
-// void	no_pipe_execution(char **command, char **PWD, char **OLDPWD, t_environ *environ, int *status);
-// void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars);
-int   ft_flag(int flag);
-int   ft_unset_flag(int flag);
-void	no_pipe_execution(t_tree *tree, t_environ *environ, t_env_var **env_vars, int pid);
-void	error_handling(int return_value,char *failed_function, char *PATH);
-// void	infile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
-// void	outfile_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars);
-// void	heredoc_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
+void		pwd_execution(char **command, t_env *environ, t_env_var **env_vars);
+void		recursion(t_tree *tree,t_env **environ,t_env_var **env_vars);
+void		unset_executing(char **command, t_env **environ, t_env_var **env_vars);
+int			is_the_var_in_environ(char *variable, t_env *environ);
+char		**split_environ(char *str);
+void		fill_in_var(char **var, char *str);
+int			valid_position_export(char *str);
+int			var_name_end(char *str);
+int			valid_var_name(char *str, int count);
+int			ft_is_a_numb(char c);
+int			is_while_space(char c);
+void		make_export_struct(char **command, t_env **environ, t_env_var **env_vars);
+void 		cd_oldpwd(t_env **environ, t_env_var **env_vars);
+char		*telda_full_path(char *telda_path);
+int			is_it_set(t_env **environ, char *path);
+int			check_existans_and_permisisons(t_env **environ,char *command, t_env_var **env_vars);
+void		external_commands_execution(char **command,t_env **environ, t_env_var **env_vars);
+char		**potential_path(t_env **environ, char *command);
+int			ft_unset_flag(int flag);
+void		error_handling(int return_value,char *failed_function, char *PATH);
+void		infile_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
+void		outfile_handling(t_tree *tree,t_env **environ,t_env_var **env_vars);
 
-void	heredoc_handling(t_tree *tree, t_env **environ,t_env_var **env_vars);
-// void	append_handling(t_tree *tree, char **PWD, char **OLDPWD, int *status);
-void	append_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
-// void 	execute_the_builtin(char **command, char **PWD, t_environ **s_environ, char **OLDPWD, int *status);
-void	execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, int pid);
-int  	is_built_in(char **command);
-// void	executing_env(t_environ **environ,int *status);
-// void 	executing_env(t_environ **environ, t_env_var **env_vars);
-// void executing_env(t_env **environ, t_env_var **env_vars);
-void 	executing_env(char  **command,t_env **environ, t_env_var **env_vars);
-// void	export_execution(char **command, t_environ **environ, char **PWD, int *status);
-// void	export_execution(char **command, t_environ **environ, t_env_var **env_vars);
-void 	export_execution(char **command, t_env **environ, t_env_var **env_vars);
-void	cd_errno_handling(int ernum, char *path);
-void   	restore_environ(t_environ **s_environ, t_env_var **env_vars);
-char 	*restore_user(char *pwd);
-char	*restore_path(char *pwd);
-// void	restore_variables(t_environ **s_environ, char *pwd);
-void 	restore_variables(t_environ **s_environ, t_env_var **env_vars);
-char 	**splited_export_command(char *str);
-void 	export_flags_apdate(t_env **environ ,t_environ *new, t_env_var **env_vars);
-char  	**split_environ(char *str);
-int 	count_lengh_var_str_export(char *str);
-// void 	handling_new_changes(t_environ **new, t_env **environ);
-void 	handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars);
-void 	export_printing_conditions(t_env *current, t_env_var **env_vars);
-void   	printing_export(t_env *current);
-void 	*gc_malloc(size_t size, int pid);
-char	*custom_strjoin(const char *s1, const char *s2, int pid);
-char	**custom_split(const char *s, char c, int pid);
-char	*custom_strdup(const char	*s1, int pid);
-void 	free_global_garbage(t_global_trash **global_trash);
-void 	free_local_garbage(t_local_trash **local_trash);
-// void 	exit_execution(t_tree *tree,t_env_var **env_vars);
-void 	exit_execution(t_tree *tree,t_env_var **env_vars, int pid);
-// void 	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing);
-void 	exit_execution(t_tree *tree,t_env_var **env_vars, int pid);
-void 	fd_input_directing(int fd_to,int fd_from);
-char 	*get_value(char *var,t_env *environ);
-// char	*ft_strndup(const char *s1, size_t n, int pid);
-char	*custom_strndup(const char *s1, size_t n, int pid);
-char	*ft_strndup(const char *s1, size_t n);
-void 	last_command_arg(t_tree *tree, t_env **environ);
-void 	save_node_changes(t_env **environ, char *var, char *new_value);
-int		count_words(const char *s, char c);
-void replace_node(t_environ **new, t_env **environ, t_env_var **env_vars);
-int 	invalid_commands_checking(char *command,t_env **environ, t_env_var **env_vars);
-int 	there_is_slash(char *command,t_env **environ, t_env_var **env_vars);
-int 	stat_the_command(char *command);
-char	*custom_strtrim(char const *s1, char const *set);
-char	*custom_substr(char const *s, unsigned int start, size_t len);
-void 	print_msg(char *text1, char *text2, char *text3);
-char 	*get_deleted_path_gain(char *PWD, char *new);
-char 	*go_backwards(char *pwd);
-int 	count_two_points(char *new);
-void 	cd_points_handling(char **right_pwd,char *new, char *pwd);
-char 	*right_pwd(t_env **environ, char *new, t_env_var **env_vars);
-int 	cd_flag(int flag_);
-void 	pwdinf_update(t_env_var **env_vars, char *path);
-char 	*trim_back_slach(char *new);
-char 	*escaped_path(char *pwd, int flag);
-void 	cd_deleted_path(char **right_pwd_ ,char *new,
+
+void		heredoc_handling(t_tree *tree, t_env **environ,t_env_var **env_vars);
+
+void		append_handling(t_tree *tree,t_env **environ ,t_env_var **env_vars);
+
+void		execute_the_builtin(t_tree *tree, t_env **s_environ, t_env_var **env_vars, int pid);
+int			is_built_in(char **command);
+void		executing_env(char  **command,t_env **environ, t_env_var **env_vars);
+void		export_execution(char **command, t_env **environ, t_env_var **env_vars);
+void		cd_errno_handling(int ernum, char *path);
+char		**splited_export_command(char *str);
+void		export_flags_apdate(t_env **environ ,t_environ *new, t_env_var **env_vars);
+char		**split_environ(char *str);
+int			count_lengh_var_str_export(char *str);
+void		handling_new_changes(t_environ **new, t_env **environ, t_env_var **env_vars);
+void		export_printing_conditions(t_env *current, t_env_var **env_vars);
+void		printing_export(t_env *current);
+void		*gc_malloc(size_t size, int pid);
+char		*custom_strjoin(const char *s1, const char *s2, int pid);
+char		**custom_split(const char *s, char c, int pid);
+char		*custom_strdup(const char	*s1, int pid);
+void		free_global_garbage(t_global_trash **global_trash);
+void		free_local_garbage(t_local_trash **local_trash);
+void		exit_execution(t_tree *tree,t_env_var **env_vars, int pid);
+void		exit_execution(t_tree *tree,t_env_var **env_vars, int pid);
+void		fd_input_directing(int fd_to,int fd_from);
+char		*get_value(char *var,t_env *environ);
+char		*custom_strndup(const char *s1, size_t n, int pid);
+char		*ft_strndup(const char *s1, size_t n);
+void		last_command_arg(t_tree *tree, t_env **environ);
+int			count_words(const char *s, char c);
+void		replace_node(t_environ **new, t_env **environ, t_env_var **env_vars);
+int			invalid_commands_checking(char *command,t_env **environ, t_env_var **env_vars);
+int			there_is_slash(char *command,t_env **environ, t_env_var **env_vars);
+int			stat_the_command(char *command);
+char		*custom_strtrim(char const *s1, char const *set);
+char		*custom_substr(char const *s, unsigned int start, size_t len);
+void		print_msg(char *text1, char *text2, char *text3);
+char		*get_deleted_path_gain(char *PWD, char *new);
+char		*go_backwards(char *pwd);
+int			count_two_points(char *new);
+void		cd_points_handling(char **right_pwd,char *new, char *pwd);
+char		*right_pwd(t_env **environ, char *new, t_env_var **env_vars);
+int			cd_flag(int flag_);
+void		pwdinf_update(t_env_var **env_vars, char *path);
+char		*trim_back_slach(char *new);
+char		*escaped_path(char *pwd, int flag);
+void		cd_deleted_path(char **right_pwd_ ,char *new,
 										 t_env_var **env_vars, int *flag);
-long long ft_lg__atoi(const char *str);
-void exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid);
-void real_exit_status(t_tree *tree, t_env_var  **env_vars, int pid);
-void print_chr_str(char *text1, char c1,char c2, char *text2);
-int var_name_error(char *arg, int flag);
-int   ft_unset_flag(int flag);
-int stat_plus(char *command ,struct stat file_stat);
-void status_handling_chid(int *pid, 
-    int *fd, int status_2, int status_1);
-void status_handling(int status_1);	
-void change_lst_arg_(char *last_arg ,t_env **environ);
-int outfiles_checking(t_tree *tree);
-int recursive_check(t_tree *tree);
-void last_command_arg(t_tree *tree, t_env **environ);
-int failed_redirection(int flag_);
-void fd_input_directing(int fd_to,int fd_from);
-// void 	replace_node(t_environ **new, t_environ **environ);
+long long	ft_lg__atoi(const char *str);
+void		exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid);
+void		real_exit_status(t_tree *tree, t_env_var  **env_vars, int pid);
+void		print_chr_str(char *text1, char c1,char c2, char *text2);
+int			var_name_error(char *arg, int flag);
+int			ft_unset_flag(int flag);
+int			stat_plus(char *command ,struct stat file_stat);
+void		status_handling_chid(int *pid, 
+			int *fd, int status_2, int status_1);
+void		status_handling(int status_1);	
+void		change_lst_arg_(char *last_arg ,t_env **environ);
+int			outfiles_checking(t_tree *tree);
+int			recursive_check(t_tree *tree);
+void		last_command_arg(t_tree *tree, t_env **environ);
+int			failed_redirection(int flag_);
+void		fd_input_directing(int fd_to,int fd_from);
 
 /* ************************************** */
 

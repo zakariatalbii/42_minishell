@@ -6,55 +6,57 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:00:34 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 02:06:06 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 02:32:16 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int   ft_unset_flag(int flag)
+int	ft_unset_flag(int flag)
 {
-	static int flag_;
+	static int	flag_;
 
-	if(flag == 0)
-		return(flag_);
+	if (flag == 0)
+		return (flag_);
 	else
 	{
 		flag_ = flag;
-		return(flag_);
+		return (flag_);
 	}
 }
 
-void print_chr_str(char *text1, char c1,char c2, char *text2)
+void	print_chr_str(char *text1, char c1, char c2, char *text2)
 {
-    ft_putstr_fd("minishell: export ",2);
-    write(2,&c1,1);
-    write(2,&c2,1);
-    ft_putstr_fd(": invalid option\n",2);
+	ft_putstr_fd("minishell: export ", 2);
+	write(2, &c1, 1);
+	write(2, &c2, 1);
+	ft_putstr_fd(": invalid option\n", 2);
 }
-int var_name_error(char *arg, int flag)
+
+int	var_name_error(char *arg, int flag)
 {
-    int i;
-    int var_name_end_;
-    
-    i = 0;
-    while(arg[i])
-    {
-        var_name_end_=(var_name_end(arg));
-        if(!valid_var_name(arg, var_name_end_))
-        {
-            if(arg[0] == '-' && flag == 1)
-            {
-                print_chr_str("minishell: export ",
-                     arg[0], arg[1],": invalid option\n");
-                ft_status(2);
-                return(1);
-            }
-            print_msg("minishell: export `",arg, "': not a valid identifier\n");
-            ft_status(1);
-            return(1);
-        }
-        i++;
-    }
-    return(0);
+	int	i;
+	int	var_name_end_;
+
+	i = 0;
+	while (arg[i])
+	{
+		var_name_end_ = (var_name_end(arg));
+		if (!valid_var_name(arg, var_name_end_))
+		{
+			if (arg[0] == '-' && flag == 1)
+			{
+				print_chr_str("minishell: export ",
+					arg[0], arg[1], ": invalid option\n");
+				ft_status(2);
+				return (1);
+			}
+			print_msg("minishell: export `",
+				arg, "': not a valid identifier\n");
+			ft_status(1);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
