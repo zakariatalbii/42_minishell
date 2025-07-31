@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/31 11:25:56 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:29:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ static char	*ft_readline(t_env_var *env_vars)
 		add_history(line);
 	return (free(prompt), ft_count_lines(1), line);
 }
+
 void	close_fds(void)
 {
-	int 	fd;
+	int	fd;
 
 	fd = 3;
 	while (fd < 10240)
@@ -62,6 +63,7 @@ void	close_fds(void)
 		fd++;
 	}
 }
+
 int	main(void)
 {
 	t_tree		*tree;
@@ -78,7 +80,8 @@ int	main(void)
 		line = ft_readline(env_vars);
 		if (!line)
 			return (printf("exit\n"), gc_malloc(0, 0), gc_malloc(0, 1),
-				clear_history(), ft_environ_clear(), ft_status(-1));
+				close_fds(), clear_history(),
+				ft_environ_clear(), ft_status(-1));
 		tree = ft_parser(line, ft_status(-1));
 		recursion(tree, env, &env_vars);
 		ft_free_tree(tree);

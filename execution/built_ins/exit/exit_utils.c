@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:55:40 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/31 11:28:16 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:25:19 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,11 @@ void	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
 	int	status;
 
 	status = ft_status(-1);
-	if (exit_printing && pid == 1)
-	{
-		ft_free_tree(tree);
-		gc_malloc(0, 0);
-		gc_malloc(0, 1);
-		close_fds();
-		exit(status);
-	}
+	ft_free_tree(tree);
+	gc_malloc(0, 0);
+	gc_malloc(0, 1);
+	close_fds();
+	exit(status);
 }
 
 void	real_exit_status(t_tree *tree, t_env_var **env_vars, int pid)

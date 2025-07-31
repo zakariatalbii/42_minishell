@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/31 11:29:51 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:23:20 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,11 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	flag = check_existans_and_permisisons(environ,
 			command[0], env_vars);
 	if (flag == -1)
-		(1 && (gc_malloc(0, 0)), close_fds(),(exit(ft_status(-1))));
+		(1 && (gc_malloc(0, 0)), close_fds(), (exit(ft_status(-1))));
 	if (flag != -1)
 	{
 		if (!execve(potential_paths[flag], command, envp_))
-			(1 && (gc_malloc(0, 0)), close_fds(),(exit(ft_status(-1))));
+			(1 && (gc_malloc(0, 0)), close_fds(), (exit(ft_status(-1))));
 	}
 }
 
