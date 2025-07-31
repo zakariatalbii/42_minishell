@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/31 03:01:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:17:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,7 +294,7 @@ int			recursive_check(t_tree *tree);
 void		last_command_arg(t_tree *tree, t_env **environ);
 int			failed_redirection(int flag_);
 void		fd_input_directing(int fd_to,int fd_from);
-
+void		close_fds(void);
 /* ************************************** */
 
 #endif

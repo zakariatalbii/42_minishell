@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/31 02:40:21 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:25:56 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,17 @@ static char	*ft_readline(t_env_var *env_vars)
 		add_history(line);
 	return (free(prompt), ft_count_lines(1), line);
 }
+void	close_fds(void)
+{
+	int 	fd;
 
+	fd = 3;
+	while (fd < 10240)
+	{
+		close (fd);
+		fd++;
+	}
+}
 int	main(void)
 {
 	t_tree		*tree;
@@ -73,5 +83,6 @@ int	main(void)
 		recursion(tree, env, &env_vars);
 		ft_free_tree(tree);
 		free(line);
+		close_fds();
 	}
 }
