@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/31 12:29:31 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:07:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,11 @@ t_env_var	*env_var_initialization(void)
 		env_vars->export_ = (int *)gc_malloc(sizeof(int), 1);
 		if (env_vars->export_)
 			*(env_vars->export_) = 0;
+		env_vars->pid= (int *)gc_malloc(sizeof(int), 1);
+		if (env_vars->pid)
+			*(env_vars->pid) = 1;
 		env_vars->last_command = custom_strdup("a", 1);
-		if (!env_vars->pwd || !env_vars->export_ || !env_vars->last_command)
+		if (!env_vars->pwd || !env_vars->export_ || !env_vars->last_command || !env_vars->pid)
 			return (free(cwd), NULL);
 		return (free(cwd), env_vars);
 	}

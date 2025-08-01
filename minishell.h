@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/31 11:17:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:05:29 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,6 +187,8 @@ typedef struct s_env_var
 	char	*pwd;
 	int		*export_;
 	char	*last_command;
+	int		*pid;
+	
 }	t_env_var;
 
 typedef struct s_local_trash

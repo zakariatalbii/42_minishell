@@ -6,20 +6,16 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:14:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 06:43:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:10:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	child_1(int *fd, int *pid, t_tree *tree, t_env_var **env_vars)
+static void	child_1(int *fd, t_tree *tree, t_env_var **env_vars,t_env **env)
 {
-	t_env	**env;
-
-	ft_environ(&env, ft_envinit(), 1);
-	(1 && (pid[0] = fork()),
-		(error_handling(pid[0], "fork", NULL)), (ft_signals(-1)));
-	if (pid[0] == 0)
+	
+	if (*((*env_vars)->pid)== 0)
 	{
 		ft_signals(0);
 		error_handling(close(fd[0]), "close", NULL);
@@ -30,14 +26,17 @@ static void	child_1(int *fd, int *pid, t_tree *tree, t_env_var **env_vars)
 	}
 }
 
-static void	pipe_line(t_tree *tree, t_env **environ, t_env_var **env_vars)
+static void	pipe_line(t_tree *tree, t_env **environ, t_env_var **env_vars, t_env **env)
 {
 	int	fd[2];
 	int	pid[2];
 	int	status[2];
 
 	pipe(fd);
-	child_1(fd, pid, tree, env_vars);
+	(1 && (pid[0] = fork()),
+		(error_handling(pid[0], "fork", NULL)), (ft_signals(-1)));
+	*((*env_vars)->pid)=pid[0];
+	child_1(fd, tree, env_vars, env);
 	(1 && (pid[1] = fork()),
 		(error_handling(pid[1], "fork", NULL)), ft_signals(-1));
 	if (pid[1] == 0)
@@ -49,6 +48,10 @@ static void	pipe_line(t_tree *tree, t_env **environ, t_env_var **env_vars)
 		recursion(tree->data.pipe.ltree, environ, env_vars);
 		exit(ft_status(-1));
 	}
+	error_handling(close(fd[0]), "close", NULL);
+    error_handling(close(fd[1]), "close", NULL);
+    waitpid(pid[0], &status[0], 0);
+    waitpid(pid[1], &status[1], 0);
 	status_handling_chid(pid, fd, status[1], status[0]);
 }
 
@@ -112,7 +115,7 @@ void	recursion(t_tree *tree, t_env **environ, t_env_var **env_vars)
 	else if (tree->type == 1)
 	{
 		flag = 1;
-		pipe_line(tree, environ, env_vars);
+		pipe_line(tree, environ, env_vars, environ);
 	}
 	redirection(tree, environ, env_vars);
 }

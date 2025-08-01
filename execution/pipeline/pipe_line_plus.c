@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:17:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 06:32:04 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:11:15 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,8 @@ void	status_handling_chid(int *pid,
 {
 	int	sig;
 
-	error_handling(close(fd[0]), "close", NULL);
-	error_handling(close(fd[1]), "close", NULL);
-	waitpid(pid[0], &status_1, 0);
-	ft_signals(1);
-	waitpid(pid[1], &status_2, 0);
+	if (WIFEXITED(status_1))
+		printf("%d\n",(WEXITSTATUS(status_1)));
 	ft_signals(1);
 	if (WIFSIGNALED(status_2))
 	{
