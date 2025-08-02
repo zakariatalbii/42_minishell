@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 12:56:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:35:26 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,26 @@ void	pwdinf_update(t_env_var **env_vars, char *path)
 	(*env_vars)->pwd = custom_strdup(path, 1);
 }
 
-char	*trim_back_slach(char *new)
+char	*trim_back_slach(char *new, char *pwd)
 {
 	char	*trimmed;
+	char	*tmp;
 	char	*new_;
 
 	trimmed = custom_strtrim(new, "/");
-	new_ = custom_strjoin("/", trimmed, 1);
+	if(!pwd)
+		new_ = custom_strjoin("/", trimmed, 1);
+	else
+	{
+		if(pwd[ft_strlen(pwd) - 1] == '/' || !ft_strcmp(pwd,"/"))
+			new_ = custom_strjoin(pwd, trimmed,1);
+		else
+		{
+			tmp = custom_strjoin(pwd, "/", 1);
+			new_ = custom_strjoin(tmp, trimmed,1);
+						
+		}  
+	}
 	return (new_);
 }
 

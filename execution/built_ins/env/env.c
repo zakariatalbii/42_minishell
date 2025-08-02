@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 10:16:46 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:56:46 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	executing_env(char **command, t_env **environ)
 	current = *environ;
 	if (current == NULL)
 		return ;
-	if (ft_unset_flag(0) == 1 || command[1])
+	if (command[1])
 	{
-		ft_putstr_fd("minishell: env: No such file or directory\n", 2);
+		ft_putstr_fd("minishell: env: Too many arguments\n", 2);
 		ft_status(127);
 		return ;
 	}

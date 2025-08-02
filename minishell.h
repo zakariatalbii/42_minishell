@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/02 14:51:56 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:33:13 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,7 +285,7 @@ void		cd_points_handling(char **right_pwd, char *new, char *pwd);
 char		*right_pwd(char *new, t_env_var **env_vars);
 int			cd_flag(int flag_);
 void		pwdinf_update(t_env_var **env_vars, char *path);
-char		*trim_back_slach(char *new);
+char		*trim_back_slach(char *new, char *pwd);
 char		*escaped_path(char *pwd, int flag);
 void		cd_deleted_path(char **right_pwd_, char *new,
 				t_env_var **env_vars, int *flag);
@@ -304,6 +304,7 @@ int			recursive_check(t_tree *tree);
 void		last_command_arg(t_tree *tree, t_env **environ);
 int			failed_redirection(int flag_);
 void		fd_input_directing(int fd_to, int fd_from);
+int			cd_old_flag(int flag_, char *path);
 /* ************************************** */
 
 #endif

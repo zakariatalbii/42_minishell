@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:30:50 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 11:21:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 16:34:40 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,14 +112,11 @@ char	*right_pwd(char *new, t_env_var **env_vars)
 			cd_points_handling(&right_pwd, new, pwd);
 		else
 		{
+			// tmp = custom_strtrim(new,"/");
 			if (new[0] == '/')
-				right_pwd = trim_back_slach(new);
+				right_pwd = trim_back_slach(new,NULL);
 			else
-			{
-				tmp = trim_back_slach(new);
-				if (tmp)
-					right_pwd = custom_strjoin(pwd, tmp, 1);
-			}
+				right_pwd = trim_back_slach(new, pwd);
 		}
 		return (right_pwd);
 	}
