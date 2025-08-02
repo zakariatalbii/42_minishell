@@ -6,13 +6,13 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 03:12:09 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 15:11:10 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-static void	home_execution(t_env **environ, t_env_var **env_vars)
+static void	home_execution(t_env_var **env_vars)
 {
 	char	*home;
 
@@ -39,11 +39,10 @@ static void	cd_home(t_env **environ, t_env_var **env_vars)
 		ft_status(1);
 		return ;
 	}
-	home_execution(environ, env_vars);
+	home_execution(env_vars);
 }
 
-static void	cd_new_core(t_env **environ, char *new, int *flag,
-						t_env_var **env_vars)
+static void	cd_new_core(char *new, int *flag, t_env_var **env_vars)
 {
 	char	*pwd;
 	char	*prev_pwd;
@@ -61,7 +60,7 @@ static void	cd_new_core(t_env **environ, char *new, int *flag,
 			*flag = 0;
 		}
 		else
-			right_pwd_ = right_pwd(environ, new, env_vars);
+			right_pwd_ = right_pwd(new, env_vars);
 	}
 	pwdinf_update(env_vars, right_pwd_);
 	free (pwd);
@@ -69,13 +68,12 @@ static void	cd_new_core(t_env **environ, char *new, int *flag,
 		ft_status(0);
 }
 
-static void	new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
+static void	new_path_cd(char *new, t_env_var **env_vars)
 {
 	static int	flag;
-	char		*right_pwd_;
 
 	if (!chdir(new))
-		cd_new_core(environ, new, &flag, env_vars);
+		cd_new_core(new, &flag, env_vars);
 	else
 	{
 		cd_errno_handling(errno, new);
@@ -87,21 +85,18 @@ static void	new_path_cd(t_env **environ, char *new, t_env_var **env_vars)
 void	cd_execution(char **command, t_env **environ, t_env_var **env_vars)
 {
 	char		*telda_path;
-	static int	flag;
 
 	(void)cd_flag(1);
-	if ((command)[1] && !ft_strcmp((command)[1], "-"))
-		cd_oldpwd(environ, env_vars);
-	else if ((command)[1] == NULL || ((command)[1] &&
-		!ft_strcmp(command[1], "/home/wnid-hsa")))
+	if ((command)[1] == NULL || ((command)[1] &&
+		!ft_strcmp(command[1], (*env_vars)->home)))
 		cd_home(environ, env_vars);
 	else if (command[1][0] == '~' )
 	{
-		telda_path = telda_full_path(command[1]);
+		telda_path = telda_full_path(command[1],env_vars);
 		if (!telda_path)
 			return ;
-		new_path_cd(environ, telda_path, env_vars);
+		new_path_cd(telda_path, env_vars);
 	}
 	else
-		new_path_cd(environ, (command)[1], env_vars);
+		new_path_cd((command)[1], env_vars);
 }

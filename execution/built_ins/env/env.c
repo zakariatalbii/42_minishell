@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 03:52:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 10:16:46 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	printing_env(t_env *current)
 	printf("\n");
 }
 
-void	executing_env(char **command, t_env **environ, t_env_var **env_vars)
+void	executing_env(char **command, t_env **environ)
 {
 	t_env	*current;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 00:00:46 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/02 11:01:26 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,21 @@ char	**envp(t_env **environ)
 	return (env);
 }
 
-void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
+void	normal_execution(char **command, t_env **environ)
 {
 	int		flag;
 	char	**potential_paths;
 	char	**envp_;
 
 	1 && (envp_ = envp(environ),
-		(potential_paths = potential_path(environ, command[0])));
+		(potential_paths = potential_path(command[0])));
 	if (!potential_paths)
 	{
 		ft_status(127);
 		gc_malloc(0, 0);
 		exit(ft_status(-1));
 	}
-	flag = check_existans_and_permisisons(environ,
-			command[0], env_vars);
+	flag = check_existans_and_permisisons(command[0]);
 	if (flag == -1)
 		(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
 	if (flag != -1)
@@ -95,6 +94,6 @@ void	external_commands_execution(char **command,
 			}
 		}
 		else
-			normal_execution(command, environ, env_vars);
+			normal_execution(command, environ);
 	}
 }

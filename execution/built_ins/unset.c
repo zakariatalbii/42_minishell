@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 05:33:55 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 10:22:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	unsetting_input_parsing(char *variable, t_env **environ)
 	return (0);
 }
 
-int	invalid_var_handling(char *command, t_env_var **env_vars)
+int	invalid_var_handling(char *command)
 {
 	if (ft_strcmp(command, "_"))
 	{
@@ -83,7 +83,7 @@ int	invalid_var_handling(char *command, t_env_var **env_vars)
 	return (1);
 }
 
-void	valid_var_handling(char *command, t_env **environ, t_env_var **env_vars)
+void	valid_var_handling(char *command, t_env **environ)
 {
 	if (ft_strcmp(command, "_"))
 	{
@@ -101,7 +101,7 @@ void	valid_var_handling(char *command, t_env **environ, t_env_var **env_vars)
 		ft_status(0);
 }
 
-void	unset_executing(char **command, t_env **environ, t_env_var **env_vars)
+void	unset_executing(char **command, t_env **environ)
 {
 	int	i;
 	int	flag;
@@ -112,9 +112,9 @@ void	unset_executing(char **command, t_env **environ, t_env_var **env_vars)
 		return ;
 	while (command[++i])
 	{
-		flag = invalid_var_handling(command[i], env_vars);
+		flag = invalid_var_handling(command[i]);
 		if (flag == 0)
 			continue ;
-		valid_var_handling(command[i], environ, env_vars);
+		valid_var_handling(command[i], environ);
 	}
 }

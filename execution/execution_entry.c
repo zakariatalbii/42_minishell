@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 06:51:16 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 10:23:46 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,17 @@ void	execute_the_builtin(t_tree *tree,
 
 	command = tree->data.argv;
 	if (!ft_strcmp(command[0], "echo"))
-		echo_execution(command, env_vars);
+		echo_execution(command);
 	else if (!ft_strcmp(command[0], "cd"))
 		cd_execution(command, s_environ, env_vars);
 	else if (!ft_strcmp(command[0], "pwd"))
-		pwd_execution(command, *s_environ, env_vars);
+		pwd_execution(command, env_vars);
 	else if (!ft_strcmp(command[0], "export"))
 		export_execution(command, s_environ, env_vars);
 	else if (!ft_strcmp(command[0], "env"))
-		executing_env(command, s_environ, env_vars);
+		executing_env(command, s_environ);
 	else if (!ft_strcmp(command[0], "unset"))
-		unset_executing(command, s_environ, env_vars);
+		unset_executing(command, s_environ);
 	else if (!ft_strcmp(command[0], "exit"))
-	{
 		exit_execution(tree, env_vars, pid);
-	}
 }

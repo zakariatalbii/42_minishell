@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:55:40 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 00:01:23 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/02 11:31:03 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 long long	ft_lg__atoi(const char *str)
 {
-	long long	num ;
+	unsigned long long	num ;
 	int			sign;
 	int			digit;
 
@@ -41,7 +41,7 @@ long long	ft_lg__atoi(const char *str)
 	return (num * sign);
 }
 
-void	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
+void	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing)
 {
 	int	status;
 
@@ -60,5 +60,5 @@ void	real_exit_status(t_tree *tree, t_env_var **env_vars, int pid)
 	argument = tree->data.argv[1];
 	status = (unsigned char)(ft_atoi(argument));
 	ft_status(status);
-	exiting(tree, env_vars, 1, pid);
+	exiting(tree, env_vars, 1);
 }

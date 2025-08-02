@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 04:51:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:03:26 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ void	export_printing_conditions(t_env *current, t_env_var **env_vars)
 		printing_export(current);
 }
 
-void	export_flags_apdate(t_env**environ,
-		t_environ *new, t_env_var **env_vars)
+void	export_flags_apdate(t_environ *new, t_env_var **env_vars)
 {
-	t_env	*new_;
-
+	
 	if (!ft_strcmp(new->var, "_"))
 		*((*env_vars)->export_) = 1;
-	replace_node(&new, environ, env_vars);
+	replace_node(&new, env_vars);
 }
 
 char	**splited_export_command(char *str)

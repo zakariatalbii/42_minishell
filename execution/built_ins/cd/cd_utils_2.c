@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/01 23:52:47 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/02 12:56:50 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	cd_flag(int flag_)
 
 void	pwdinf_update(t_env_var **env_vars, char *path)
 {
+	char	*oldpwd;
+
 	if (cd_flag(0) == 1)
 	{
 		ft_unsetenv("OLDPWD");
@@ -38,9 +40,12 @@ void	pwdinf_update(t_env_var **env_vars, char *path)
 	else
 	{
 		if (ft_getenv("PWD"))
-			ft_setenv("OLDPWD", ft_getenv("PWD"), 0);
+			oldpwd = custom_strdup(ft_getenv("PWD"), 1);
 		else
-			ft_setenv("OLDPWD", (*env_vars)->pwd, 0);
+			oldpwd = (*env_vars)->pwd;
+		(*env_vars)->oldpwd = oldpwd;
+		if(ft_getenv("OLDPWD"))
+			ft_setenv("OLDPWD", oldpwd, 0);
 	}
 	if (ft_getenv("PWD"))
 		ft_setenv("PWD", path, 0);

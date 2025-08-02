@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:56 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 04:42:55 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 11:09:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ void	export_execution(char **command, t_env **environ, t_env_var **env_vars)
 			ft_status(0);
 			return ;
 		}
-		make_export_struct(command, environ, env_vars);
+		make_export_struct(command, env_vars);
 	}
 }

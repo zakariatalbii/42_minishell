@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:30:50 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/01 23:52:30 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/02 11:21:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,12 +99,11 @@ void	cd_points_handling(char **right_pwd, char *new, char *pwd)
 	}
 }
 
-char	*right_pwd(t_env **environ, char *new, t_env_var **env_vars)
+char	*right_pwd(char *new, t_env_var **env_vars)
 {
 	char	*right_pwd;
 	char	*pwd;
 	char	*tmp;
-	int		count;
 
 	(1 && (pwd = (*env_vars)->pwd), (right_pwd = NULL));
 	if (pwd && new)

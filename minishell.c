@@ -3,16 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/02 01:06:30 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/02 15:04:42 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	show_the_tree(t_tree *tree);// for test
+
+char	*home_path(char *pwd)
+{
+	char	**splited;
+	char	*tmp;
+	char	*join;
+	int		i;
+
+	i = 0;
+	splited = custom_split(pwd, '/', 1);
+	if	(!splited)
+		return (NULL);
+	tmp = custom_strjoin("/", splited[0], 1);
+	join = custom_strjoin(tmp, "/", 1);
+	tmp = custom_strjoin(join, splited[1], 1);
+	join = custom_strjoin(tmp, "/", 1);
+	tmp = custom_strjoin(join, splited[2], 1);	
+	return (tmp);
+}
 
 t_env_var	*env_var_initialization(void)
 {
@@ -26,15 +45,18 @@ t_env_var	*env_var_initialization(void)
 	else
 	{
 		env_vars->pwd = custom_strdup(cwd, 1);
+		if(env_vars->pwd)
+			env_vars->home = home_path(env_vars->pwd);
 		env_vars->export_ = (int *)gc_malloc(sizeof(int), 1);
 		if (env_vars->export_)
 			*(env_vars->export_) = 0;
 		env_vars->pid = (int *)gc_malloc(sizeof(int), 1);
 		if (env_vars->pid)
 			*(env_vars->pid) = 1;
-		env_vars->last_command = custom_strdup("a", 1);
+		env_vars->last_command = custom_strdup("PATH", 1);
+		env_vars->oldpwd = NULL;
 		if (!env_vars->pwd || !env_vars->export_
-			|| !env_vars->last_command || !env_vars->pid)
+			|| !env_vars->last_command || !env_vars->pid || !env_vars->home)
 			return (free(cwd), NULL);
 		return (free(cwd), env_vars);
 	}

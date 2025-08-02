@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:44 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 05:22:09 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 10:15:16 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	echo_new_line(char **command, int *new_line, int *i)
 	}
 }
 
-void	echo_execution(char **command, t_env_var **env_vars)
+void	echo_execution(char **command)
 {
 	int	i;
 	int	new_line;

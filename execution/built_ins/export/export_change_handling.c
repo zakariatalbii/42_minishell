@@ -6,13 +6,13 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 05:15:12 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 12:47:05 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-void	replace_node(t_environ **new, t_env **environ, t_env_var **env_vars)
+void	replace_node(t_environ **new, t_env_var **env_vars)
 {
 	if (!new)
 		return ;
@@ -34,11 +34,12 @@ void	replace_node(t_environ **new, t_env **environ, t_env_var **env_vars)
 			ft_setenv((*new)->var, (*new)->value, 0);
 		if (!ft_strcmp((*new)->var, "PWD") && !(*new)->value)
 			ft_setenv((*new)->var, (*env_vars)->pwd, 0);
+		if(!ft_strcmp((*new)->var, "OLDPWD") && !(*new)->value)
+			ft_setenv((*new)->var, (*env_vars)->oldpwd, 0);
 	}
 }
 
-void	handling_new_changes(t_environ **new,
-		t_env **environ, t_env_var **env_vars)
+void	handling_new_changes(t_environ **new, t_env_var **env_vars)
 {
 	if (!*new)
 		return ;
@@ -47,12 +48,11 @@ void	handling_new_changes(t_environ **new,
 	else if (!ft_strcmp((*new)->operator, "+=")
 		&& !ft_strcmp((*new)->value, ""))
 		return ;
-	replace_node(new, environ, env_vars);
+	replace_node(new, env_vars);
 }
 
 static int	input_struct_handling(char *arg, int flag)
 {
-	int	var_name_end_;
 	int	i;
 
 	if (!arg)
@@ -67,8 +67,7 @@ static int	input_struct_handling(char *arg, int flag)
 	return (var_name_error(arg, flag));
 }
 
-static void	command_handling(int *flag, char **command,
-	t_env **environ, t_env_var **env_vars)
+static void	command_handling(int *flag, char **command, t_env_var **env_vars)
 {
 	t_environ	*new;
 	int			i;
@@ -85,7 +84,7 @@ static void	command_handling(int *flag, char **command,
 				continue ;
 			}
 			new = ft_lstnew_environ(command[i]);
-			export_flags_apdate(environ, new, env_vars);
+			export_flags_apdate(new, env_vars);
 		}
 		else
 		{
@@ -97,15 +96,14 @@ static void	command_handling(int *flag, char **command,
 	}
 }
 
-void	make_export_struct(char **command,
-	t_env **environ, t_env_var **env_vars)
+void	make_export_struct(char **command, t_env_var **env_vars)
 {
 	int	flag;
 
 	flag = 0;
 	if (command)
 	{
-		command_handling(&flag, command, environ, env_vars);
+		command_handling(&flag, command, env_vars);
 		if (flag == 0)
 			ft_status(0);
 	}
