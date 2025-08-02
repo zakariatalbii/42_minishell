@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_line_plus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:17:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/01 12:11:15 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 01:00:38 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	status_handling_chid(int *pid,
 	int	sig;
 
 	if (WIFEXITED(status_1))
-		printf("%d\n",(WEXITSTATUS(status_1)));
+		printf("%d\n", (WEXITSTATUS(status_1)));
 	ft_signals(1);
 	if (WIFSIGNALED(status_2))
 	{

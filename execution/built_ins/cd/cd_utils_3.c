@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_3.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:49:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 03:47:06 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:52:54 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 void	cd_errno_handling(int ernum, char *path)
 {

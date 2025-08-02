@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:55:40 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/31 12:25:19 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 00:01:23 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 long long	ft_lg__atoi(const char *str)
 {
@@ -49,7 +49,6 @@ void	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing, int pid)
 	ft_free_tree(tree);
 	gc_malloc(0, 0);
 	gc_malloc(0, 1);
-	close_fds();
 	exit(status);
 }
 

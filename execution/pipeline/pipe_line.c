@@ -3,30 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:14:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/01 12:10:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 00:58:33 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	child_1(int *fd, t_tree *tree, t_env_var **env_vars,t_env **env)
+static void	child_1(int *fd, t_tree *tree, t_env_var **env_vars, t_env **env)
 {
-	
-	if (*((*env_vars)->pid)== 0)
+	if (*((*env_vars)->pid) == 0)
 	{
 		ft_signals(0);
 		error_handling(close(fd[0]), "close", NULL);
 		error_handling(dup2(fd[1], STDOUT_FILENO), "dup2", NULL);
 		error_handling(close(fd[1]), "close", NULL);
 		recursion(tree->data.pipe.rtree, env, env_vars);
+		ft_store_fds(-1);
 		exit(ft_status(-1));
 	}
 }
 
-static void	pipe_line(t_tree *tree, t_env **environ, t_env_var **env_vars, t_env **env)
+static void	pipe_line(t_tree *tree, t_env **environ,
+		t_env_var **env_vars, t_env **env)
 {
 	int	fd[2];
 	int	pid[2];
@@ -35,7 +36,7 @@ static void	pipe_line(t_tree *tree, t_env **environ, t_env_var **env_vars, t_env
 	pipe(fd);
 	(1 && (pid[0] = fork()),
 		(error_handling(pid[0], "fork", NULL)), (ft_signals(-1)));
-	*((*env_vars)->pid)=pid[0];
+	*((*env_vars)->pid) = pid[0];
 	child_1(fd, tree, env_vars, env);
 	(1 && (pid[1] = fork()),
 		(error_handling(pid[1], "fork", NULL)), ft_signals(-1));
@@ -46,12 +47,12 @@ static void	pipe_line(t_tree *tree, t_env **environ, t_env_var **env_vars, t_env
 		error_handling(dup2(fd[0], STDIN_FILENO), "dup2", NULL);
 		error_handling(close(fd[0]), "close", NULL);
 		recursion(tree->data.pipe.ltree, environ, env_vars);
-		exit(ft_status(-1));
+		(ft_store_fds(-1), exit(ft_status(-1)));
 	}
 	error_handling(close(fd[0]), "close", NULL);
-    error_handling(close(fd[1]), "close", NULL);
-    waitpid(pid[0], &status[0], 0);
-    waitpid(pid[1], &status[1], 0);
+	error_handling(close(fd[1]), "close", NULL);
+	waitpid(pid[0], &status[0], 0);
+	waitpid(pid[1], &status[1], 0);
 	status_handling_chid(pid, fd, status[1], status[0]);
 }
 
@@ -78,6 +79,7 @@ static void	command_execution(t_tree *tree,
 		if (pid == 0)
 		{
 			ft_signals(0);
+			ft_store_fds(-1);
 			external_commands_execution(tree->data.argv, environ, env_vars);
 		}
 		(1 && (waitpid(pid, &status_1, 0)), (status_handling(status_1)));

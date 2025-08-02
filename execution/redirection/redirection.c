@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:36:24 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 07:04:01 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 00:21:20 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	heredoc_handling(t_tree *tree, t_env **environ, t_env_var **env_vars)
 	error_handling(original_in, "dup", NULL);
 	error_handling(dup2(tree->data.red.file.fd, STDIN_FILENO), "dup2", NULL);
 	recursion(tree->data.red.ntree, environ, env_vars);
-	error_handling(close(tree->data.red.file.fd), "close", NULL);
 	error_handling(dup2(original_in, STDIN_FILENO), "dup2", NULL);
 	error_handling(close(original_in), "close", NULL);
 }

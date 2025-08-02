@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:30:50 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 03:29:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:52:30 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 char	*get_deleted_path_gain(char *PWD, char *new)
 {

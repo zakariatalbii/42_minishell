@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 03:36:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/01 23:52:47 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../../minishell.h"
 
 int	cd_flag(int flag_)
 {
