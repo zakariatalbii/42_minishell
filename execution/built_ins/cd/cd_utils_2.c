@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 16:35:26 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 22:08:19 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ char	*trim_back_slach(char *new, char *pwd)
 
 	trimmed = custom_strtrim(new, "/");
 	if(!pwd)
+	{
 		new_ = custom_strjoin("/", trimmed, 1);
+	}
 	else
 	{
 		if(pwd[ft_strlen(pwd) - 1] == '/' || !ft_strcmp(pwd,"/"))

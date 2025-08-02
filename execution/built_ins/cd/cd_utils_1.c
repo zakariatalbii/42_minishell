@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:30:50 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 16:34:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/02 22:23:07 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,65 +58,78 @@ char	*go_backwards(char *pwd)
 	return (path);
 }
 
-int	count_two_points(char *new)
-{
-	int		count;
-	char	*haystack;
+// int	count_two_points(char *new)
+// {
+// 	int		count;
+// 	char	*haystack;
 
-	count = 0;
-	haystack = ft_strnstr(new, "..", ft_strlen(new));
-	if (!haystack)
-		return (0);
-	count++;
-	while (haystack)
-	{
-		haystack = ft_strnstr(new + 2, "..", ft_strlen(new));
-		if (haystack)
-			count++;
-		new = haystack;
-	}
-	return (count);
-}
+// 	count = 0;
+// 	haystack = ft_strnstr(new, "..", ft_strlen(new));
+// 	if (!haystack)
+// 		return (0);
+// 	count++;
+// 	while (haystack)
+// 	{
+// 		haystack = ft_strnstr(new + 2, "..", ft_strlen(new));
+// 		if (haystack)
+// 			count++;
+// 		new = haystack;
+// 	}
+// 	return (count);
+// }
 
-void	cd_points_handling(char **right_pwd, char *new, char *pwd)
-{
-	int	count;
+// void	cd_points_handling(char **right_pwd, char *new, char *pwd)
+// {
+// 	int	count;
 
-	if (!ft_strncmp(new, ".", 1))
-	{
-		count = count_two_points(new);
-		if (count >= 1)
-		{
-			while (count)
-			{
-				*right_pwd = go_backwards(pwd);
-				pwd = *right_pwd;
-				count --;
-			}
-		}
-		else
-			*right_pwd = pwd;
-	}
-}
+// 	if (!ft_strncmp(new, ".", 1))
+// 	{
+// 		count = count_two_points(new);
+// 		if (count >= 1)
+// 		{
+// 			while (count)
+// 			{
+// 				*right_pwd = go_backwards(pwd);
+// 				pwd = *right_pwd;
+// 				count --;
+// 			}
+// 		}
+// 		else
+// 			*right_pwd = pwd;
+// 	}
+// }
+
 
 char	*right_pwd(char *new, t_env_var **env_vars)
 {
 	char	*right_pwd;
+	char	**splited;
 	char	*pwd;
-	char	*tmp;
-
-	(1 && (pwd = (*env_vars)->pwd), (right_pwd = NULL));
+	int 	i;
+	
+	i = 0;
+	(1 && (pwd = (*env_vars)->pwd), (right_pwd = pwd));
 	if (pwd && new)
 	{
-		if (!ft_strncmp(new, ".", 1))
-			cd_points_handling(&right_pwd, new, pwd);
-		else
+		splited = custom_split(new, '/', 1);
+		if(!splited[0])
+			return(custom_strdup("/", 1));
+		while(splited[i])
 		{
-			// tmp = custom_strtrim(new,"/");
-			if (new[0] == '/')
-				right_pwd = trim_back_slach(new,NULL);
+			if(!ft_strncmp(splited[i], "..", 2))
+			{
+				if(!ft_strcmp(right_pwd,"/"))
+					return(right_pwd);
+				right_pwd = go_backwards(right_pwd);
+			}
+			else if(!ft_strncmp(splited[i], ".", 1))
+			{
+				i++;
+				continue;
+			}
 			else
-				right_pwd = trim_back_slach(new, pwd);
+				right_pwd = trim_back_slach(splited[i], right_pwd);
+			i++;
 		}
 		return (right_pwd);
 	}
