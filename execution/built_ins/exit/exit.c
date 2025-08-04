@@ -6,17 +6,31 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 11:30:42 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 03:01:03 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
+static int char_checking(t_tree *tree)
+{
+	int	i;
+
+	i = 0;
+	while (tree->data.argv[1][i])
+	{
+		if (!ft_is_a_numb(tree->data.argv[1][i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static void	parssing(t_tree *tree, t_env_var **env_vars, int pid)
 {
 	int	i;
 	int	flag;
-
+	
 	(1 && (i = 1), (flag = 0));
 	if (tree->data.argv[1][0] != '-' &&
 		tree->data.argv[1][0] != '+' && !ft_is_a_numb(tree->data.argv[1][0]))
@@ -24,7 +38,7 @@ static void	parssing(t_tree *tree, t_env_var **env_vars, int pid)
 	if ((ft_strlen(tree->data.argv[1]) > 1
 			&&!ft_is_a_numb(tree->data.argv[1][1])))
 		flag = 1;
-	if (ft_lg__atoi(tree->data.argv[1]) == -111)
+	if (char_checking(tree) || ft_lg__atoi(tree->data.argv[1]) == -111)
 		flag = 1;
 	if (flag == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 22:08:19 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 03:47:57 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	cd_flag(int flag_)
 		return (flag);
 }
 
-void	pwdinf_update(t_env_var **env_vars, char *path)
+void	pwdinf_update(t_env_var **env_vars, char *path, t_env **environ)
 {
 	char	*oldpwd;
 
@@ -44,7 +44,7 @@ void	pwdinf_update(t_env_var **env_vars, char *path)
 		else
 			oldpwd = (*env_vars)->pwd;
 		(*env_vars)->oldpwd = oldpwd;
-		if(ft_getenv("OLDPWD"))
+		if(is_the_var_in_environ("OLDPWD",*environ))
 			ft_setenv("OLDPWD", oldpwd, 0);
 	}
 	if (ft_getenv("PWD"))

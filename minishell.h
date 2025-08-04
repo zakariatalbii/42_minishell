@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/02 16:33:13 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 03:44:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,7 @@ int			count_two_points(char *new);
 void		cd_points_handling(char **right_pwd, char *new, char *pwd);
 char		*right_pwd(char *new, t_env_var **env_vars);
 int			cd_flag(int flag_);
-void		pwdinf_update(t_env_var **env_vars, char *path);
+void		pwdinf_update(t_env_var **env_vars, char *path, t_env **environ);
 char		*trim_back_slach(char *new, char *pwd);
 char		*escaped_path(char *pwd, int flag);
 void		cd_deleted_path(char **right_pwd_, char *new,

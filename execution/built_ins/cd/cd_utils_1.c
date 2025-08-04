@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:30:50 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 22:23:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 01:38:07 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,79 +58,39 @@ char	*go_backwards(char *pwd)
 	return (path);
 }
 
-// int	count_two_points(char *new)
-// {
-// 	int		count;
-// 	char	*haystack;
-
-// 	count = 0;
-// 	haystack = ft_strnstr(new, "..", ft_strlen(new));
-// 	if (!haystack)
-// 		return (0);
-// 	count++;
-// 	while (haystack)
-// 	{
-// 		haystack = ft_strnstr(new + 2, "..", ft_strlen(new));
-// 		if (haystack)
-// 			count++;
-// 		new = haystack;
-// 	}
-// 	return (count);
-// }
-
-// void	cd_points_handling(char **right_pwd, char *new, char *pwd)
-// {
-// 	int	count;
-
-// 	if (!ft_strncmp(new, ".", 1))
-// 	{
-// 		count = count_two_points(new);
-// 		if (count >= 1)
-// 		{
-// 			while (count)
-// 			{
-// 				*right_pwd = go_backwards(pwd);
-// 				pwd = *right_pwd;
-// 				count --;
-// 			}
-// 		}
-// 		else
-// 			*right_pwd = pwd;
-// 	}
-// }
-
+void cd_the_logical_path(char *new, char **right_pwd)
+{
+	char	**splited;
+	int 	i;
+	
+	i = 0;
+	splited = custom_split(new, '/', 1);
+	while(splited[i])
+	{
+		if(!ft_strncmp(splited[i], "..", 2))
+			*right_pwd = go_backwards(*right_pwd);
+		else if(!ft_strncmp(splited[i], ".", 1))
+		{
+			i++;
+			continue;
+		}
+		else
+			*right_pwd = trim_back_slach(splited[i], *right_pwd);
+			i++;
+	}
+}
 
 char	*right_pwd(char *new, t_env_var **env_vars)
 {
 	char	*right_pwd;
-	char	**splited;
 	char	*pwd;
-	int 	i;
 	
-	i = 0;
 	(1 && (pwd = (*env_vars)->pwd), (right_pwd = pwd));
 	if (pwd && new)
 	{
-		splited = custom_split(new, '/', 1);
-		if(!splited[0])
-			return(custom_strdup("/", 1));
-		while(splited[i])
-		{
-			if(!ft_strncmp(splited[i], "..", 2))
-			{
-				if(!ft_strcmp(right_pwd,"/"))
-					return(right_pwd);
-				right_pwd = go_backwards(right_pwd);
-			}
-			else if(!ft_strncmp(splited[i], ".", 1))
-			{
-				i++;
-				continue;
-			}
-			else
-				right_pwd = trim_back_slach(splited[i], right_pwd);
-			i++;
-		}
+		if(new[0] == '/')
+			right_pwd = custom_strdup("/", 1);
+		cd_the_logical_path(new, &right_pwd);
 		return (right_pwd);
 	}
 	return (NULL);
