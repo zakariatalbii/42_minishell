@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:00:34 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/01 23:53:36 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/06 20:58:46 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,23 @@ int	ft_unset_flag(int flag)
 		return (flag_);
 	}
 }
+int	unset_pwd_flag(int set_flag)
+{
+	static int flag = 0;
+	
+	if (set_flag == 1)
+		flag = 1; 
+	else if (set_flag == -1)
+		flag = 0;
+	return (flag);
+}
 
 void	print_chr_str(char *text1, char c1, char c2, char *text2)
 {
-	ft_putstr_fd("minishell: export ", 2);
+	ft_putstr_fd(text1, 2);
 	write(2, &c1, 1);
 	write(2, &c2, 1);
-	ft_putstr_fd(": invalid option\n", 2);
+	ft_putstr_fd(text2, 2);
 }
 
 int	var_name_error(char *arg, int flag)

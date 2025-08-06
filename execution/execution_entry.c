@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 10:23:46 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 05:12:43 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,5 @@ void	execute_the_builtin(t_tree *tree,
 	else if (!ft_strcmp(command[0], "unset"))
 		unset_executing(command, s_environ);
 	else if (!ft_strcmp(command[0], "exit"))
-		exit_execution(tree, env_vars, pid);
+		exit_execution(tree, pid);
 }

@@ -6,14 +6,13 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:08:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 06:07:58 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 05:18:20 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	invalid_commands_checking(char *command,
-	t_env **environ, t_env_var **env_vars)
+int	invalid_commands_checking(char *command)
 {
 	if (!ft_strlen(command)
 		|| !ft_strcmp(command, "..") || !ft_strcmp(command, "."))
@@ -24,7 +23,7 @@ int	invalid_commands_checking(char *command,
 		ft_status(127);
 		return (0);
 	}
-	else if (there_is_slash(command, environ, env_vars))
+	else if (there_is_slash(command))
 	{
 		if (!stat_the_command(command))
 			return (0);
@@ -33,7 +32,7 @@ int	invalid_commands_checking(char *command,
 	return (1);
 }
 
-int	there_is_slash(char *command, t_env **environ, t_env_var **env_vars)
+int	there_is_slash(char *command)
 {
 	int	i;
 

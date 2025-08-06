@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/04 20:02:31 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/06 22:59:38 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	ft_strcmp(const char *s1, const char *s2)
 	size_t	v;
 
 	v = 0;
+	if(!s1 || !s2)
+		return(-1);
 	while (s1[v] && s2[v] && s1[v] == s2[v])
 		v++;
 	if (s1[v] == s2[v])

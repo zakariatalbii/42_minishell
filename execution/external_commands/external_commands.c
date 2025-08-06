@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 01:27:24 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 05:17:21 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	external_commands_execution(char **command,
 	envp_ = envp(environ);
 	if (command && command[0])
 	{
-		if (there_is_slash(command[0], environ, env_vars))
+		if (there_is_slash(command[0]))
 		{
 			if (!execve(command[0], command, envp_))
 			{

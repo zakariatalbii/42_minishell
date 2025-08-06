@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/04 03:44:33 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:27:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,19 +261,15 @@ char		**custom_split(const char *s, char c, int pid);
 char		*custom_strdup(const char	*s1, int pid);
 void		free_global_garbage(t_global_trash **global_trash);
 void		free_local_garbage(t_local_trash **local_trash);
-void		exit_execution(t_tree *tree, t_env_var **env_vars, int pid);
-void		exit_execution(t_tree *tree, t_env_var **env_vars, int pid);
+void		exit_execution(t_tree *tree, int pid);
 void		fd_input_directing(int fd_to, int fd_from);
 char		*get_value(char *var, t_env *environ);
 char		*custom_strndup(const char *s1, size_t n, int pid);
 char		*ft_strndup(const char *s1, size_t n);
-void		last_command_arg(t_tree *tree, t_env **environ);
 int			count_words(const char *s, char c);
 void		replace_node(t_environ **new, t_env_var **env_vars);
-int			invalid_commands_checking(char *command, t_env **environ,
-				t_env_var **env_vars);
-int			there_is_slash(char *command, t_env **environ,
-				t_env_var **env_vars);
+int			invalid_commands_checking(char *command);
+int			there_is_slash(char *command);
 int			stat_the_command(char *command);
 char		*custom_strtrim(char const *s1, char const *set);
 char		*custom_substr(char const *s, unsigned int start, size_t len);
@@ -290,21 +286,22 @@ char		*escaped_path(char *pwd, int flag);
 void		cd_deleted_path(char **right_pwd_, char *new,
 				t_env_var **env_vars, int *flag);
 long long	ft_lg__atoi(const char *str);
-void		exiting(t_tree *tree, t_env_var **env_vars, int exit_printing);
-void		real_exit_status(t_tree *tree, t_env_var **env_vars, int pid);
+void		exiting(t_tree *tree);
+void		real_exit_status(t_tree *tree);
 void		print_chr_str(char *text1, char c1, char c2, char *text2);
 int			var_name_error(char *arg, int flag);
 int			ft_unset_flag(int flag);
 int			stat_plus(char *command, struct stat file_stat);
-void		status_handling_chid(int *pid, int *fd, int status_2, int status_1);
+void		status_handling_chid(int status_2);
 void		status_handling(int status_1);	
-void		change_lst_arg_(char *last_arg, t_env **environ);
+void		change_lst_arg_(char *last_arg);
 int			outfiles_checking(t_tree *tree);
 int			recursive_check(t_tree *tree);
-void		last_command_arg(t_tree *tree, t_env **environ);
+void		last_command_arg(t_tree *tree);
 int			failed_redirection(int flag_);
 void		fd_input_directing(int fd_to, int fd_from);
-int			cd_old_flag(int flag_, char *path);
+int			cd_old_flag(int flag_, char *path, t_env *environ);
+int			unset_pwd_flag(int set_flag);
 /* ************************************** */
 
 #endif

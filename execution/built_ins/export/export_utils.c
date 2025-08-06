@@ -6,21 +6,39 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 11:03:26 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/06 23:18:42 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
 void	export_printing_conditions(t_env *current, t_env_var **env_vars)
-{
+{	
 	if (!ft_strcmp(current->var, "_"))
 	{
 		if (*((*env_vars)->export_) == 1)
 			printing_export(current);
 	}
+	else if(!ft_strcmp(current->var, "OLDPWD"))
+	{
+			printf("declare -x ");
+			printf("%s", current->var);
+			printf("=");
+			if(current->val)
+				printf("%s",current->val);
+			// if((*env_vars)->oldpwd)
+			// {
+			// 	if(cd_flag(0) == 0)
+			// 		printf("\"\"");
+			// 	else
+			// 		printf("%s", (*env_vars)->oldpwd);
+			// }
+			printf("\n");
+	}
 	else
+	{
 		printing_export(current);
+	}
 }
 
 void	export_flags_apdate(t_environ *new, t_env_var **env_vars)

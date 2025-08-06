@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 03:01:03 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 05:12:05 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int char_checking(t_tree *tree)
 	return (0);
 }
 
-static void	parssing(t_tree *tree, t_env_var **env_vars, int pid)
+static void	parssing(t_tree *tree)
 {
 	int	i;
 	int	flag;
@@ -46,11 +46,11 @@ static void	parssing(t_tree *tree, t_env_var **env_vars, int pid)
 		ft_putstr_fd(tree->data.argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		ft_status(255);
-		exiting(tree, env_vars, 0);
+		exiting(tree);
 	}
 }
 
-static void	exit_argument_parssing(t_tree *tree, t_env_var **env_vars, int pid)
+static void	exit_argument_parssing(t_tree *tree, int pid)
 {
 	char	**command ;
 
@@ -59,27 +59,27 @@ static void	exit_argument_parssing(t_tree *tree, t_env_var **env_vars, int pid)
 	{
 		if (pid == 1)
 			printf("exit\n");
-		parssing(tree, env_vars, pid);
+		parssing(tree);
 		if (command[2])
 		{
 			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
 			ft_status(1);
 			return ;
 		}
-		real_exit_status(tree, env_vars, pid);
+		real_exit_status(tree);
 	}
 }
 
-void	exit_execution(t_tree *tree, t_env_var **env_vars, int pid)
+void	exit_execution(t_tree *tree, int pid)
 {
 	char	**command;
 
 	command = tree->data.argv;
-	exit_argument_parssing(tree, env_vars, pid);
+	exit_argument_parssing(tree, pid);
 	if (command[0] && command[1] == NULL)
 	{
 		if (pid == 1)
 			printf("exit\n");
-		exiting(tree, env_vars, 1);
+		exiting(tree);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:55:40 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 11:31:03 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 05:13:51 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ long long	ft_lg__atoi(const char *str)
 	while (*str >= '0' && *str <= '9')
 	{
 		digit = *str - '0';
-		if (sign == 1 && num > (LLONG_MAX - digit) / 10)
+		if (sign == 1 && num > ((unsigned long long)LLONG_MAX - digit) / 10)
 			return (-111);
 		if (sign == -1
 			&&num > ((unsigned long long)LLONG_MAX + 1ULL - digit) / 10)
@@ -41,7 +41,7 @@ long long	ft_lg__atoi(const char *str)
 	return (num * sign);
 }
 
-void	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing)
+void	exiting(t_tree *tree)
 {
 	int	status;
 
@@ -52,7 +52,7 @@ void	exiting(t_tree *tree, t_env_var **env_vars, int exit_printing)
 	exit(status);
 }
 
-void	real_exit_status(t_tree *tree, t_env_var **env_vars, int pid)
+void	real_exit_status(t_tree *tree)
 {
 	unsigned char	status;
 	char			*argument ;
@@ -60,5 +60,5 @@ void	real_exit_status(t_tree *tree, t_env_var **env_vars, int pid)
 	argument = tree->data.argv[1];
 	status = (unsigned char)(ft_atoi(argument));
 	ft_status(status);
-	exiting(tree, env_vars, 1);
+	exiting(tree);
 }

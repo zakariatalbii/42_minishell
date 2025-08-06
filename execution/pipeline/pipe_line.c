@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_line.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:14:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 00:58:33 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/04 05:24:34 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	pipe_line(t_tree *tree, t_env **environ,
 	error_handling(close(fd[1]), "close", NULL);
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
-	status_handling_chid(pid, fd, status[1], status[0]);
+	status_handling_chid(status[1]);
 }
 
 static void	command_execution(t_tree *tree,
@@ -72,7 +72,7 @@ static void	command_execution(t_tree *tree,
 	}
 	else
 	{
-		if (!invalid_commands_checking(tree->data.argv[0], environ, env_vars))
+		if (!invalid_commands_checking(tree->data.argv[0]))
 			return ;
 		1 && (pid = fork()), (error_handling(pid, "close", NULL));
 		ft_signals(-1);
@@ -111,7 +111,7 @@ void	recursion(t_tree *tree, t_env **environ, t_env_var **env_vars)
 		return ;
 	if (tree->type == 0 && tree->data.argv && tree->data.argv[0])
 	{
-		last_command_arg(tree, environ);
+		last_command_arg(tree);
 		command_execution(tree, environ, flag, env_vars);
 	}
 	else if (tree->type == 1)

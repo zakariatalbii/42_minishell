@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:17:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 11:35:22 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/04 05:20:44 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	error_handling(int return_value, char *failed_function, char *path)
 	}
 }
 
-void	status_handling_chid(int *pid,
-		int *fd, int status_2, int status_1)
+void	status_handling_chid(int status_2)
 {
 	int	sig;
 	
@@ -88,7 +87,7 @@ void	status_handling(int status_1)
 		ft_status(1);
 }
 
-void	change_lst_arg_(char *last_arg, t_env **environ)
+void	change_lst_arg_(char *last_arg)
 {
 	char	*lst_arg;
 
@@ -101,7 +100,7 @@ void	change_lst_arg_(char *last_arg, t_env **environ)
 	ft_setenv("_", lst_arg, 0);
 }
 
-void	last_command_arg(t_tree *tree, t_env **environ)
+void	last_command_arg(t_tree *tree)
 {
 	char	**args;
 	char	*last_arg;
@@ -116,5 +115,5 @@ void	last_command_arg(t_tree *tree, t_env **environ)
 		i++;
 	}
 	last_arg = args[i - 1];
-	change_lst_arg_(last_arg, environ);
+	change_lst_arg_(last_arg);
 }

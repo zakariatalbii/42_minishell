@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 03:47:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/06 23:38:17 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,40 +16,43 @@ int	cd_flag(int flag_)
 {
 	static int	flag;
 
-	if (flag_)
+	(void)flag_;
+	if(unset_pwd_flag(0) == 1 || (ft_getenv("PWD") && flag))
 	{
-		if (!ft_getenv("PWD"))
-			flag++;
-		if (ft_getenv("PWD") && flag)
-			flag = 0;
-		return (flag);
+		flag = 0;
 	}
-	else
-		return (flag);
+	else 
+	{
+		flag++;
+	}
+	return (flag);
 }
-
 void	pwdinf_update(t_env_var **env_vars, char *path, t_env **environ)
 {
 	char	*oldpwd;
-
-	if (cd_flag(0) == 1)
-	{
-		ft_unsetenv("OLDPWD");
-		ft_setenv("OLDPWD", NULL, 0);
-	}
+	
+	oldpwd = (*env_vars)->pwd;
+	if (ft_getenv("PWD"))
+		oldpwd = custom_strdup(ft_getenv("PWD"), 1);
 	else
+		oldpwd = (*env_vars)->pwd;
+	if(is_the_var_in_environ("OLDPWD",*environ))
 	{
-		if (ft_getenv("PWD"))
-			oldpwd = custom_strdup(ft_getenv("PWD"), 1);
+		if (!ft_getenv("PWD"))
+		{
+			if(cd_flag(0) == 0)
+            	ft_setenv("OLDPWD", "", 0);
+			else
+				ft_setenv("OLDPWD", oldpwd, 0);
+		}
 		else
-			oldpwd = (*env_vars)->pwd;
-		(*env_vars)->oldpwd = oldpwd;
-		if(is_the_var_in_environ("OLDPWD",*environ))
 			ft_setenv("OLDPWD", oldpwd, 0);
 	}
 	if (ft_getenv("PWD"))
 		ft_setenv("PWD", path, 0);
+	(*env_vars)->oldpwd = oldpwd;
 	(*env_vars)->pwd = custom_strdup(path, 1);
+	(void)unset_pwd_flag(-1);
 }
 
 char	*trim_back_slach(char *new, char *pwd)
