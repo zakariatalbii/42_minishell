@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:17:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 05:20:44 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:49:37 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	error_handling(int return_value, char *failed_function, char *path)
 void	status_handling_chid(int status_2)
 {
 	int	sig;
-	
+
 	ft_signals(1);
 	if (WIFSIGNALED(status_2))
 	{

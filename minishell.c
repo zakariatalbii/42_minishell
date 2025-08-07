@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/07 15:29:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:55:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ char	*home_path(char *pwd)
 
 	i = 0;
 	splited = custom_split(pwd, '/', 1);
-	if	(!splited)
+	if (!splited)
 		return (NULL);
 	tmp = custom_strjoin("/", splited[0], 1);
 	join = custom_strjoin(tmp, "/", 1);
 	tmp = custom_strjoin(join, splited[1], 1);
 	join = custom_strjoin(tmp, "/", 1);
-	tmp = custom_strjoin(join, splited[2], 1);	
+	tmp = custom_strjoin(join, splited[2], 1);
 	return (tmp);
 }
 
@@ -54,7 +54,7 @@ t_env_var	*env_var_initialization(void)
 		env_vars->last_command = custom_strdup("PATH", 1);
 		env_vars->oldpwd = NULL;
 		if (!env_vars->pwd || !env_vars->export_
-			|| !env_vars->last_command || !env_vars->pid )
+			|| !env_vars->last_command || !env_vars->pid)
 			return (free(cwd), NULL);
 		return (free(cwd), env_vars);
 	}
@@ -100,5 +100,4 @@ int	main(void)
 		ft_free_tree(tree);
 		free(line);
 	}
-
 }

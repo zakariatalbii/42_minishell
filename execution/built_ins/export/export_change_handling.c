@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:05:58 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 12:47:05 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:42:43 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	replace_node(t_environ **new, t_env_var **env_vars)
 			ft_setenv((*new)->var, (*new)->value, 0);
 		if (!ft_strcmp((*new)->var, "PWD") && !(*new)->value)
 			ft_setenv((*new)->var, (*env_vars)->pwd, 0);
-		if(!ft_strcmp((*new)->var, "OLDPWD") && !(*new)->value)
+		if (!ft_strcmp((*new)->var, "OLDPWD") && !(*new)->value)
 			ft_setenv((*new)->var, (*env_vars)->oldpwd, 0);
 	}
 }

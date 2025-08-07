@@ -6,29 +6,29 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 03:00:22 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 12:20:31 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:40:35 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
 void	export_printing_conditions(t_env *current, t_env_var **env_vars)
-{	
+{
 	if (!ft_strcmp(current->var, "_"))
 	{
 		if (*((*env_vars)->export_) == 1)
 			printing_export(current);
 	}
-	else if(!ft_strcmp(current->var, "OLDPWD"))
+	else if (!ft_strcmp(current->var, "OLDPWD"))
 	{
-			printf("declare -x ");
-			printf("%s", current->var);
-			if(current->val)
-			{
-				printf("=");
-				printf("\"%s\"",current->val);				
-			}
-			printf("\n");
+		printf("declare -x ");
+		printf("%s", current->var);
+		if (current->val)
+		{
+			printf("=");
+			printf("\"%s\"", current->val);
+		}
+		printf("\n");
 	}
 	else
 		printing_export(current);
@@ -36,7 +36,6 @@ void	export_printing_conditions(t_env *current, t_env_var **env_vars)
 
 void	export_flags_apdate(t_environ *new, t_env_var **env_vars)
 {
-	
 	if (!ft_strcmp(new->var, "_"))
 		*((*env_vars)->export_) = 1;
 	replace_node(&new, env_vars);

@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 07:06:48 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 11:18:12 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:10:33 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	*gc_malloc(size_t size, int pid)
 	static t_local_trash	*local_trash;
 	void					*ptr;
 
-	
 	ptr = NULL;
 	if (pid == 0)
 	{

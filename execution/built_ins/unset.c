@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 09:46:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:48:50 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,16 @@ static int	unsetting_input_parsing(char *variable, t_env **environ)
 				(void)ft_unset_flag(1);
 				return (3);
 			}
-			else if(!ft_strcmp(variable, "PWD"))
+			else if (!ft_strcmp(variable, "PWD"))
 				(void)unset_pwd_flag(1);
 			return (1);
 		}
 		current = current->next;
 	}
 	if (!ft_strcmp(variable, "PATH"))
-	{
-		(void)ft_unset_flag(1);
-		return (2);
-	}
-	if(!ft_strcmp(variable, "PWD"))
-		(void)unset_pwd_flag(1); 
+		return ((void)ft_unset_flag(1), 2);
+	if (!ft_strcmp(variable, "PWD"))
+		(void)unset_pwd_flag(1);
 	return (0);
 }
 

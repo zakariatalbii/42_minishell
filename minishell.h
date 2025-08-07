@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/07 15:23:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:56:01 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,7 +248,7 @@ void		export_execution(char **command, t_env **environ,
 				t_env_var **env_vars);
 void		cd_errno_handling(int ernum, char *path);
 char		**splited_export_command(char *str);
-void		export_flags_apdate(t_environ *new,t_env_var **env_vars);
+void		export_flags_apdate(t_environ *new, t_env_var **env_vars);
 char		**split_environ(char *str);
 int			count_lengh_var_str_export(char *str);
 void		handling_new_changes(t_environ **new, t_env_var **env_vars);

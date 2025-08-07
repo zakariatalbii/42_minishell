@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:55:40 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 09:42:26 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:37:27 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 long long	ft_lg__atoi(const char *str)
 {
 	unsigned long long	num ;
-	int			sign;
-	int			digit;
+	int					sign;
+	int					digit;
 
 	(1 && (num = 0), (sign = 1));
 	while (*str == ' ' || *str == '\t' || *str == '\n'

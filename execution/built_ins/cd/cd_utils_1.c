@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:30:50 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 01:38:07 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:18:01 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,25 @@ char	*go_backwards(char *pwd)
 	return (path);
 }
 
-void cd_the_logical_path(char *new, char **right_pwd)
+void	cd_the_logical_path(char *new, char **right_pwd)
 {
 	char	**splited;
-	int 	i;
-	
+	int		i;
+
 	i = 0;
 	splited = custom_split(new, '/', 1);
-	while(splited[i])
+	while (splited[i])
 	{
-		if(!ft_strncmp(splited[i], "..", 2))
+		if (!ft_strncmp(splited[i], "..", 2))
 			*right_pwd = go_backwards(*right_pwd);
-		else if(!ft_strncmp(splited[i], ".", 1))
+		else if (!ft_strncmp(splited[i], ".", 1))
 		{
 			i++;
-			continue;
+			continue ;
 		}
 		else
 			*right_pwd = trim_back_slach(splited[i], *right_pwd);
-			i++;
+		i++;
 	}
 }
 
@@ -84,11 +84,11 @@ char	*right_pwd(char *new, t_env_var **env_vars)
 {
 	char	*right_pwd;
 	char	*pwd;
-	
+
 	(1 && (pwd = (*env_vars)->pwd), (right_pwd = pwd));
 	if (pwd && new)
 	{
-		if(new[0] == '/')
+		if (new[0] == '/')
 			right_pwd = custom_strdup("/", 1);
 		cd_the_logical_path(new, &right_pwd);
 		return (right_pwd);

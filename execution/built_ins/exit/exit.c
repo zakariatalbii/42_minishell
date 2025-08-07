@@ -6,17 +6,17 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 05:12:05 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:31:49 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-static int char_checking(t_tree *tree)
+static int	char_checking(t_tree *tree)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
 	while (tree->data.argv[1][i])
 	{
 		if (!ft_is_a_numb(tree->data.argv[1][i]))
@@ -30,16 +30,21 @@ static void	parssing(t_tree *tree)
 {
 	int	i;
 	int	flag;
-	
+
 	(1 && (i = 1), (flag = 0));
 	if (tree->data.argv[1][0] != '-' &&
 		tree->data.argv[1][0] != '+' && !ft_is_a_numb(tree->data.argv[1][0]))
 		flag = 1;
-	if ((ft_strlen(tree->data.argv[1]) > 1
+	else if ((ft_strlen(tree->data.argv[1]) > 1
 			&&!ft_is_a_numb(tree->data.argv[1][1])))
 		flag = 1;
-	if (char_checking(tree) || ft_lg__atoi(tree->data.argv[1]) == -111)
+	else if (char_checking(tree) || ft_lg__atoi(tree->data.argv[1]) == -111)
+	{
+		if (ft_atoi(tree->data.argv[1]) == 111
+			|| ft_atoi(tree->data.argv[1]) == -111)
+			return ;
 		flag = 1;
+	}
 	if (flag == 1)
 	{
 		ft_putstr_fd("Minishell: exit: ", 2);
