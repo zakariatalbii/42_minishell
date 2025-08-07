@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:00:34 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:42:08 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 19:09:06 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	unset_pwd_flag(int set_flag)
 {
 	static int	flag;
 
-	flag = 0;
 	if (set_flag == 1)
 		flag = 1;
 	else if (set_flag == -1)
