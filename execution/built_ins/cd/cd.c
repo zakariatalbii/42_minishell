@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/06 21:18:04 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:23:58 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,12 +93,13 @@ void	cd_execution(char **command, t_env **environ, t_env_var **env_vars)
 	char		*telda_path;
 	
 	
-	if ((command)[1] == NULL || ((command)[1] &&
-		!ft_strcmp(command[1], (*env_vars)->home)))
+	if(command[1] && !ft_strncmp(command[1] ,"-",1))
+		cd_oldpwd(environ, env_vars);
+	else if ((command)[1] == NULL ||(command[1] && !ft_strcmp(command[1],"/mnt/homes/wnid-hsa")))
 		cd_home(environ, env_vars);
-	else if (command[1][0] == '~' )
+	else if (command[1] && command[1][0] == '~' )
 	{
-		telda_path = telda_full_path(command[1],env_vars);
+		telda_path = telda_full_path(command[1]);
 		if (!telda_path)
 			return ;
 		new_path_cd(telda_path, env_vars, environ);

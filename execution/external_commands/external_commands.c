@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 05:17:21 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 11:46:11 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ls_handling(char ***command,t_env_var **env_vars)
 	char	**new_command;
 	if(!ft_strcmp((*command)[0],"ls" )&& !(*command)[1])
 	{
-		new_command = gc_malloc(2*sizeof(char *),0);
+		new_command = gc_malloc(3*sizeof(char *),0);
 		new_command[0] =custom_strdup("ls",0);
 		new_command[1] = (*env_vars)->pwd;
 		new_command[2] = NULL;
@@ -71,6 +71,7 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	char	**potential_paths;
 	char	**envp_;
 
+	(void)env_vars;
 	1 && (envp_ = envp(environ),
 		(potential_paths = potential_path(command[0])));
 	if (!potential_paths)

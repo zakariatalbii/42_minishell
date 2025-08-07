@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:55:40 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 05:13:51 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 09:42:26 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ long long	ft_lg__atoi(const char *str)
 		if (sign == 1 && num > ((unsigned long long)LLONG_MAX - digit) / 10)
 			return (-111);
 		if (sign == -1
-			&&num > ((unsigned long long)LLONG_MAX + 1ULL - digit) / 10)
+			&&num > ((unsigned long long)LLONG_MAX + 1 - digit) / 10)
 			return (-111);
 		num = num * 10 + digit;
 		str++;
 	}
-	if (sign == -1 && num == (unsigned long long)LLONG_MAX + 1ULL)
+	if (sign == -1 && num == (unsigned long long)LLONG_MAX + 1)
 		return (LLONG_MIN);
 	return (num * sign);
 }

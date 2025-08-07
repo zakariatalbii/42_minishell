@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/06 20:27:45 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:23:45 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,6 @@ typedef struct s_env_var
 	char	*last_command;
 	int		*pid;
 	char	*oldpwd;
-	char	*home;
 }	t_env_var;
 
 typedef struct s_local_trash
@@ -221,8 +220,8 @@ int			valid_var_name(char *str, int count);
 int			ft_is_a_numb(char c);
 int			is_while_space(char c);
 void		make_export_struct(char **command, t_env_var **env_vars);
-void		cd_oldpwd(t_env **environ, t_env_var **env_vars, char **command);
-char		*telda_full_path(char *telda_path, t_env_var **env_vars);
+void		cd_oldpwd(t_env **environ, t_env_var **env_vars);
+char		*telda_full_path(char *telda_path);
 int			is_it_set(t_env **environ, char *path);
 int			check_existans_and_permisisons(char *command);
 void		external_commands_execution(char **command, t_env **environ,
