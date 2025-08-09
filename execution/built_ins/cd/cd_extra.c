@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:13:57 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/09 12:31:15 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	cd_old_flag(int flag_, char *path, t_env *environ)
 	else
 		return (flag);
 }
+
 
 void	cd_oldpwd(t_env **environ, t_env_var **env_vars)
 {

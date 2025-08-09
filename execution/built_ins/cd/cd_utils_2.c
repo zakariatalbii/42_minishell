@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:39:07 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:24:13 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/09 13:01:01 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,26 @@ char	*escaped_path(char *pwd, int flag)
 {
 	char	*trimmed;
 	int		count;
-	int		lengh;
+	char	*output;
 
-	count = (flag + 1) * 2;
 	trimmed = custom_strtrim(pwd, "/..");
 	if (!trimmed)
 		return (NULL);
-	lengh = ft_strlen(trimmed) - count;
-	return (custom_strndup(trimmed, lengh, 1));
+	else
+		output = custom_strjoin("/", trimmed, 1);
+	if (output)
+	{
+		count = ft_strlen(output) - 1;
+		while (count && (flag + 1))
+		{
+			if (output[count] == '/')
+				flag --;
+			count --;
+		}
+		return (custom_strndup(output, count + 1, 1));
+	}
+	else
+		return (NULL);
 }
 
 void	cd_deleted_path(char **right_pwd_, char *new,
