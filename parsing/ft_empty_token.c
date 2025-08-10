@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/23 16:39:46 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:57:58 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_empty_token(t_list **list, t_list **head, char *str, int ptype)
 			return (0);
 	}
 	if (!*str && ptype < INRED)
-		return (ft_cmdcase(list, head, str));
+		return (ft_status(0), ft_cmdcase(list, head, str));
 	else if ((!*str || ft_withspaces(str)) && ptype >= INRED)
 		return (ft_putstr_fd("minishell: ", 2),
 			ft_putstr_fd(((t_token *)(*head)->content)->token, 2),

@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:31:38 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/07/26 20:24:45 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:59:49 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_nultoken(t_list **lst, char *token, int ptype)
 			ft_putstr_fd(token, 2),
 			ft_putendl_fd(": ambiguous redirect", 2),
 			ft_lstclear(lst, ft_free_token), ft_status(1));
-	return (0);
+	return (ft_status(0));
 }
 
 static int	ft_addlst(t_list **list, t_list **head, t_list *lst)
