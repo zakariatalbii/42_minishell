@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 08:36:04 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/10 10:47:55 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 11:49:58 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ static int	ft_path_alloc(char **path, char ***strs,
 	return (0);
 }
 
+static size_t	ft_size(char *path)
+{
+	char	*s;
+
+	s = ft_strrchr(path, '/');
+	return (s - path + (s == path));
+}
+
 char	*ft_path_init(char *str, t_env_var **env_vars)
 {
 	struct stat	stat;
@@ -55,7 +63,7 @@ char	*ft_path_init(char *str, t_env_var **env_vars)
 		if (!ft_strcmp(strs[v], "."))
 			continue ;
 		else if (!ft_strcmp(strs[v], ".."))
-			path = ft_strndup(path, ft_strrchr(path, '/') - path);
+			path = ft_strndup(path, ft_size(path));
 		else
 			path = ft_strsjoin((char *[]){path, "/", strs[v], NULL});
 		free(tmp);
