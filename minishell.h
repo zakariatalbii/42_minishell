@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/07 17:56:01 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/10 08:55:37 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ typedef struct s_global_trash
 	struct s_global_trash	*next;
 }					t_global_trash;
 
+char		*ft_path_init(char *str, t_env_var **env_vars);
 void		cd_execution(char **command, t_env **environ, t_env_var **env_vars);
 void		echo_execution(char **command);
 

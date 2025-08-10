@@ -21,7 +21,7 @@ SRC = show_the_tree.c \
 		execution/built_ins/export/export_utils.c execution/allocation_freeing/custom_split.c \
 		execution/allocation_freeing/custom_strjoin.c execution/allocation_freeing/gc_malloc.c execution/built_ins/exit/exit.c \
 		execution/allocation_freeing/custom_strndup.c execution/built_ins/cd/cd_utils_1.c execution/built_ins/cd/cd_utils_2.c \
-		execution/built_ins/cd/cd_utils_3.c  execution/built_ins/exit/exit_utils.c execution/built_ins/export/export_utils_2.c \
+		execution/built_ins/cd/cd_utils_3.c execution/built_ins/cd/cd_utils_4.c execution/built_ins/exit/exit_utils.c execution/built_ins/export/export_utils_2.c \
 		execution/external_commands/external_commands_utils.c execution/pipeline/pipe_line_1.c execution/pipeline/pipe_line_plus.c \
 		execution/pipeline/pipe_line.c execution/redirection/redirection.c execution/redirection/redirection_utils.c \
 
@@ -29,7 +29,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc  -fsanitize=address -Wall -Wextra -Werror
+CC = cc -g -fsanitize=address -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:53:34 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/10 09:07:24 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,6 @@ char	**envp(t_env **environ)
 	return (env);
 }
 
-void	ls_handling(char ***command, t_env_var **env_vars)
-{
-	char	**new_command;
-
-	if (!(*command) || (!(*command)[0]))
-		return ;
-	if (!ft_strcmp((*command)[0], "ls" ) && !(*command)[1])
-	{
-		new_command = gc_malloc(3 * sizeof(char *), 0);
-		new_command[0] = custom_strdup("ls", 0);
-		new_command[1] = (*env_vars)->pwd;
-		new_command[2] = NULL;
-		*command = new_command;
-	}
-}
-
 void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 {
 	int		flag;
@@ -89,7 +73,6 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 		(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
 	if (flag != -1)
 	{
-		ls_handling(&command, env_vars);
 		if (!execve(potential_paths[flag], command, envp_))
 			(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
 	}

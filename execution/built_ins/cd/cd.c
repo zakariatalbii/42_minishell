@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:29:20 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/10 10:40:09 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ static void	cd_new_core(char *new,
 static void	new_path_cd(char *new, t_env_var **env_vars, t_env **environ)
 {
 	static int	flag;
+	char		*path;
 
+	path = ft_path_init(new, env_vars);
+	if (path)
+		new = path;
 	if (!chdir(new))
 	{
 		cd_new_core(new, &flag, env_vars, environ);
@@ -83,8 +87,8 @@ static void	new_path_cd(char *new, t_env_var **env_vars, t_env **environ)
 	{
 		cd_errno_handling(errno, new);
 		ft_status(1);
-		return ;
 	}
+	free(path);
 }
 
 void	cd_execution(char **command, t_env **environ, t_env_var **env_vars)
@@ -93,8 +97,7 @@ void	cd_execution(char **command, t_env **environ, t_env_var **env_vars)
 
 	if (command[1] && !ft_strncmp(command[1], "-", 1))
 		cd_oldpwd(environ, env_vars);
-	else if ((command)[1] == NULL ||
-		(command[1] && !ft_strcmp(command[1], "/mnt/homes/wnid-hsa")))
+	else if (command[1] == NULL)
 		cd_home(environ, env_vars);
 	else if (command[1] && command[1][0] == '~' )
 	{
