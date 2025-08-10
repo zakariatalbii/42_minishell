@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/10 09:07:24 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 20:29:11 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,18 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	int		flag;
 	char	**potential_paths;
 	char	**envp_;
+	int		flag_;
 
-	(void)env_vars;
-	1 && (envp_ = envp(environ),
-		(potential_paths = potential_path(command[0])));
+	(1 && (envp_ = envp(environ)),(flag_ = 0));
+	flag_ = check_current_dir(command, (*env_vars)->pwd, envp_);
+	if (flag_ == -2)
+	{
+		ft_putstr_fd("minishell: permission denied\n", 2);
+		ft_status(126);
+		gc_malloc(0, 0);
+		exit(ft_status(-1));
+	}
+	potential_paths = potential_path(command[0]);
 	if (!potential_paths)
 	{
 		ft_status(127);
@@ -95,6 +103,8 @@ void	external_commands_execution(char **command,
 			}
 		}
 		else
+		{
 			normal_execution(command, environ, env_vars);
+		}
 	}
 }

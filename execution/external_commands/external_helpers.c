@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 10:50:29 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/10 20:17:02 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,31 @@ char	**potential_path(char *command)
 		i++;
 	}
 	return (potential_paths);
+}
+
+int check_current_dir(char **command, char *pwd, char **envp_)
+{
+	char	*tmp;
+	char	*path;
+
+	tmp = custom_strjoin(pwd, "/", 0);
+	if (tmp)
+		path = custom_strjoin(tmp, command[0], 0);
+	if (!tmp || !path)
+	{
+		return (-1);
+	}
+	if (access(path, F_OK) == 0)
+	{
+		if (access(path, X_OK) == 0)
+		{
+			if (!execve(path, command, envp_))
+				(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
+		}
+		else
+			return (-2);
+	}
+	return (-1);
 }
 
 int	check_existans_and_permisisons(char *command)
