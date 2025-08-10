@@ -29,16 +29,16 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -g -fsanitize=address -Wall -Wextra -Werror
+CC = cc -fsanitize=address -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)
-	$(CC) $(RL_H) -c  $< -o $@
+	$(CC) -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(OBJ) $(LIBFT) $(RL_LIB) -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
 $(LIBFT):
 	make -C libft all bonus

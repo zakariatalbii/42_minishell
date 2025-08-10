@@ -6,27 +6,38 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 23:24:42 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/09 23:51:40 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/10 15:27:27 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../minishell.h"
 
-char	*telda_full_path(char *telda_path)
+char	*telda_full_path(t_env **environ, char *telda_path)
 {
 	char	*telda_full_path;
 	char	*home;
+	int		flag;
 
-	home = custom_strdup("/mnt/homes/wnid-hsa", 1);
-	if (!telda_path)
+	flag = is_it_set(environ, "HOME");
+	if (flag == 0)
 	{
-		telda_full_path = custom_strjoin(home, telda_path, 1);
-	}
-	telda_full_path = custom_strjoin(home, telda_path + 1, 1);
-	if (!telda_full_path)
+		ft_status(1);
 		return (NULL);
-	else
-		return (telda_full_path);
+	}
+	home = ft_getenv("HOME");
+	if (home)
+	{
+		if (!telda_path)
+		{
+			telda_full_path = custom_strjoin(home, telda_path, 1);
+		}
+		telda_full_path = custom_strjoin(home, telda_path + 1, 1);
+		if (!telda_full_path)
+			return (NULL);
+		else
+			return (telda_full_path);
+	}
+	return (NULL);
 }
 
 static void	cd_oldpwd_execution(char *old_pwd,

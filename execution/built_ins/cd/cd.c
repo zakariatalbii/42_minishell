@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/10 13:21:58 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:23:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	cd_execution(char **command, t_env **environ, t_env_var **env_vars)
 		cd_home(environ, env_vars);
 	else if (command[1] && command[1][0] == '~' )
 	{
-		telda_path = telda_full_path(command[1]);
+		telda_path = telda_full_path(environ, command[1]);
 		if (!telda_path)
 			return ;
 		new_path_cd(telda_path, env_vars, environ);

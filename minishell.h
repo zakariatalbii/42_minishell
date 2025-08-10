@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/10 08:55:37 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 15:24:39 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ int			ft_is_a_numb(char c);
 int			is_while_space(char c);
 void		make_export_struct(char **command, t_env_var **env_vars);
 void		cd_oldpwd(t_env **environ, t_env_var **env_vars);
-char		*telda_full_path(char *telda_path);
+char		*telda_full_path(t_env **environ, char *telda_path);
 int			is_it_set(t_env **environ, char *path);
 int			check_existans_and_permisisons(char *command);
 void		external_commands_execution(char **command, t_env **environ,
