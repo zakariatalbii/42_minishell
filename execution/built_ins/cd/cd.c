@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/10 10:40:09 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/10 13:21:58 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,13 @@ static void	new_path_cd(char *new, t_env_var **env_vars, t_env **environ)
 void	cd_execution(char **command, t_env **environ, t_env_var **env_vars)
 {
 	char		*telda_path;
+	char		*home_path;
 
+	home_path = ft_getenv("HOME");
 	if (command[1] && !ft_strncmp(command[1], "-", 1))
 		cd_oldpwd(environ, env_vars);
-	else if (command[1] == NULL)
+	else if (command[1] == NULL
+		|| (command[1] && !ft_strcmp(command[1], home_path)))
 		cd_home(environ, env_vars);
 	else if (command[1] && command[1][0] == '~' )
 	{
