@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/10 20:17:02 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/11 12:55:18 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,11 @@ char	**potential_path(char *command)
 		path = custom_strdup(PATH_, 0);
 	splited_path = custom_split(path, ':', 0);
 	if (splited_path == NULL)
-		return ((print_msg("minishell: ",
-					command, ": No such file or directory\n")), NULL);
+	{
+		return (NULL);
+	}
+		// return ((print_msg("minishell: ",
+		// 			command, ": No such file or directory\n")), NULL);
 	potential_paths = allocate_double_char(path, ':', command);
 	i = 0;
 	while (splited_path[i] != NULL)
@@ -79,13 +82,11 @@ char	**potential_path(char *command)
 
 int check_current_dir(char **command, char *pwd, char **envp_)
 {
-	char	*tmp;
 	char	*path;
-
-	tmp = custom_strjoin(pwd, "/", 0);
-	if (tmp)
-		path = custom_strjoin(tmp, command[0], 0);
-	if (!tmp || !path)
+	
+	(void)envp_;
+	path  = current_dir(command, pwd);
+	if (!path)
 	{
 		return (-1);
 	}
@@ -93,8 +94,7 @@ int check_current_dir(char **command, char *pwd, char **envp_)
 	{
 		if (access(path, X_OK) == 0)
 		{
-			if (!execve(path, command, envp_))
-				(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
+			
 		}
 		else
 			return (-2);

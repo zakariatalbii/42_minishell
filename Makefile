@@ -41,12 +41,12 @@ CC = cc -fsanitize=address -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c minishell.h $(LIBFT_H)
-	$(CC) -c $< -o $@
+	$(CC) $(RL_H) -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	$(CC) $(OBJ) $(LIBFT) $(RL_LIB) -o $(NAME)
 
 $(LIBFT):
 	make -C libft all bonus

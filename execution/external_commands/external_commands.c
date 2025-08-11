@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/10 20:29:11 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/11 12:51:48 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ char	**envp(t_env **environ)
 	env[count] = NULL;
 	return (env);
 }
+char	*current_dir(char **command, char *pwd)
+{
+	char	*tmp;
+	char	*path;
+
+	tmp = custom_strjoin(pwd, "/", 0);
+	if (tmp)
+		path = custom_strjoin(tmp, command[0], 0);
+	if (!tmp || !path)
+		return (NULL);
+	return (path);
+}
 
 void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 {
@@ -59,29 +71,42 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	char	**potential_paths;
 	char	**envp_;
 	int		flag_;
+	char	*path;
 
-	(1 && (envp_ = envp(environ)),(flag_ = 0));
-	flag_ = check_current_dir(command, (*env_vars)->pwd, envp_);
-	if (flag_ == -2)
-	{
-		ft_putstr_fd("minishell: permission denied\n", 2);
-		ft_status(126);
-		gc_malloc(0, 0);
-		exit(ft_status(-1));
-	}
+	(1 && (envp_ = envp(environ)),(flag_ = 0),(flag = 0));
 	potential_paths = potential_path(command[0]);
 	if (!potential_paths)
 	{
-		ft_status(127);
-		gc_malloc(0, 0);
-		exit(ft_status(-1));
+		flag_ = check_current_dir(command, (*env_vars)->pwd, envp_);
+		if (flag_ == -2)
+		{
+			ft_putstr_fd("minishell: permission denied\n", 2);
+			ft_status(126);
+			gc_malloc(0, 0);
+			exit(ft_status(-1));
+		}
+		else if(flag_ == -1)
+		{
+			ft_status(127);
+			(print_msg("minishell: ",
+				command[0], ": No such file or directory\n"));
+			gc_malloc(0, 0);
+			exit(ft_status(-1));
+		}
+		else
+		{
+			path = current_dir(command, (*env_vars)->pwd);
+			if (execve(path, command, envp_))
+				(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
+		}
+		return ;
 	}
 	flag = check_existans_and_permisisons(command[0]);
 	if (flag == -1)
 		(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
 	if (flag != -1)
 	{
-		if (!execve(potential_paths[flag], command, envp_))
+		if (execve(potential_paths[flag], command, envp_))
 			(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
 	}
 }
@@ -96,7 +121,7 @@ void	external_commands_execution(char **command,
 	{
 		if (there_is_slash(command[0]))
 		{
-			if (!execve(command[0], command, envp_))
+			if (execve(command[0], command, envp_))
 			{
 				gc_malloc(0, 0);
 				exit(ft_status(-1));
