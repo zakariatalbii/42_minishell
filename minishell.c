@@ -3,37 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/07 17:55:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:12:43 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	show_the_tree(t_tree *tree);// for test
-
-char	*home_path(char *pwd)
+static int	msh_error(int n)
 {
-	char	**splited;
-	char	*tmp;
-	char	*join;
-	int		i;
-
-	i = 0;
-	splited = custom_split(pwd, '/', 1);
-	if (!splited)
-		return (NULL);
-	tmp = custom_strjoin("/", splited[0], 1);
-	join = custom_strjoin(tmp, "/", 1);
-	tmp = custom_strjoin(join, splited[1], 1);
-	join = custom_strjoin(tmp, "/", 1);
-	tmp = custom_strjoin(join, splited[2], 1);
-	return (tmp);
+	if (!n)
+		ft_putendl_fd("minishell: too many arguments", 2);
+	else if (n)
+		ft_putendl_fd("minishell: invalid tty", 2);
+	return (1);
 }
 
-t_env_var	*env_var_initialization(void)
+static t_env_var	*env_var_initialization(void)
 {
 	t_env_var	*env_vars;
 	char		*cwd;
@@ -76,13 +64,17 @@ static char	*ft_readline(t_env_var *env_vars)
 	return (free(prompt), ft_count_lines(1), line);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_tree		*tree;
 	char		*line;
 	t_env_var	*env_vars;
 	t_env		**env;
 
+	(void)argv;
+	if ((argc != 1 && msh_error(0))
+		|| ((!isatty(0) || !isatty(1)) && msh_error(1)))
+		exit(1);
 	env_vars = env_var_initialization();
 	ft_signals(1);
 	if (!env_vars || !ft_environ(&env, ft_envinit(), 1))
@@ -96,8 +88,6 @@ int	main(void)
 				ft_environ_clear(), ft_status(-1));
 		tree = ft_parser(line, ft_status(-1));
 		recursion(tree, env, &env_vars);
-		ft_store_fds(-1);
-		ft_free_tree(tree);
-		free(line);
+		(ft_store_fds(-1), ft_free_tree(tree), free(line));
 	}
 }

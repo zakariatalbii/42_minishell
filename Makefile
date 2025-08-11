@@ -12,8 +12,7 @@ LIBFT_SRC =	libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_is
 RL_LIB = -L./readline/lib -lreadline -lcurses
 RL_H = -I./readline/include
 
-SRC = show_the_tree.c \
-		minishell.c ft_signals.c utils.c \
+SRC = minishell.c ft_signals.c utils.c \
 		environ/ft_env.c environ/ft_envinit.c environ/ft_environ.c \
 		environ/ft_envp.c environ/ft_getenv.c environ/ft_setenv.c \
 		parsing/ft_parser.c parsing/ft_lexer.c parsing/ft_split_line.c parsing/ft_token.c \
@@ -37,10 +36,10 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -fsanitize=address -Wall -Wextra -Werror
+CC = cc -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
-%.o: %.c minishell.h $(LIBFT_H)
+%.o: %.c minishell.h
 	$(CC) $(RL_H) -c $< -o $@
 
 all: $(NAME)
@@ -48,7 +47,7 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJ)
 	$(CC) $(OBJ) $(LIBFT) $(RL_LIB) -o $(NAME)
 
-$(LIBFT):
+$(LIBFT): $(LIBFT_SRC) $(LIBFT_H)
 	make -C libft all bonus
 
 clean:

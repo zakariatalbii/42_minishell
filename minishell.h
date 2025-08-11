@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/11 12:44:21 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/11 14:13:42 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -302,7 +302,7 @@ int			failed_redirection(int flag_);
 void		fd_input_directing(int fd_to, int fd_from);
 int			cd_old_flag(int flag_, char *path, t_env *environ);
 int			unset_pwd_flag(int set_flag);
-int 		check_current_dir(char **command, char *pwd, char **envp_);
+int			check_current_dir(char **command, char *pwd, char **envp_);
 char		*current_dir(char **command, char *pwd);
 /* ************************************** */
 
