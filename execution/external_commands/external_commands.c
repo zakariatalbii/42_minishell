@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/11 12:51:48 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:02:02 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,34 +71,14 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	char	**potential_paths;
 	char	**envp_;
 	int		flag_;
-	char	*path;
 
 	(1 && (envp_ = envp(environ)),(flag_ = 0),(flag = 0));
 	potential_paths = potential_path(command[0]);
 	if (!potential_paths)
 	{
 		flag_ = check_current_dir(command, (*env_vars)->pwd, envp_);
-		if (flag_ == -2)
-		{
-			ft_putstr_fd("minishell: permission denied\n", 2);
-			ft_status(126);
-			gc_malloc(0, 0);
-			exit(ft_status(-1));
-		}
-		else if(flag_ == -1)
-		{
-			ft_status(127);
-			(print_msg("minishell: ",
-				command[0], ": No such file or directory\n"));
-			gc_malloc(0, 0);
-			exit(ft_status(-1));
-		}
-		else
-		{
-			path = current_dir(command, (*env_vars)->pwd);
-			if (execve(path, command, envp_))
-				(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
-		}
+		if (flag_ == -2 || flag_ == -1)
+			(1 && (gc_malloc(0, 0)), exit(ft_status(-1)));
 		return ;
 	}
 	flag = check_existans_and_permisisons(command[0]);

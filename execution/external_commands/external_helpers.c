@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/11 12:55:18 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/11 13:04:59 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,21 +84,25 @@ int check_current_dir(char **command, char *pwd, char **envp_)
 {
 	char	*path;
 	
-	(void)envp_;
 	path  = current_dir(command, pwd);
 	if (!path)
-	{
 		return (-1);
-	}
 	if (access(path, F_OK) == 0)
 	{
 		if (access(path, X_OK) == 0)
 		{
-			
+			if (execve(path, command, envp_))
+				(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
 		}
 		else
+		{
+			ft_putstr_fd("minishell: permission denied\n", 2);
+			ft_status(126);
 			return (-2);
+		}
 	}
+	ft_status(127);
+	print_msg("minishell: ", command[0], ": No such file or directory\n");
 	return (-1);
 }
 
