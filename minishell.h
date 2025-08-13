@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/11 14:13:42 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/13 01:27:12 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,13 +182,21 @@ typedef struct s_environ
 	struct s_environ	*next;
 }	t_environ;
 
+typedef struct s_pid_trash
+{
+	pid_t					pid;
+	struct s_pid_trash		*next;
+}					t_pid_trash;
+
 typedef struct s_env_var
 {
-	char	*pwd;
-	int		*export_;
-	char	*last_command;
-	int		*pid;
-	char	*oldpwd;
+	char		*pwd;
+	int			*export_;
+	char		*last_command;
+	int			*pid;
+	int			*pid_2;
+	char		*oldpwd;
+	t_pid_trash *pid_trash;
 }	t_env_var;
 
 typedef struct s_local_trash
@@ -304,6 +312,15 @@ int			cd_old_flag(int flag_, char *path, t_env *environ);
 int			unset_pwd_flag(int set_flag);
 int			check_current_dir(char **command, char *pwd, char **envp_);
 char		*current_dir(char **command, char *pwd);
+void		redirection(t_tree *tree, t_env **environ, t_env_var **env_vars);
+void		command_execution(t_tree *tree,
+			t_env **environ, int flag, t_env_var **env_vars);
+void		child_exerv(t_tree *tree,
+			t_env **environ, t_env_var **env_vars);
+void		pipe_line(t_tree *tree, t_env_var **env_vars, t_env **env);
+void 		kill_zombies(t_env_var **env_vars);
+void		add_to_trsh_pid(pid_t pid, t_env_var **env_vars);
+
 /* ************************************** */
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/11 14:12:43 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/13 01:26:20 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,31 @@ static int	msh_error(int n)
 	return (1);
 }
 
-static t_env_var	*env_var_initialization(void)
+void		env_var_fill(t_env_var **env_vars)
+{
+	(*env_vars)->export_ = (int *)gc_malloc(sizeof(int), 1);
+	if ((*env_vars)->export_)
+		*((*env_vars)->export_) = 0;
+	(*env_vars)->pid = (int *)gc_malloc(sizeof(int), 1);
+	if ((*env_vars)->pid)
+		(*(*env_vars)->pid) = 1;
+	(*env_vars)->pid_2 = (int *)gc_malloc(sizeof(int), 1);
+	if ((*env_vars)->pid_2)
+		*((*env_vars)->pid_2) = 1;
+	(*env_vars)->last_command = custom_strdup("PATH", 1);
+	(*env_vars)->oldpwd = NULL;
+	(*env_vars)->pid_trash = gc_malloc(sizeof(t_pid_trash), 1);
+	if ((*env_vars)->pid_trash)
+	{
+		(*env_vars)->pid_trash->pid = 1;
+		(*env_vars)->pid_trash->next = NULL;
+	}
+	if(!(*env_vars)->export_
+			|| !(*env_vars)->last_command || !(*env_vars)->pid || !(*env_vars)->pid_trash || !(*env_vars)->pid_2)
+		return;
+}
+
+t_env_var	*env_var_initialization(void)
 {
 	t_env_var	*env_vars;
 	char		*cwd;
@@ -33,16 +57,8 @@ static t_env_var	*env_var_initialization(void)
 	else
 	{
 		env_vars->pwd = custom_strdup(cwd, 1);
-		env_vars->export_ = (int *)gc_malloc(sizeof(int), 1);
-		if (env_vars->export_)
-			*(env_vars->export_) = 0;
-		env_vars->pid = (int *)gc_malloc(sizeof(int), 1);
-		if (env_vars->pid)
-			*(env_vars->pid) = 1;
-		env_vars->last_command = custom_strdup("PATH", 1);
-		env_vars->oldpwd = NULL;
-		if (!env_vars->pwd || !env_vars->export_
-			|| !env_vars->last_command || !env_vars->pid)
+		env_var_fill(&env_vars);
+		if (!env_vars->pwd )
 			return (free(cwd), NULL);
 		return (free(cwd), env_vars);
 	}

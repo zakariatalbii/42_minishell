@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/11 13:02:02 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/13 01:13:49 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ char	**envp(t_env **environ)
 	env[count] = NULL;
 	return (env);
 }
+
 char	*current_dir(char **command, char *pwd)
 {
 	char	*tmp;
@@ -72,7 +73,7 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	char	**envp_;
 	int		flag_;
 
-	(1 && (envp_ = envp(environ)),(flag_ = 0),(flag = 0));
+	(1 && (envp_ = envp(environ)), (flag_ = 0), (flag = 0));
 	potential_paths = potential_path(command[0]);
 	if (!potential_paths)
 	{

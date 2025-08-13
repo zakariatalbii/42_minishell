@@ -6,11 +6,36 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:23:52 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 06:15:53 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/13 01:20:28 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void	child_exerv(t_tree *tree,
+		t_env **environ, t_env_var **env_vars)
+{
+	int	pid;
+	int	status_1;
+
+	1 && (pid = fork()), (error_handling(pid, "close", NULL));
+	if (pid < 0)
+	{
+		kill_zombies(env_vars);
+		ft_status(1);
+		exit(ft_status(-1));
+	}
+	if (pid > 0)
+		add_to_trsh_pid(pid, env_vars);
+	ft_signals(-1);
+	if (pid == 0)
+	{
+		ft_signals(0);
+		ft_store_fds(-1);
+		external_commands_execution(tree->data.argv, environ, env_vars);
+	}
+	(1 && (waitpid(pid, &status_1, 0)), (status_handling(status_1)));
+}
 
 int	outfiles_checking(t_tree *tree)
 {

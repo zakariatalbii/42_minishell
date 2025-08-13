@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:17:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:37 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/12 22:46:00 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void	error_handling(int return_value, char *failed_function, char *path)
 {
 	if (return_value == -1)
 	{
+		if (!ft_strcmp(failed_function, "fork"))
+			perror("fork failed");
 		if (!ft_strcmp(failed_function, "close"))
 			perror("close failed");
 		if (!ft_strcmp(failed_function, "dup2"))
 			perror("dup2 failed");
-		if (!ft_strcmp(failed_function, "fork"))
-			perror("fork failed");
 		if (!ft_strcmp(failed_function, "dup"))
 			perror("dup failed");
 		if (!ft_strcmp(failed_function, "open"))

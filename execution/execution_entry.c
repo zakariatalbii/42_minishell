@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 05:12:43 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/13 01:12:49 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,59 @@ void	execute_the_builtin(t_tree *tree,
 		unset_executing(command, s_environ);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit_execution(tree, pid);
+}
+
+void	command_execution(t_tree *tree,
+		t_env **environ, int flag, t_env_var **env_vars)
+{
+	if (is_built_in(tree->data.argv) == 1)
+	{
+		if (flag == 1)
+			flag = 0;
+		else if (flag == 0)
+			flag = 1;
+		execute_the_builtin(tree, environ, env_vars, flag);
+	}
+	else
+	{
+		if (!invalid_commands_checking(tree->data.argv[0]))
+			return ;
+		child_exerv(tree, environ, env_vars);
+	}
+}
+
+void	redirection(t_tree *tree, t_env **environ, t_env_var **env_vars)
+{
+	if (tree->type >= 2 && tree->type <= 5)
+	{
+		if (recursive_check(tree))
+			return ;
+		else if (tree->type == 2)
+			infile_handling(tree, environ, env_vars);
+		else if (tree->type == 3)
+			outfile_handling(tree, environ, env_vars);
+		else if (tree->type == 4)
+			heredoc_handling(tree, environ, env_vars);
+		else if (tree->type == 5)
+			append_handling(tree, environ, env_vars);
+	}
+}
+
+void	recursion(t_tree *tree, t_env **environ, t_env_var **env_vars)
+{
+	static int	flag;
+
+	if (!tree)
+		return ;
+	if (tree->type == 0 && tree->data.argv && tree->data.argv[0])
+	{
+		last_command_arg(tree);
+		command_execution(tree, environ, flag, env_vars);
+	}
+	else if (tree->type == 1)
+	{
+		flag = 1;
+		pipe_line(tree, env_vars, environ);
+	}
+	redirection(tree, environ, env_vars);
 }

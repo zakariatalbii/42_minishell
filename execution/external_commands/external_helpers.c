@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 01:39:32 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/11 13:04:59 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/13 01:14:50 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,7 @@ char	**potential_path(char *command)
 		path = custom_strdup(PATH_, 0);
 	splited_path = custom_split(path, ':', 0);
 	if (splited_path == NULL)
-	{
 		return (NULL);
-	}
-		// return ((print_msg("minishell: ",
-		// 			command, ": No such file or directory\n")), NULL);
 	potential_paths = allocate_double_char(path, ':', command);
 	i = 0;
 	while (splited_path[i] != NULL)
@@ -80,11 +76,11 @@ char	**potential_path(char *command)
 	return (potential_paths);
 }
 
-int check_current_dir(char **command, char *pwd, char **envp_)
+int	check_current_dir(char **command, char *pwd, char **envp_)
 {
 	char	*path;
-	
-	path  = current_dir(command, pwd);
+
+	path = current_dir(command, pwd);
 	if (!path)
 		return (-1);
 	if (access(path, F_OK) == 0)
