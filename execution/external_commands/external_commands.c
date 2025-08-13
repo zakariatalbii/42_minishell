@@ -6,7 +6,7 @@
 /*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 00:54:04 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/13 01:13:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/13 23:55:31 by wnid-hsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,8 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 
 	(1 && (envp_ = envp(environ)), (flag_ = 0), (flag = 0));
 	potential_paths = potential_path(command[0]);
-	if (!potential_paths)
+	if (!potential_paths
+		|| (!ft_strcmp(command[0], "minishell") && !command[1]))
 	{
 		flag_ = check_current_dir(command, (*env_vars)->pwd, envp_);
 		if (flag_ == -2 || flag_ == -1)
