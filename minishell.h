@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/13 01:27:12 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:59:26 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int			ft_heredoc_i(int f, int *fds);
 int			ft_count_lines(int flag);
 int			ft_status(int s);
 int			ft_strcmp(const char *s1, const char *s2);
-char		*ndup(const char *s1, size_t n);
+char		*ft_strndup(const char *s1, size_t n);
 char		*ft_strsjoin(char **strs);
 
 /* ************************************** */
@@ -196,7 +196,7 @@ typedef struct s_env_var
 	int			*pid;
 	int			*pid_2;
 	char		*oldpwd;
-	t_pid_trash *pid_trash;
+	t_pid_trash	*pid_trash;
 }	t_env_var;
 
 typedef struct s_local_trash
@@ -285,7 +285,6 @@ void		print_msg(char *text1, char *text2, char *text3);
 char		*get_deleted_path_gain(char *PWD, char *new);
 char		*go_backwards(char *pwd);
 int			count_two_points(char *new);
-void		cd_points_handling(char **right_pwd, char *new, char *pwd);
 char		*right_pwd(char *new, t_env_var **env_vars);
 int			cd_flag(int flag_);
 void		pwdinf_update(t_env_var **env_vars, char *path, t_env **environ);
@@ -314,11 +313,11 @@ int			check_current_dir(char **command, char *pwd, char **envp_);
 char		*current_dir(char **command, char *pwd);
 void		redirection(t_tree *tree, t_env **environ, t_env_var **env_vars);
 void		command_execution(t_tree *tree,
-			t_env **environ, int flag, t_env_var **env_vars);
+				t_env **environ, int flag, t_env_var **env_vars);
 void		child_exerv(t_tree *tree,
-			t_env **environ, t_env_var **env_vars);
+				t_env **environ, t_env_var **env_vars);
 void		pipe_line(t_tree *tree, t_env_var **env_vars, t_env **env);
-void 		kill_zombies(t_env_var **env_vars);
+void		kill_zombies(t_env_var **env_vars);
 void		add_to_trsh_pid(pid_t pid, t_env_var **env_vars);
 
 /* ************************************** */
