@@ -9,8 +9,8 @@ LIBFT_SRC =	libft/ft_isalpha.c libft/ft_isdigit.c libft/ft_isalnum.c libft/ft_is
 		libft/ft_lstadd_back_bonus.c libft/ft_lstdelone_bonus.c libft/ft_lstclear_bonus.c libft/ft_lstiter_bonus.c \
 		libft/ft_lstmap_bonus.c
 
-RL_LIB = -L./readline/lib -lreadline -lcurses
-RL_H = -I./readline/include
+RL_LIB = -L$(HOME)/.brew/opt/readline/lib -lreadline
+RL_H = -I$(HOME)/.brew/opt/readline/include
 
 SRC = minishell.c ft_signals.c utils.c \
 		environ/ft_env.c environ/ft_envinit.c environ/ft_environ.c \
