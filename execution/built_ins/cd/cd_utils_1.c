@@ -38,7 +38,9 @@ char	*go_backwards(char *pwd)
 
 	if (!pwd)
 		return (NULL);
-	(1 && (lengh = count_words(pwd, '/')), (count = 0), (i = -1));
+	lengh = count_words(pwd, '/');
+	count = 0;
+	i = -1;
 	if (!ft_strcmp(pwd, "/"))
 		path = custom_strdup(pwd, 1);
 	else
@@ -46,9 +48,7 @@ char	*go_backwards(char *pwd)
 		while (pwd[++i] && count < lengh)
 		{
 			if (pwd[i] == '/')
-			{
 				count++;
-			}
 		}
 		if (i == 1)
 			path = custom_strndup(pwd, i, 1);
@@ -85,7 +85,8 @@ char	*right_pwd(char *new, t_env_var **env_vars)
 	char	*right_pwd;
 	char	*pwd;
 
-	(1 && (pwd = (*env_vars)->pwd), (right_pwd = pwd));
+	pwd = (*env_vars)->pwd;
+	right_pwd = pwd;
 	if (pwd && new)
 	{
 		if (new[0] == '/')

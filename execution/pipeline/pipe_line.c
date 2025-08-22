@@ -101,12 +101,12 @@ void	pipe_line(t_tree *tree,
 		ft_status(1);
 		exit(ft_status(-1));
 	}
-	(1 && (pid[0] = fork()),
-		(error_handling(pid[0], "fork", NULL)), (ft_signals(-1)));
+	pid[0] = fork();
+	(error_handling(pid[0], "fork", NULL), ft_signals(-1));
 	*((*env_vars)->pid) = pid[0];
 	child_1(fd, tree, env_vars, env);
-	(1 && (pid[1] = fork()),
-		(error_handling(pid[1], "fork", NULL)), ft_signals(-1));
+	pid[1] = fork();
+	(error_handling(pid[1], "fork", NULL), ft_signals(-1));
 	*((*env_vars)->pid_2) = pid[1];
 	child_2(fd, tree, env_vars, env);
 	error_handling(close(fd[0]), "close", NULL);

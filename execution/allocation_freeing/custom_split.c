@@ -75,7 +75,8 @@ char	**custom_split(const char *s, char c, int pid)
 	ptr = (char **)gc_malloc(sizeof(char *) * (count_words(s, c) + 1), pid);
 	if (!ptr)
 		return (NULL);
-	(1 && (j = 0), (i = 0));
+	i = 0;
+	j = 0;
 	while (j < count_words(s, c))
 	{
 		if (!next_pointer_word(s, c, &i))

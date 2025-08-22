@@ -31,7 +31,8 @@ char	**envp(t_env **environ)
 	t_env	*tmp;
 	char	*var;
 
-	(1 && (tmp = *environ), (count = 0));
+	tmp = *environ;
+	count = 0;
 	while (tmp)
 	{
 		count++;
@@ -49,8 +50,7 @@ char	**envp(t_env **environ)
 		tmp = tmp->next;
 		count++;
 	}
-	env[count] = NULL;
-	return (env);
+	return (env[count] = NULL, env);
 }
 
 char	*current_dir(char **command, char *pwd)
@@ -73,22 +73,24 @@ void	normal_execution(char **command, t_env **environ, t_env_var **env_vars)
 	char	**envp_;
 	int		flag_;
 
-	(1 && (envp_ = envp(environ)), (flag_ = 0), (flag = 0));
+	envp_ = envp(environ);
+	flag_ = 0;
+	flag = 0;
 	potential_paths = potential_path(command[0]);
 	if (!potential_paths)
 	{
 		flag_ = check_current_dir(command, (*env_vars)->pwd, envp_);
 		if (flag_ == -2 || flag_ == -1)
-			(1 && (gc_malloc(0, 0)), exit(ft_status(-1)));
+			(gc_malloc(0, 0), exit(ft_status(-1)));
 		return ;
 	}
 	flag = check_existans_and_permisisons(command[0]);
 	if (flag == -1)
-		(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
+		(gc_malloc(0, 0), exit(ft_status(-1)));
 	if (flag != -1)
 	{
 		if (execve(potential_paths[flag], command, envp_))
-			(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
+			(gc_malloc(0, 0), exit(ft_status(-1)));
 	}
 }
 

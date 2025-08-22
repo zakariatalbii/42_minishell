@@ -18,7 +18,8 @@ void	child_exerv(t_tree *tree,
 	int	pid;
 	int	status_1;
 
-	1 && (pid = fork()), (error_handling(pid, "close", NULL));
+	pid = fork();
+	error_handling(pid, "close", NULL);
 	if (pid < 0)
 	{
 		kill_zombies(env_vars);
@@ -34,7 +35,8 @@ void	child_exerv(t_tree *tree,
 		ft_store_fds(-1);
 		external_commands_execution(tree->data.argv, environ, env_vars);
 	}
-	(1 && (waitpid(pid, &status_1, 0)), (status_handling(status_1)));
+	waitpid(pid, &status_1, 0);
+	status_handling(status_1);
 }
 
 int	outfiles_checking(t_tree *tree)

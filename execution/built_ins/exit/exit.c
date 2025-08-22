@@ -28,10 +28,9 @@ static int	char_checking(t_tree *tree)
 
 static void	parssing(t_tree *tree)
 {
-	int	i;
 	int	flag;
 
-	(1 && (i = 1), (flag = 0));
+	flag = 0;
 	if (tree->data.argv[1][0] != '-' &&
 		tree->data.argv[1][0] != '+' && !ft_is_a_numb(tree->data.argv[1][0]))
 		flag = 1;
@@ -50,8 +49,7 @@ static void	parssing(t_tree *tree)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(tree->data.argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		ft_status(255);
-		exiting(tree);
+		(ft_status(255), exiting(tree));
 	}
 }
 

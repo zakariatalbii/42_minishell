@@ -53,11 +53,8 @@ void	handling_new_changes(t_environ **new, t_env_var **env_vars)
 
 static int	input_struct_handling(char *arg, int flag)
 {
-	int	i;
-
 	if (!arg)
 		return (1);
-	i = 0;
 	if (!ft_strlen(arg))
 	{
 		print_msg("minishell: export `", arg, "': not a valid identifier\n");
@@ -88,7 +85,7 @@ static void	command_handling(int *flag, char **command, t_env_var **env_vars)
 		}
 		else
 		{
-			(1 && (*flag = 1), ft_status(1));
+			(ft_status(1), *flag = 1);
 			print_msg("minishell: export `",
 				command[i], "': not a valid identifier\n");
 		}

@@ -50,8 +50,9 @@ static void	cd_new_core(char *new,
 	char	*prev_pwd;
 	char	*right_pwd_;
 
-	(1 && (pwd = getcwd(NULL, 0)),
-		(prev_pwd = (*env_vars)->pwd), (right_pwd_ = NULL));
+	pwd = getcwd(NULL, 0);
+	prev_pwd = (*env_vars)->pwd;
+	right_pwd_ = NULL;
 	if (!pwd)
 		cd_deleted_path(&right_pwd_, new, env_vars, flag);
 	else

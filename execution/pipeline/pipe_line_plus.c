@@ -49,7 +49,7 @@ void	status_handling_chid(int status_2)
 	{
 		sig = WTERMSIG(status_2);
 		if (sig == SIGINT)
-			(1 && (ft_status(130)), (ft_putchar_fd('\n', 1)));
+			(ft_status(130), ft_putchar_fd('\n', 1));
 		else if (sig == SIGQUIT)
 		{
 			ft_status(131);

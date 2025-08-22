@@ -88,7 +88,7 @@ int	check_current_dir(char **command, char *pwd, char **envp_)
 		if (access(path, X_OK) == 0)
 		{
 			if (execve(path, command, envp_))
-				(1 && (gc_malloc(0, 0)), (exit(ft_status(-1))));
+				(gc_malloc(0, 0), exit(ft_status(-1)));
 		}
 		else
 		{

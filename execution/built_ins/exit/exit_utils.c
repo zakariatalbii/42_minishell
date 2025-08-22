@@ -18,9 +18,9 @@ long long	ft_lg__atoi(const char *str)
 	int					sign;
 	int					digit;
 
-	(1 && (num = 0), (sign = 1));
-	while (*str == ' ' || *str == '\t' || *str == '\n'
-		|| *str == '\v' || *str == '\r' || *str == '\f')
+	num = 0;
+	sign = 1;
+	while (*str == 32 || (*str >= 9 && *str <= 13))
 		str++;
 	if (*str == '+' || *str == '-')
 		if (*str++ == '-')
@@ -31,7 +31,7 @@ long long	ft_lg__atoi(const char *str)
 		if (sign == 1 && num > ((unsigned long long)LLONG_MAX - digit) / 10)
 			return (-111);
 		if (sign == -1
-			&&num > ((unsigned long long)LLONG_MAX + 1 - digit) / 10)
+			&& num > ((unsigned long long)LLONG_MAX + 1 - digit) / 10)
 			return (-111);
 		num = num * 10 + digit;
 		str++;
