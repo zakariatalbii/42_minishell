@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:48:41 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:31:49 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:33:43 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	parssing(t_tree *tree)
 	}
 	if (flag == 1)
 	{
-		ft_putstr_fd("Minishell: exit: ", 2);
+		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(tree->data.argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
 		ft_status(255);
@@ -67,7 +67,7 @@ static void	exit_argument_parssing(t_tree *tree, int pid)
 		parssing(tree);
 		if (command[2])
 		{
-			ft_putstr_fd("Minishell: exit: too many arguments\n", 2);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			ft_status(1);
 			return ;
 		}

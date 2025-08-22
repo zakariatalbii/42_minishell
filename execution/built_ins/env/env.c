@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 00:49:08 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 15:56:46 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:31:45 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	executing_env(char **command, t_env **environ)
 		return ;
 	if (command[1])
 	{
-		ft_putstr_fd("minishell: env: Too many arguments\n", 2);
+		ft_putstr_fd("minishell: env: too many arguments\n", 2);
 		ft_status(127);
 		return ;
 	}

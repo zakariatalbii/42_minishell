@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/14 15:03:45 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/22 23:15:55 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,8 @@ static char	*ft_readline(t_env_var *env_vars)
 
 int	main(int argc, char **argv)
 {
-	t_tree		*tree;
 	char		*line;
+	t_tree		*tree;
 	t_env_var	*env_vars;
 	t_env		**env;
 
@@ -91,8 +91,8 @@ int	main(int argc, char **argv)
 	if ((argc != 1 && msh_error(0))
 		|| ((!isatty(0) || !isatty(1)) && msh_error(1)))
 		exit(1);
+	(ft_reset_term(1), ft_signals(1));
 	env_vars = env_var_initialization();
-	ft_signals(1);
 	if (!env_vars || !ft_environ(&env, ft_envinit(), 1))
 		return (gc_malloc(0, 0), gc_malloc(0, 1), 1);
 	while (1)

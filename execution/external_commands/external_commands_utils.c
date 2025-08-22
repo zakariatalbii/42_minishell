@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   external_commands_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:08:35 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/04 05:18:20 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:55:28 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	invalid_commands_checking(char *command)
 	if (!ft_strlen(command)
 		|| !ft_strcmp(command, "..") || !ft_strcmp(command, "."))
 	{
-		ft_putstr_fd("Minishell: ", 2);
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(command, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		ft_status(127);

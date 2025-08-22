@@ -6,7 +6,7 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:47 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/14 14:59:26 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/22 23:12:52 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft/libft.h"
@@ -156,6 +157,7 @@ typedef struct sigaction	t_sigaction;
 
 void		ft_signals(int flag);
 int			ft_heredoc_i(int f, int *fds);
+void		ft_reset_term(int flag);
 
 /* ************************************** */
 

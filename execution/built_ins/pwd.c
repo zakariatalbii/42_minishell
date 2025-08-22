@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:06 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/02 10:18:24 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:39:45 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	pwd_execution(char **command, t_env_var **env_vars)
 {
 	if (command[1] && !is_valid_pwd(command))
 	{
-		ft_putstr_fd("Minishell: pwd: ", 2);
+		ft_putstr_fd("minishell: pwd: ", 2);
 		ft_putchar_fd(command[1][0], 2);
 		ft_putchar_fd(command[1][1], 2);
 		ft_putstr_fd(": invalid option\n", 2);

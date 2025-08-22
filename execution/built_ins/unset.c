@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:07:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/07 17:48:50 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:51:24 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,15 @@ int	invalid_var_handling(char *command)
 	{
 		if (!valid_unset_var_name(command))
 		{
-			ft_putstr_fd("bash: unset: `", 2);
+			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(command, 2);
-			ft_putstr_fd("': not a valid identifier \n", 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
 			ft_status(1);
 			return (0);
 		}
 		else if (valid_unset_var_name(command) == -1)
 		{
-			ft_putstr_fd("bash: unset:", 2);
+			ft_putstr_fd("minishell: unset: ", 2);
 			ft_putchar_fd(command[0], 2);
 			ft_putchar_fd(command[1], 2);
 			ft_putstr_fd(": invalid option\n", 2);

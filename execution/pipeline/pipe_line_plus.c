@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_line_plus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 02:17:13 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/08/12 22:46:00 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/22 23:05:37 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ void	status_handling_chid(int status_2)
 		else if (sig == SIGQUIT)
 		{
 			ft_status(131);
-			printf("Quit (core dumped)\n");
+			ft_reset_term(0);
+			ft_putendl_fd("Quit", 2);
 		}
 	}
 	else if (WIFEXITED(status_2))
@@ -78,7 +79,8 @@ void	status_handling(int status_1)
 		else if (sig == SIGQUIT)
 		{
 			ft_status(131);
-			printf("Quit (core dumped)\n");
+			ft_reset_term(0);
+			ft_putendl_fd("Quit", 2);
 		}
 	}
 	else if (WIFEXITED(status_1))

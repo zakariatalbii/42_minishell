@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_parsing.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wnid-hsa <wnid-hsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 22:06:16 by wnid-hsa          #+#    #+#             */
-/*   Updated: 2025/07/30 05:00:35 by wnid-hsa         ###   ########.fr       */
+/*   Updated: 2025/08/23 00:04:06 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,6 @@ int	ft_is_a_numb(char c)
 		return (0);
 }
 
-int	is_while_space(char c)
-{
-	if ((c > 8 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
-}
-
 int	valid_position_export(char *str)
 {
 	int	i;
@@ -36,8 +29,7 @@ int	valid_position_export(char *str)
 		return (-1);
 	while (str[i])
 	{
-		if (((str[i] == '=') && ((i == 0) || is_while_space(str[i - 1])))
-			|| ((str[i] == '+') && ((i == 0) || is_while_space(str[i - 1]))))
+		if ((str[i] == '=' && i == 0) || (str[i] == '+' && i == 0))
 		{
 			ft_status(1);
 			return (0);

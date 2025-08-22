@@ -6,11 +6,21 @@
 /*   By: zatalbi <zatalbi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 14:51:16 by zatalbi           #+#    #+#             */
-/*   Updated: 2025/08/14 15:07:35 by zatalbi          ###   ########.fr       */
+/*   Updated: 2025/08/22 23:11:30 by zatalbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_reset_term(int flag)
+{
+	static struct termios	term;
+
+	if (flag)
+		tcgetattr(0, &term);
+	else
+		tcsetattr(0, TCSANOW, &term);
+}
 
 static void	ft_handler_i(int sig)
 {
