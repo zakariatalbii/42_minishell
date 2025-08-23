@@ -36,7 +36,7 @@ OBJ = $(SRC:.c=.o)
 
 NAME = minishell
 
-CC = cc -Wall -Wextra -Werror 
+CC = cc -Wall -Wextra -Werror
 RM = rm -f
 
 %.o: %.c minishell.h
