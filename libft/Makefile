@@ -1,35 +1,40 @@
-MSRC =	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strlen.c ft_memset.c	\
-		ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c		\
-		ft_strchr.c ft_strrchr.c ft_strncmp.c ft_memchr.c ft_memcmp.c ft_strnstr.c ft_atoi.c		\
-		ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c			\
-		ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
-BSRC =	ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstlast_bonus.c				\
-		ft_lstadd_back_bonus.c ft_lstdelone_bonus.c ft_lstclear_bonus.c ft_lstiter_bonus.c			\
-		ft_lstmap_bonus.c
-MOBJ =	$(MSRC:.c=.o)
-BOBJ =	$(BSRC:.c=.o)
-NAME =	libft.a
-AR =	ar rcs
-CC =	cc -Wall -Wextra -Werror
-RM =	rm -f
+SRC_M = src/ft_isalpha.c src/ft_isdigit.c src/ft_isalnum.c src/ft_isascii.c src/ft_isprint.c src/ft_strlen.c src/ft_memset.c \
+		src/ft_bzero.c src/ft_memcpy.c src/ft_memmove.c src/ft_strlcpy.c src/ft_strlcat.c src/ft_toupper.c src/ft_tolower.c \
+		src/ft_strchr.c src/ft_strrchr.c src/ft_strncmp.c src/ft_memchr.c src/ft_memcmp.c src/ft_strnstr.c src/ft_atoi.c \
+		src/ft_calloc.c src/ft_strdup.c src/ft_substr.c src/ft_strjoin.c src/ft_strtrim.c src/ft_split.c src/ft_itoa.c \
+		src/ft_strmapi.c src/ft_striteri.c src/ft_putchar_fd.c src/ft_putstr_fd.c src/ft_putendl_fd.c src/ft_putnbr_fd.c
 
-%.o: %.c libft.h
-	$(CC) -c $< -o $@
+OBJ_M = $(SRC_M:.c=.o)
 
-$(NAME): $(MOBJ)
-	$(AR) $(NAME) $(MOBJ)
+SRC_B = src/ft_lstnew_bonus.c src/ft_lstadd_front_bonus.c src/ft_lstsize_bonus.c src/ft_lstlast_bonus.c \
+		src/ft_lstadd_back_bonus.c src/ft_lstdelone_bonus.c src/ft_lstclear_bonus.c src/ft_lstiter_bonus.c \
+		src/ft_lstmap_bonus.c
+
+OBJ_B = $(SRC_B:.c=.o)
+
+NAME = libft.a
+
+AR = ar rcs
+
+CC = cc -Wall -Wextra -Werror
+
+RM = rm -f
+
+%.o: %.c include/libft.h
+	$(CC) -c $< -Iinclude -o $@
 
 all: $(NAME)
 
-bonus: $(BOBJ)
-	$(AR) $(NAME) $(BOBJ)
+$(NAME): $(OBJ_M)
+	$(AR) $(NAME) $(OBJ_M)
+
+bonus: $(OBJ_M) $(OBJ_B)
+	$(AR) $(NAME) $(OBJ_M) $(OBJ_B)
 
 clean:
-	$(RM) $(MOBJ) $(BOBJ)
+	$(RM) $(OBJ_M) $(OBJ_B)
 
 fclean: clean
 	$(RM) $(NAME)
 
-re: fclean all
-
-.PHONY: clean
+re: fclean bonus
